@@ -16,7 +16,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".teacherHomeActivity"></activity>
+        <activity android:name=".TeacherHomeActivity" />
+        <activity android:name=".Main2Activity" />
+        <activity android:name=".Login"></activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

@@ -92,4 +92,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/AbsentButton"
         app:layout_constraintTop_toBottomOf="@+id/StudentShowRollNoTextView" />
+
+    <Button
+        android:id="@+id/SaveAttendanceButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="42dp"
+        android:text="Save"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/PresentButton"
+        app:layout_constraintStart_toEndOf="@+id/AbsentButton"
+        app:layout_constraintTop_toBottomOf="@+id/StudentShowRollNoTextView" />
 </android.support.constraint.ConstraintLayout>

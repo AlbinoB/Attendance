@@ -18,6 +18,7 @@
         </activity>
         <activity android:name=".TeacherHomeActivity" />
         <activity android:name=".TakeAttendanceActivity" />
+        <activity android:name=".EditAttendanceActivity" />
         <activity android:name=".ShowTakenAttendanceActivity"></activity>
     </application>
 

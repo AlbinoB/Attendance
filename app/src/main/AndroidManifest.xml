@@ -17,13 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".TeacherHomeActivity" />
-        <activity android:name=".LoginActivity" />
-
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
-
-        <activity android:name=".EditAttendanceActivity"></activity>
+        <activity android:name=".TakeAttendanceActivity" />
+        <activity android:name=".ShowTakenAttendanceActivity"></activity>
     </application>
 
 </manifest>

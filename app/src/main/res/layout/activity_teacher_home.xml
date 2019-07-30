@@ -76,13 +76,14 @@
         app:layout_constraintTop_toBottomOf="@+id/subjectSpinner" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/teacherHomeSubmitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="148dp"
         android:layout_marginStart="148dp"
         android:layout_marginTop="80dp"
-        android:text="Button"
+        android:onClick="takeAttendance"
+        android:text="Submit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

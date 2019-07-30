@@ -11,7 +11,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent teacherHomeActivity111 = new Intent(getApplicationContext(), EditAttendanceActivity.class);
-        startActivity(teacherHomeActivity111);
+        Intent teacherHomeActivity11 = new Intent(getApplicationContext(), TeacherSearchByActivity.class);
+        startActivity(teacherHomeActivity11);
     }
 }

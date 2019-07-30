@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.bino.attendance.LoginActivity">
+
+    <RelativeLayout
+        android:layout_width="395dp"
+        android:layout_height="513dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/DescTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/architects_daughter"
+            android:text="Attendance \n made easy "
+            android:textSize="36sp" />
+
+        <Spinner
+            android:id="@+id/typeOfUser"
+            android:layout_width="250dp"
+            android:layout_height="41dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="137dp"
+            android:foregroundGravity="center"
+            android:gravity="center_horizontal|center"
+            android:spinnerMode="dialog"
+            android:textAlignment="gravity" />
+
+        <EditText
+            android:id="@+id/userNameEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/DescTextView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="34dp"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:ems="10"
+            android:hint="User Name"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/typeOfUser"
+            android:layout_alignEnd="@+id/userNameEditText"
+            android:layout_marginBottom="42dp"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword" />
+
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="41dp"
+            android:text="Login" />
+
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

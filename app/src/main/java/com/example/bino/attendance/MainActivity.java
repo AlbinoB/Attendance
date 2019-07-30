@@ -11,7 +11,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent teacherHomeActivity = new Intent(getApplicationContext(), com.example.bino.attendance.TeacherHomeActivity.class);
+        Intent teacherHomeActivity = new Intent(getApplicationContext(), EditAttendanceActivity.class);
         startActivity(teacherHomeActivity);
     }
 }

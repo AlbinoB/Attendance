@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class Login extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private static final String[] users ={"Select User","Teacher","Student","Admin"};
     Spinner typeOfUser;
@@ -20,7 +20,7 @@ public class Login extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//full screen login activity
         setContentView(R.layout.activity_login);
-
+/////hhhhhhhhhhhhhhhhhhhhhhhhhello
         typeOfUser=(Spinner)findViewById(R.id.typeOfUser);
         userName=(EditText) findViewById(R.id.userNameEditText);
         password=(EditText) findViewById(R.id.passwordEditText);

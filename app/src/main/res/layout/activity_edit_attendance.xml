@@ -6,45 +6,45 @@
     android:layout_height="match_parent"
     tools:context="com.example.bino.attendance.EditAttendanceActivity">
 
-    <RelativeLayout
-        android:layout_width="382dp"
-        android:layout_height="517dp"
+    <Button
+        android:id="@+id/cancelButtonEditAttendance"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="2dp"
+        android:background="?attr/colorError"
+        android:text="Cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/saveButtonEditAttendance"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/displaystudents" />
+
+    <Button
+        android:id="@+id/saveButtonEditAttendance"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/cancelButtonEditAttendance"
+        android:layout_alignBottom="@+id/cancelButtonEditAttendance"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="2dp"
+        android:layout_toEndOf="@+id/cancelButtonEditAttendance"
+        android:background="@android:color/holo_green_light"
+        android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/displaystudents" />
+
+    <ListView
+        android:id="@+id/displaystudents"
+        android:layout_width="385dp"
+        android:layout_height="449dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent" />
 
-
-        <Button
-            android:id="@+id/cancelButtonEditAttendance"
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="14dp"
-            android:layout_marginStart="19dp"
-            android:background="?attr/colorError"
-            android:text="Cancel" />
-
-        <Button
-            android:id="@+id/saveButtonEditAttendance"
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/cancelButtonEditAttendance"
-            android:layout_alignBottom="@+id/cancelButtonEditAttendance"
-            android:layout_marginStart="14dp"
-            android:layout_toEndOf="@+id/cancelButtonEditAttendance"
-            android:background="@android:color/holo_green_light"
-            android:text="Save" />
-
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="450dp"
-            android:layout_above="@+id/saveButtonEditAttendance"
-            android:layout_alignParentStart="true" />
-
-
-    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

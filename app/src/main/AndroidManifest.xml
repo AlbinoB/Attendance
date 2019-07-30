@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".TeacherHomeActivity" />
-        <activity android:name=".TakeAttendanceActivity"></activity>
+        <activity android:name=".TakeAttendanceActivity" />
+        <activity android:name=".ShowTakenAttendanceActivity"></activity>
     </application>
 
 </manifest>

@@ -6,4 +6,128 @@
     android:layout_height="match_parent"
     tools:context="com.example.bino.attendance.ShowTakenAttendanceActivity">
 
+    <TextView
+        android:id="@+id/SubjectTextView"
+        android:layout_width="144dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="55dp"
+        android:text="Subject"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/ShowSubjectTextView"
+        android:layout_width="80dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginTop="55dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/DateTextView"
+        android:layout_width="144dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="40dp"
+        android:text="Date"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SubjectTextView" />
+
+    <TextView
+        android:id="@+id/ShowDateTextView"
+        android:layout_width="80dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginTop="40dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ShowSubjectTextView" />
+
+    <TextView
+        android:id="@+id/TotalTextView"
+        android:layout_width="144dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="40dp"
+        android:text="Total"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DateTextView" />
+
+    <TextView
+        android:id="@+id/ShowTotalTextView"
+        android:layout_width="80dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginTop="40dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ShowDateTextView" />
+
+    <TextView
+        android:id="@+id/PresentTextView"
+        android:layout_width="144dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="40dp"
+        android:text="Present"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TotalTextView" />
+
+    <TextView
+        android:id="@+id/ShowPresentTextView"
+        android:layout_width="80dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginTop="40dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ShowTotalTextView" />
+
+    <TextView
+        android:id="@+id/AbsentTextView"
+        android:layout_width="144dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="40dp"
+        android:text="Absent"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PresentTextView" />
+
+    <TextView
+        android:id="@+id/ShowAbsentTextView"
+        android:layout_width="80dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginTop="40dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ShowPresentTextView" />
+
+    <Button
+        android:id="@+id/EditButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="50dp"
+        android:text="Edit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/AbsentTextView" />
+
+    <Button
+        android:id="@+id/SaveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="60dp"
+        android:layout_marginTop="50dp"
+        android:text="Save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ShowAbsentTextView" />
 </android.support.constraint.ConstraintLayout>

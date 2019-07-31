@@ -22,7 +22,7 @@
         <activity android:name=".ShowTakenAttendanceActivity" />
         <activity android:name=".TeacherSearchByActivity" />
         <activity android:name=".TeacherSearchResult" />
-        <activity android:name=".TeacherSearchByActivity" />
+        <activity android:name=".LoginActivity" />
         <activity android:name=".TeacherSearchResultIndividual"></activity>
     </application>
 

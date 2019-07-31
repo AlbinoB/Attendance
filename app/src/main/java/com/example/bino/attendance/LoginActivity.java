@@ -1,10 +1,13 @@
 package com.example.bino.attendance;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -29,4 +32,9 @@ public class LoginActivity extends AppCompatActivity {
         typeOfUser.setAdapter(userAdapter);
 
     }
+            public void Login(View view){
+                Button button = (Button) findViewById(R.id.loginButton);
+                Intent teacherhomeactivity = new Intent(getApplicationContext(), TeacherHomeActivity.class);
+                startActivity(teacherhomeactivity);
+            }
 }

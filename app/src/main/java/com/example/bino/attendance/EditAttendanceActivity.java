@@ -111,8 +111,16 @@ public class EditAttendanceActivity extends AppCompatActivity {
                         startActivity(gototeacherHomeActivity);
                     }
                 })
-                .setNegativeButton("No",null)
-                .show();
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent gotoshowtakenattendanceActivity = new Intent(getApplicationContext(), ShowTakenAttendanceActivity.class);
+                        startActivity(gotoshowtakenattendanceActivity);
+                    }
+                })
+                .show();{
+
+        }
     }
 
 }

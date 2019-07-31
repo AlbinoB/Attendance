@@ -1,5 +1,8 @@
 package com.example.bino.attendance;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -90,6 +94,25 @@ public class EditAttendanceActivity extends AppCompatActivity {
             textViewAbsent.setText(studentsarr[i][3]);
             return view;
         }
+    }
+
+    public void confirmSave(View view){
+        Button save=(Button)findViewById(R.id.saveButtonEditAttendance);
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Do to want to save")
+                .setMessage("")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(EditAttendanceActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                        Intent gototeacherHomeActivity = new Intent(getApplicationContext(), TeacherHomeActivity.class);
+                        finish();//kill current activity
+                        startActivity(gototeacherHomeActivity);
+                    }
+                })
+                .setNegativeButton("No",null)
+                .show();
     }
 
 }

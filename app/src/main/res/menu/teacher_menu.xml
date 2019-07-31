@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Home" android:id="@+id/teacherHome" ></item>
+    <item android:title="Take Attendance" android:id="@+id/teacherTakeAttendance" ></item>
+    <item android:title="View Attendance" android:id="@+id/teacherViewAttendance" ></item>
+    <item android:title="Edit Profile" android:id="@+id/teacherEditProfile" ></item>
+</menu>

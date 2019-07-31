@@ -1,22 +1,27 @@
 package com.example.bino.attendance;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.icu.util.Calendar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class TeacherSearchByActivity extends AppCompatActivity {
+
 
     private Spinner SearchcourseSpiner, SearchyearSpiner, SearchsemesterSpiner, SearchsubjectSpiner;
     private static final String[] coursenames = {"Select Course Name", "MCA", "BCA", "BBA", "BCS"};
     private static final String[] yearNos = {"Select Year", "1st Year", "2nd Year", "3rd Year"};
     private static final String[] semesterNos = {"Select Semester", "1st Sem", "2nd Sem", "3rd Sem"};
     private static final String[] subjectNames = {"Select subject", "C++", "Java", "Android", "Advance Java"};
-    //kk
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

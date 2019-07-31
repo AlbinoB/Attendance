@@ -66,6 +66,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SearchsubjectSpinner" />
 
+
+
     <EditText
         android:id="@+id/EndDate"
         android:layout_width="0dp"

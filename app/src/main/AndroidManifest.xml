@@ -21,6 +21,7 @@
         <activity android:name=".EditAttendanceActivity" />
         <activity android:name=".ShowTakenAttendanceActivity" />
         <activity android:name=".TeacherSearchResult" />
+        <activity android:name=".TeacherSearchByActivity" />
         <activity android:name=".TeacherSearchResultIndividual"></activity>
     </application>
 

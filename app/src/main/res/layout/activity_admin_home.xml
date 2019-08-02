@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.bino.attendance.AdminHomeActivity">
+
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="384dp"
+        android:layout_height="414dp"
+        android:layout_marginBottom="81dp"
+        android:layout_marginTop="16dp"
+        android:columnCount="2"
+        android:rowCount="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/viewStudent"
+            android:layout_width="120dp"
+            android:layout_height="85dp"
+            android:layout_columnWeight="1"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_rowWeight="1"
+            android:gravity="fill"
+            android:onClick="adminStudentSearchBy"
+            android:text="STUDENT"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/viewTeacher"
+            android:layout_width="120dp"
+            android:layout_height="85dp"
+            android:layout_columnWeight="1"
+            android:layout_margin="20dp"
+            android:layout_rowWeight="1"
+            android:gravity="fill"
+            android:text="TEACHER"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/viewCourse"
+            android:layout_width="120dp"
+            android:layout_height="85dp"
+            android:layout_columnWeight="1"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_rowWeight="1"
+            android:gravity="fill"
+            android:text="COURSE"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/viewAttendance"
+            android:layout_width="120dp"
+            android:layout_height="85dp"
+            android:layout_columnWeight="1"
+            android:layout_margin="20dp"
+            android:layout_rowWeight="1"
+            android:gravity="fill"
+            android:text="VIEW \nATTENDANCE"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+
+    </GridLayout>
+</android.support.constraint.ConstraintLayout>

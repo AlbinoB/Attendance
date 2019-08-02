@@ -34,7 +34,15 @@ public class LoginActivity extends AppCompatActivity {
     }
             public void Login(View view){
                 Button button = (Button) findViewById(R.id.loginButton);
-                Intent teacherhomeactivity = new Intent(getApplicationContext(), TeacherHomeActivity.class);
-                startActivity(teacherhomeactivity);
+                String username = userName.getText().toString();
+                if(username.equals("teacher"))
+                {
+                    Intent teacherhomeactivity = new Intent(getApplicationContext(), TeacherHomeActivity.class);
+                    startActivity(teacherhomeactivity);
+                }else{
+                    Intent studentviewallatendance = new Intent(getApplicationContext(), StudentViewAllAttendance.class);
+                    startActivity(studentviewallatendance);
+                }
+
             }
 }

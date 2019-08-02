@@ -23,8 +23,11 @@
         <activity android:name=".TeacherSearchByActivity" />
         <activity android:name=".TeacherSearchResult" />
         <activity android:name=".TeacherSearchResultIndividual" />
+        <activity android:name=".LoginActivity" />
         <activity android:name=".StudentViewIndividualAttendance" />
-        <activity android:name=".StudentViewAllAttendance"></activity>
+        <activity android:name=".StudentViewAllAttendance" />
+        <activity android:name=".AdminTeacherHomeActivity" />
+        <activity android:name=".AdminShowTeacherNameActivity"></activity>
     </application>
 
 </manifest>

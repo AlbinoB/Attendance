@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.bino.attendance.AdminShowTeacherNameActivity">
+
+    <EditText
+        android:id="@+id/SearchNameTextView"
+        android:layout_width="298dp"
+        android:layout_height="49dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="12dp"
+        android:hint="Search By Name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/TEacherNameListView"
+        android:layout_width="337dp"
+        android:layout_height="430dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SearchNameTextView" />
+</android.support.constraint.ConstraintLayout>

@@ -12,14 +12,14 @@ import java.util.ArrayList;
 
 public class AdminShowTeacherNameActivity extends AppCompatActivity {
 
-    ArrayAdapter<String> teachernameadapter;
+  //  ArrayAdapter<String> teachernameadapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_show_teacher_name);
 
-        ListView teachernamelistview= (ListView)findViewById(R.id.TEacherNameListView);
+     /*   ListView teachernamelistview= (ListView)findViewById(R.id.TEacherNameListView);
         EditText searchnametextview =(EditText) findViewById(R.id.SearchNameTextView);
         ArrayList<String> teachername =new ArrayList<String>();
         teachername.add("pankaj");
@@ -45,6 +45,6 @@ public class AdminShowTeacherNameActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
 
             }
-        });
+        });*/
     }
 }

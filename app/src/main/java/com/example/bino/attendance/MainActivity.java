@@ -11,7 +11,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent loginActivity111 = new Intent(getApplicationContext(), AdminShowTeacherNameActivity.class);
-        startActivity(loginActivity111);
+        Intent loginActivity = new Intent(getApplicationContext(), AdminStudentViewAllAttendance.class);
+        startActivity(loginActivity);
     }
 }

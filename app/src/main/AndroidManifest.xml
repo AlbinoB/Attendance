@@ -16,6 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".LoginActivity" />
         <activity android:name=".TeacherHomeActivity" />
         <activity android:name=".TakeAttendanceActivity" />
         <activity android:name=".EditAttendanceActivity" />
@@ -23,11 +24,12 @@
         <activity android:name=".TeacherSearchByActivity" />
         <activity android:name=".TeacherSearchResult" />
         <activity android:name=".TeacherSearchResultIndividual" />
-        <activity android:name=".LoginActivity" />
         <activity android:name=".StudentViewIndividualAttendance" />
         <activity android:name=".StudentViewAllAttendance" />
-        <activity android:name=".AdminTeacherHomeActivity" />
-        <activity android:name=".AdminShowTeacherNameActivity"></activity>
+        <activity android:name=".AdminHomeActivity" />
+        <activity android:name=".AdminStudentSearchBy" />
+        <activity android:name=".AdminStudentSeachResultActivity" />
+        <activity android:name=".AdminStudentViewAllAttendance"></activity>
     </application>
 
 </manifest>

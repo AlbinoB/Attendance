@@ -23,6 +23,10 @@ public class LoginActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//full screen login activity
         setContentView(R.layout.activity_login);
+
+        Intent nextActivity = new Intent(getApplicationContext(), AdminStudentSeachResultActivity.class);
+        startActivity(nextActivity);
+
         typeOfUser=(Spinner)findViewById(R.id.typeOfUser);
         userName=(EditText) findViewById(R.id.userNameEditText);
         password=(EditText) findViewById(R.id.passwordEditText);
@@ -34,15 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     }
             public void Login(View view){
                 Button button = (Button) findViewById(R.id.loginButton);
-                String username = userName.getText().toString();
-                if(username.equals("teacher"))
-                {
-                    Intent teacherhomeactivity = new Intent(getApplicationContext(), TeacherHomeActivity.class);
-                    startActivity(teacherhomeactivity);
-                }else{
-                    Intent studentviewallatendance = new Intent(getApplicationContext(), StudentViewAllAttendance.class);
-                    startActivity(studentviewallatendance);
-                }
-
+                Intent nextActivity = new Intent(getApplicationContext(), AdminStudentSearchBy.class);
+                startActivity(nextActivity);
             }
 }

@@ -11,3 +11,4 @@ public class AdminNewTeacherAddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_new_teacher_add);
     }
 }
+//

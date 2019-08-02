@@ -1,6 +1,7 @@
 package com.example.bino.attendance;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.icu.util.Calendar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -25,6 +27,12 @@ public class TeacherSearchByActivity extends AppCompatActivity {
     private static final String[] semesterNos = {"Select Semester", "1st Sem", "2nd Sem", "3rd Sem"};
     private static final String[] subjectNames = {"Select subject", "C++", "Java", "Android", "Advance Java"};
     //kk
+
+        public void SearchAttendance(View view){
+            Button teachersearchbutton = (Button) findViewById(R.id.TeacherSearchButton);
+            Intent teachersearchresult = new Intent(getApplicationContext(), TeacherSearchResult.class);
+            startActivity(teachersearchresult);
+        }
 
     EditText startDate;
     EditText endDate;

@@ -43,7 +43,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
                 return true;
             }
             case R.id.teacherViewAttendance:{
-                teacherNextActivity=new Intent(getApplicationContext(), EditAttendanceActivity.class);
+                teacherNextActivity=new Intent(getApplicationContext(), TeacherSearchByActivity.class);
                 startActivity(teacherNextActivity);
 
                 return true;

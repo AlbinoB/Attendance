@@ -24,7 +24,7 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//full screen login activity
         setContentView(R.layout.activity_login);
 
-        Intent nextActivity = new Intent(getApplicationContext(), AdminStudentSearchBy.class);
+        Intent nextActivity = new Intent(getApplicationContext(), AdminStudentSeachResultActivity.class);
         startActivity(nextActivity);
 
         typeOfUser=(Spinner)findViewById(R.id.typeOfUser);

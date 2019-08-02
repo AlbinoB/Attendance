@@ -27,7 +27,8 @@
         <activity android:name=".StudentViewIndividualAttendance" />
         <activity android:name=".StudentViewAllAttendance" />
         <activity android:name=".AdminHomeActivity" />
-        <activity android:name=".AdminStudentSearchBy"></activity>
+        <activity android:name=".AdminStudentSearchBy" />
+        <activity android:name=".AdminStudentSeachResultActivity"></activity>
     </application>
 
 </manifest>

@@ -30,7 +30,12 @@
         <activity android:name=".AdminStudentSearchBy" />
         <activity android:name=".AdminStudentSeachResultActivity" />
         <activity android:name=".AdminStudentViewAllAttendance" />
-        <activity android:name=".AdminStudentViewIndividualAttendance"></activity>
+        <activity android:name=".AdminStudentViewIndividualAttendance" />
+        <activity android:name=".AdminShowTeacherNameActivity" />
+        <activity android:name=".AdminShowTeacherDetailsActivity" />
+        <activity android:name=".AdminTeacherEditDetailsActivity" />
+        <activity android:name=".AdminAddNewTeacherActivity" />
+        <activity android:name=".AdminNewTeacherAddActivity"></activity>
     </application>
 
 </manifest>

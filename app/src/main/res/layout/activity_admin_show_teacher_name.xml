@@ -13,7 +13,38 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
+        <SearchView
+            android:id="@+id/adminShowTeacherNameSearchbar"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_alignStart="@+id/textView19"
+            android:layout_below="@+id/textView19"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </SearchView>
+
+        <EditText
+            android:id="@+id/SearchNameTextView"
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:layout_alignTop="@+id/adminShowTeacherNameSearchbar"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@+id/adminShowTeacherNameSearchbar"
+            android:hint="Search By Name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ListView
+            android:id="@+id/TEacherNameListView"
+            android:layout_width="450dp"
+            android:layout_height="430dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true" />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

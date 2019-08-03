@@ -101,7 +101,7 @@
         android:layout_marginStart="7dp"
         android:text="Download"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button4"
+        app:layout_constraintEnd_toStartOf="@+id/SaveIndividualStudentDetail"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -165,12 +165,13 @@
         app:layout_constraintTop_toBottomOf="@+id/listView" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/SaveIndividualStudentDetail"
         android:layout_width="175dp"
         android:layout_height="40dp"
         android:layout_marginBottom="6dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="19dp"
+        android:onClick="SaveDetailsofStudent"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -187,7 +188,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="1dp"
         android:text="Filter"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
+        app:layout_constraintBottom_toTopOf="@+id/SaveIndividualStudentDetail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/EndDate"
         app:layout_constraintTop_toBottomOf="@+id/listView"

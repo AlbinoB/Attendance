@@ -1,9 +1,11 @@
 package com.example.bino.attendance;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -24,7 +26,7 @@ public class StudentViewAllAttendance extends AppCompatActivity {
                     {"3001", "Advance Java", "90.2"},
                     {"3001", "Advance Java", "90.2"}
             };
-    ListView listView;
+    ListView studentlistView;
 
 
 
@@ -32,9 +34,17 @@ public class StudentViewAllAttendance extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_view_all_attendance);
-        listView=(ListView)findViewById(R.id.listView);
+        studentlistView=(ListView)findViewById(R.id.listView);
         CustomAdapter customAdapter=new CustomAdapter();
-        listView.setAdapter(customAdapter);
+        studentlistView.setAdapter(customAdapter);
+
+        studentlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent studentviewindividualattendance = new Intent(getApplicationContext(), StudentViewIndividualAttendance.class);
+                startActivity(studentviewindividualattendance);
+            }
+        });
 
     }
 

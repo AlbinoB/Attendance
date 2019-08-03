@@ -1,12 +1,17 @@
 package com.example.bino.attendance;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AdminStudentSeachResultActivity extends AppCompatActivity {
 
@@ -27,7 +32,7 @@ public class AdminStudentSeachResultActivity extends AppCompatActivity {
                     {"01","09", "Albino Braganza", "90.2"}
 
             };
-    ListView listView;
+    ListView adminstudentlistView;
 
 
 
@@ -36,9 +41,11 @@ public class AdminStudentSeachResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_student_search_result);
 
-        listView=(ListView)findViewById(R.id.displayStudents);
+        adminstudentlistView=(ListView)findViewById(R.id.displayStudents);
         CustomAdapter customAdapter=new CustomAdapter();
-        listView.setAdapter(customAdapter);
+        adminstudentlistView.setAdapter(customAdapter);
+
+
 
     }
 
@@ -66,10 +73,33 @@ public class AdminStudentSeachResultActivity extends AppCompatActivity {
             TextView textViewSrollno = (TextView) view.findViewById(R.id.rollno);
             TextView textViewSname = (TextView) view.findViewById(R.id.name);
             TextView textViewSpercentage= (TextView) view.findViewById(R.id.percentage);
-            textViewSsrno.setText(studentsarr[i][0]);
-            textViewSrollno.setText(studentsarr[i][1]);
+            Button admineditstudent = (Button) view.findViewById(R.id.StudentEditButton);
+
+                    textViewSsrno.setText(studentsarr[i][0]);
+             textViewSrollno.setText(studentsarr[i][1]);
             textViewSname.setText(studentsarr[i][2]);
             textViewSpercentage.setText(studentsarr[i][3]);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view1) {
+
+                   /* TextView textViewSsrno = (TextView) view1.findViewById(R.id.srno);
+                    TextView textViewSrollno = (TextView) view1.findViewById(R.id.rollno);
+                    TextView textViewSname = (TextView) view1.findViewById(R.id.name);
+                    TextView textViewSpercentage= (TextView) view1.findViewById(R.id.percentage);
+                        this code is for getting all the value which is present in
+                         list view just we have to use this ids*/
+                    Intent adminstudentviewallattendance = new Intent(getApplicationContext(), AdminStudentViewAllAttendance.class);
+                    startActivity(adminstudentviewallattendance);
+                }
+            });
+            admineditstudent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent adminstudenteditadddetails = new Intent(getApplicationContext(), AdminStudentEditAddDetails.class);
+                    startActivity(adminstudenteditadddetails);
+                }
+            });
 
             return view;
         }

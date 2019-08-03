@@ -30,11 +30,12 @@
             android:layout_marginTop="20dp"
             android:layout_rowWeight="1"
             android:gravity="fill"
-            android:onClick="adminStudentSearchBy"
+
             android:text="STUDENT"
             android:textAlignment="center"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:tag="studentTag"/>
 
         <Button
             android:id="@+id/viewTeacher"
@@ -44,10 +45,12 @@
             android:layout_margin="20dp"
             android:layout_rowWeight="1"
             android:gravity="fill"
+
             android:text="TEACHER"
             android:textAlignment="center"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:tag="teacherTag"/>
 
         <Button
             android:id="@+id/viewCourse"
@@ -63,7 +66,8 @@
             android:text="COURSE"
             android:textAlignment="center"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:tag="courseTag"/>
 
         <Button
             android:id="@+id/viewAttendance"
@@ -76,7 +80,8 @@
             android:text="VIEW \nATTENDANCE"
             android:textAlignment="center"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:tag="viewAttendanceTag"/>
 
 
     </GridLayout>

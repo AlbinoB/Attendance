@@ -1,5 +1,6 @@
 package com.example.bino.attendance;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -64,7 +65,16 @@ public class AdminStudentViewAllAttendance extends AppCompatActivity {
             textViewSname.setText(studentsarr[i][1]);
             textViewSpercentage.setText(studentsarr[i][2]);
 
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent adminstudentviewindividualattendance = new Intent(getApplicationContext(), AdminStudentViewIndividualAttendance.class);
+                    startActivity(adminstudentviewindividualattendance);
+                }
+            });
+
             return view;
+
         }
     }
 }

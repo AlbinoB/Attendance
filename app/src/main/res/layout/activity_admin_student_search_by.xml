@@ -33,7 +33,7 @@
 
     <Spinner
         android:id="@+id/spinnerSem"
-        android:layout_width="241dp"
+        android:layout_width="298dp"
         android:layout_height="46dp"
         android:layout_marginBottom="71dp"
         android:layout_marginEnd="71dp"
@@ -51,6 +51,7 @@
         android:layout_marginBottom="114dp"
         android:layout_marginEnd="103dp"
         android:layout_marginStart="104dp"
+        android:onClick="SearchStudent"
         android:text="Search"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -10,9 +10,9 @@
         android:id="@+id/CourseSpinner"
         android:layout_width="250dp"
         android:layout_height="41dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginEnd="67dp"
+        android:layout_marginStart="67dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,58 +22,71 @@
         android:id="@+id/yearSpinner"
         android:layout_width="250dp"
         android:layout_height="41dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginEnd="67dp"
+        android:layout_marginStart="67dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AdminCourseSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/CourseSpinner" />
 
     <Spinner
         android:id="@+id/SemesterSpinner"
         android:layout_width="250dp"
         android:layout_height="41dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginEnd="67dp"
+        android:layout_marginStart="67dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AdminyearSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/yearSpinner" />
 
     <Spinner
         android:id="@+id/SubjectSpinner"
         android:layout_width="250dp"
         android:layout_height="41dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginEnd="67dp"
+        android:layout_marginStart="67dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AdminSemesterSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/SemesterSpinner" />
 
-    <CheckBox
-        android:id="@+id/regularCheckBox"
+    <RadioGroup
+        android:id="@+id/radioButtonGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="50dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="40dp"
-        android:text="Regular"
-        app:layout_constraintEnd_toStartOf="@+id/guestCheckBox"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AdminSubjectSpinner" />
-
-    <CheckBox
-        android:id="@+id/guestCheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="40dp"
-        android:text="Guest"
+        android:layout_marginEnd="51dp"
+        android:layout_marginStart="51dp"
+        android:layout_marginTop="48dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/regularCheckBox"
-        app:layout_constraintTop_toBottomOf="@+id/AdminSubjectSpinner" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SubjectSpinner">
+
+
+        <RadioButton
+            android:id="@+id/regularRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="67dp"
+            android:layout_marginTop="30dp"
+            android:text="Regular"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/SubjectSpinner" />
+
+        <RadioButton
+            android:id="@+id/guestRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="67dp"
+            android:layout_marginTop="30dp"
+            android:padding="5dp"
+            android:text="Guest"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/SubjectSpinner" />
+
+    </RadioGroup>
 
     <Button
         android:id="@+id/teacherHomeSubmitButton"
@@ -81,12 +94,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="148dp"
         android:layout_marginStart="148dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="20dp"
         android:onClick="takeAttendance"
         android:text="Submit"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AdminSubjectSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/radioButtonGroup" />
+
 </android.support.constraint.ConstraintLayout>

@@ -16,7 +16,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String[] users ={"Select User","Teacher","Student","Admin"};
     Spinner typeOfUser;
-    EditText userName,password;
+    EditText usernametext,passwordtext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,12 +24,10 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//full screen login activity
         setContentView(R.layout.activity_login);
 
-        Intent nextActivity = new Intent(getApplicationContext(), AdminStudentSeachResultActivity.class);
-        startActivity(nextActivity);
 
         typeOfUser=(Spinner)findViewById(R.id.typeOfUser);
-        userName=(EditText) findViewById(R.id.userNameEditText);
-        password=(EditText) findViewById(R.id.passwordEditText);
+        usernametext=(EditText) findViewById(R.id.userNameEditText);
+        passwordtext=(EditText) findViewById(R.id.passwordEditText);
 
         ArrayAdapter<String> userAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,users);
 
@@ -38,7 +36,19 @@ public class LoginActivity extends AppCompatActivity {
     }
             public void Login(View view){
                 Button button = (Button) findViewById(R.id.loginButton);
-                Intent nextActivity = new Intent(getApplicationContext(), AdminStudentSearchBy.class);
-                startActivity(nextActivity);
+                String userName =usernametext.getText().toString();
+                String password = passwordtext.getText().toString();
+                String user=typeOfUser.getSelectedItem().toString();
+                if(userName.equals("student") && password.equals("student") && user.equals("Student")){
+                    Intent studentviewallattendance = new Intent(getApplicationContext(), StudentViewAllAttendance.class);
+                    startActivity(studentviewallattendance);
+                } else if(userName.equals("teacher") && password.equals("teacher") && user.equals("Teacher")){
+                    Intent teacherhomeactivity = new Intent(getApplicationContext(), TeacherHomeActivity.class);
+                    startActivity(teacherhomeactivity);
+                } else if(userName.equals("admin") && password.equals("admin") && user.equals("Admin")) {
+                    Intent adminhomeactivity = new Intent(getApplicationContext(), AdminHomeActivity.class);
+                    startActivity(adminhomeactivity);
+
+                }
             }
 }

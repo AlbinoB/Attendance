@@ -1,6 +1,7 @@
 package com.example.bino.attendance;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -46,6 +48,12 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
         return dateFormat.format(date);
+    }
+
+    public void SaveDetailsofStudent(View view){
+        Button savestudentdetails =(Button) findViewById(R.id.SaveIndividualStudentDetail);
+        Intent adminstudenviewallattendance = new Intent(getApplicationContext(), AdminStudentViewAllAttendance.class);
+        startActivity(adminstudenviewallattendance);
     }
 
     @Override

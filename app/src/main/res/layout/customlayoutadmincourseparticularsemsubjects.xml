@@ -43,13 +43,5 @@
             android:textStyle="bold" />
 
 
-        <Button
-            android:id="@+id/subjectNameEditButton"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:layout_alignBottom="@+id/sName"
-            android:layout_marginStart="37dp"
-            android:layout_toEndOf="@+id/sName"
-            android:background="@drawable/editicon" />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

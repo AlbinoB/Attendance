@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.bino.attendance.AdminCourseEditAddCourseDetails">
+
+
+    <Button
+        android:id="@+id/save"
+        android:layout_width="190dp"
+        android:layout_height="42dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="97dp"
+        android:layout_marginStart="97dp"
+        android:text="Save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="384dp"
+        android:layout_height="317dp"
+        android:layout_marginBottom="50dp"
+
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="382dp"
+            android:layout_marginStart="2dp"
+            android:stretchColumns="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.461"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="1.0">
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/CourseNameAddTextView"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/CourseNameShowAddEditText"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:text="MCA"
+                    android:textSize="20sp" />
+
+
+            </TableRow>
+
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/CourseCourseIdAddTextView"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="CourseID"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/CourseCourseIdShowAddEditText"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:text="9999999"
+                    android:textSize="20sp" />
+
+
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/CourseJoinDateAddTextView"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="Start Date"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/CourseJoinDateShowAddEditText"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:text="21/02/1999"
+                    android:textSize="20sp" />
+
+
+            </TableRow>
+
+        </TableLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="385dp"
+        android:layout_height="134dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/CourseEditImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            app:srcCompat="@drawable/ic_launcher_background" />
+
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

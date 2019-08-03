@@ -5,6 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.bino.attendance.AdminTeacherEditDetailsActivity">
+
+    <Button
+        android:id="@+id/save"
+        android:layout_width="178dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginEnd="103dp"
+        android:layout_marginStart="103dp"
+        android:text="Save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
+
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="385dp"
@@ -28,17 +42,15 @@
     </RelativeLayout>
 
     <ScrollView
+        android:id="@+id/scrollView3"
         android:layout_width="384dp"
-        android:layout_height="383dp"
+        android:layout_height="330dp"
         android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
 
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.984">
+        tools:layout_editor_absoluteY="134dp">
 
         <TableLayout
             android:layout_width="match_parent"

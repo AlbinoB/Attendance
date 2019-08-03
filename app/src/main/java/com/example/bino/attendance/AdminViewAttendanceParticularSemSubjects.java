@@ -5,13 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 
 
 
-public class AdminCourseParticularSemSubjects extends AppCompatActivity {
+public class AdminViewAttendanceParticularSemSubjects extends AppCompatActivity {
 
     static String[][] studentsarr =
             {
@@ -26,7 +25,7 @@ public class AdminCourseParticularSemSubjects extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_course_particular_sem_subjects);
+        setContentView(R.layout.activity_admin_view_attendance_particular_sem_subjects);
         listView=(ListView)findViewById(R.id.listView);
         CustomAdapter customAdapter=new CustomAdapter();
         listView.setAdapter(customAdapter);

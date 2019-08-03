@@ -46,6 +46,11 @@ public class AdminStudentSeachResultActivity extends AppCompatActivity {
 
     }
 
+    public void addStudent(View view){
+        Intent adminStudentEditAddDetails = new Intent(getApplicationContext(), AdminStudentEditAddDetails.class);
+        startActivity(adminStudentEditAddDetails);
+    }
+
     public class CustomAdapter extends BaseAdapter {
 
         @Override

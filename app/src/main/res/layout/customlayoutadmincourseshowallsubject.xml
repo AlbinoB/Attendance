@@ -22,7 +22,8 @@
             android:layout_alignParentTop="true"
             android:layout_marginEnd="11dp"
             android:layout_marginTop="5dp"
-            android:background="@drawable/editicon" />
+            android:background="@drawable/editicon"
+            android:onClick="editCourseButton" />
 
         <TextView
             android:id="@+id/SubjectNameTextView"

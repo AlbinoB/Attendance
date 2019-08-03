@@ -33,11 +33,12 @@
         <activity android:name=".AdminStudentViewIndividualAttendance" />
         <activity android:name=".AdminTeacherShowAllNamesActivity" />
         <activity android:name=".AdminTeacherViewEditAddDetailsActivity" />
-        <activity android:name=".AdminCourseParticularSemSubjects" />
+        <activity android:name=".AdminViewAttendanceParticularSemSubjects" />
+        <activity android:name=".AdminCourseHomeActivity" />
+        <activity android:name=".AdminCourseShowAllSubjectActivity" />
         <activity android:name=".AdminStudentEditAddDetails" />
         <activity android:name=".AdminCourseViewEditAddCourseDetails" />
         <activity android:name=".AdminTeacherHomeActivity" />
-        <activity android:name=".AdminCourseEditAddSubject"></activity>
     </application>
 
 </manifest>

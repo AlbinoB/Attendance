@@ -87,6 +87,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginEnd="10dp"
             android:clickable="true"
+            android:onClick="addStudent"
             app:srcCompat="@android:drawable/ic_menu_add" />
 
         <EditText

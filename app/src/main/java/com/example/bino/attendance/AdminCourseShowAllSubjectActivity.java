@@ -1,5 +1,6 @@
 package com.example.bino.attendance;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -37,6 +38,11 @@ public class AdminCourseShowAllSubjectActivity extends AppCompatActivity {
 
     }
 
+    public void editCourseButton(View view){
+        Intent adminCourseEditAddSubject = new Intent(getApplicationContext(), AdminCourseViewEditAddCourseDetails.class);
+        startActivity(adminCourseEditAddSubject);
+    }
+
         class CustomAdapter extends BaseAdapter{
 
             @Override
@@ -64,7 +70,13 @@ public class AdminCourseShowAllSubjectActivity extends AppCompatActivity {
                 subjectcode.setText(subjectdetails[i][0]);
                 subjectname.setText(subjectdetails[i][1]);
                 teachername.setText(subjectdetails[i][2]);
-
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent adminCourseEditAddSubject = new Intent(getApplicationContext(), AdminCourseViewEditAddCourseDetails.class);
+                        startActivity(adminCourseEditAddSubject);
+                    }
+                });
                 return view;
             }
         }

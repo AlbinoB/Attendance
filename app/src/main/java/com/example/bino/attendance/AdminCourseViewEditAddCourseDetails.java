@@ -1,5 +1,6 @@
 package com.example.bino.attendance;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +18,7 @@ public class AdminCourseViewEditAddCourseDetails extends AppCompatActivity {
     }
 
     public void saveCourseDetails(View view){
-
+        Intent adminCourseShowAllSubjectActivity = new Intent(getApplicationContext(), AdminCourseShowAllSubjectActivity.class);
+        startActivity(adminCourseShowAllSubjectActivity);
     }
 }

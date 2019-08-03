@@ -1,7 +1,9 @@
 package com.example.bino.attendance;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -35,5 +37,10 @@ public class AdminCourseHomeActivity extends AppCompatActivity {
         adminsemesterSpiner.setAdapter(semesterAdapter);
 
 
+    }
+
+    public void sumbitButtonClicked(View view){
+        Intent adminCourseShowAllSubjectActivity = new Intent(getApplicationContext(), AdminCourseShowAllSubjectActivity.class);
+        startActivity(adminCourseShowAllSubjectActivity);
     }
 }

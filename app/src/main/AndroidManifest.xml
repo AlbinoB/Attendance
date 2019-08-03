@@ -39,6 +39,7 @@
         <activity android:name=".AdminCourseParticularSemSubjects" />
         <activity android:name=".AdminStudentEditAddDetails" />
         <activity android:name=".AdminCourseEditAddCourseDetails" />
+        <activity android:name=".AdminTeacherHomeActivity" />
         <activity android:name=".AdminCourseEditAddSubject"></activity>
     </application>
 

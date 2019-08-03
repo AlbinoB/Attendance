@@ -7,7 +7,7 @@
     tools:context="com.example.bino.attendance.TeacherHomeActivity">
 
     <Spinner
-        android:id="@+id/courseSpinner"
+        android:id="@+id/CourseSpinner"
         android:layout_width="250dp"
         android:layout_height="41dp"
         android:layout_marginEnd="16dp"
@@ -27,10 +27,10 @@
         android:layout_marginTop="28dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/courseSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/AdminCourseSpinner" />
 
     <Spinner
-        android:id="@+id/semesterSpinner"
+        android:id="@+id/SemesterSpinner"
         android:layout_width="250dp"
         android:layout_height="41dp"
         android:layout_marginEnd="16dp"
@@ -38,10 +38,10 @@
         android:layout_marginTop="28dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/yearSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/AdminyearSpinner" />
 
     <Spinner
-        android:id="@+id/subjectSpinner"
+        android:id="@+id/SubjectSpinner"
         android:layout_width="250dp"
         android:layout_height="41dp"
         android:layout_marginEnd="16dp"
@@ -49,7 +49,7 @@
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/semesterSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/AdminSemesterSpinner" />
 
     <CheckBox
         android:id="@+id/regularCheckBox"
@@ -61,7 +61,7 @@
         android:text="Regular"
         app:layout_constraintEnd_toStartOf="@+id/guestCheckBox"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subjectSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/AdminSubjectSpinner" />
 
     <CheckBox
         android:id="@+id/guestCheckBox"
@@ -73,7 +73,7 @@
         android:text="Guest"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/regularCheckBox"
-        app:layout_constraintTop_toBottomOf="@+id/subjectSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/AdminSubjectSpinner" />
 
     <Button
         android:id="@+id/teacherHomeSubmitButton"
@@ -88,5 +88,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subjectSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/AdminSubjectSpinner" />
 </android.support.constraint.ConstraintLayout>

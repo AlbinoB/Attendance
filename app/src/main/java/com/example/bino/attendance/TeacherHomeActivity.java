@@ -69,10 +69,10 @@ public class TeacherHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_home);
 
-        courseSpiner = (Spinner)findViewById(R.id.courseSpinner);
+        courseSpiner = (Spinner)findViewById(R.id.CourseSpinner);
         yearSpiner = (Spinner)findViewById(R.id.yearSpinner);
-        semesterSpiner = (Spinner)findViewById(R.id.semesterSpinner);
-        subjectSpiner = (Spinner)findViewById(R.id.subjectSpinner);
+        semesterSpiner = (Spinner)findViewById(R.id.SemesterSpinner);
+        subjectSpiner = (Spinner)findViewById(R.id.SubjectSpinner);
 
         ArrayAdapter<String> courseAdapter = new ArrayAdapter<String>(TeacherHomeActivity.this,android.R.layout.simple_spinner_dropdown_item,coursename);
         courseAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

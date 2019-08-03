@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.bino.attendance.AdminCourseShowAllSubjectActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/AdminCourseNameTextView"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="           MCA"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/AdminYearTextView"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/AdminSemTextView"
+            android:layout_alignBottom="@+id/AdminSemTextView"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="56dp"
+            android:text="3rd Sem"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/AdminSemTextView"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/AdminCourseNameTextView"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="29dp"
+            android:text="1st year"
+            android:textSize="20sp" />
+
+        <ListView
+            android:id="@+id/AllSubjectListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/AdminYearTextView"
+            android:layout_marginTop="18dp" />
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

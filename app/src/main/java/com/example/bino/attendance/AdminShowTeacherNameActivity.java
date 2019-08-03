@@ -48,7 +48,7 @@ public class AdminShowTeacherNameActivity extends AppCompatActivity {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = getLayoutInflater().inflate(R.layout.custonadminshowteachername,null);
-            TextView teachernametextview =(TextView)(view).findViewById(R.id.TeacherNameAddTextView);
+            TextView teachernametextview =(TextView)(view).findViewById(R.id.SubjectCodeTextView);
 
             teachernametextview.setText(teachernames[i]);
 

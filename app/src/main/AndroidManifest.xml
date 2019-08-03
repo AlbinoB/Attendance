@@ -35,7 +35,9 @@
         <activity android:name=".AdminShowTeacherDetailsActivity" />
         <activity android:name=".AdminTeacherEditDetailsActivity" />
         <activity android:name=".AdminAddNewTeacherActivity" />
-        <activity android:name=".AdminNewTeacherAddActivity"></activity>
+        <activity android:name=".AdminNewTeacherAddActivity" />
+        <activity android:name=".AdminCourseHomeActivity" />
+        <activity android:name=".AdminCourseShowAllSubjectActivity"></activity>
     </application>
 
 </manifest>

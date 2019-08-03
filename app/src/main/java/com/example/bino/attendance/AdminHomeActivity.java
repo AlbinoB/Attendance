@@ -37,7 +37,7 @@ public class AdminHomeActivity extends AppCompatActivity {
                     Intent adminteacherhomeactivitys = new Intent(getApplicationContext(), AdminTeacherHomeActivity.class);
                     startActivity(adminteacherhomeactivitys);
                 }
-            }
+            }//
         });
     }
 

@@ -3,7 +3,6 @@ package com.example.bino.attendance;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -29,7 +28,7 @@ public class AdminTeacherHomeActivity extends AppCompatActivity {
    }
 
    public  void showAllTeachers(View view){
-       Intent adminShowTeacherNamenActivity = new Intent(getApplicationContext(), AdminShowTeacherNameActivity.class);
+       Intent adminShowTeacherNamenActivity = new Intent(getApplicationContext(), AdminTeacherShowAllNamesActivity.class);
        startActivity(adminShowTeacherNamenActivity);
    }
 }

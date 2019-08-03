@@ -29,8 +29,8 @@
             android:id="@+id/rollno"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/StudentEditButton"
-            android:layout_alignBottom="@+id/StudentEditButton"
+            android:layout_alignBaseline="@+id/editTeacher"
+            android:layout_alignBottom="@+id/editTeacher"
             android:layout_toEndOf="@+id/srno"
             android:text="09"
             android:textAlignment="center"
@@ -50,7 +50,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/StudentEditButton"
+            android:id="@+id/editTeacher"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/name"
             android:layout_marginEnd="12dp"
-            android:layout_toStartOf="@+id/StudentEditButton"
+            android:layout_toStartOf="@+id/editTeacher"
             android:text="99.2"
             android:textAlignment="center"
             android:textSize="18sp"

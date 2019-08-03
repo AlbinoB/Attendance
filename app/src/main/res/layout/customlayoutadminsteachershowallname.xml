@@ -26,13 +26,13 @@
             android:text="TextView" />
 
         <Button
-            android:id="@+id/StudentEditButton"
+            android:id="@+id/editTeacher"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="5dp"
             android:layout_alignTop="@+id/SubjectCodeTextView"
             android:layout_marginEnd="24dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/editicon" />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

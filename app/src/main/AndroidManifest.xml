@@ -31,14 +31,11 @@
         <activity android:name=".AdminStudentSeachResultActivity" />
         <activity android:name=".AdminStudentViewAllAttendance" />
         <activity android:name=".AdminStudentViewIndividualAttendance" />
-        <activity android:name=".AdminShowTeacherNameActivity" />
-        <activity android:name=".AdminShowTeacherDetailsActivity" />
-        <activity android:name=".AdminTeacherEditDetailsActivity" />
-        <activity android:name=".AdminAddNewTeacherActivity" />
-        <activity android:name=".AdminNewTeacherAddActivity" />
+        <activity android:name=".AdminTeacherShowAllNamesActivity" />
+        <activity android:name=".AdminTeacherViewEditAddDetailsActivity" />
         <activity android:name=".AdminCourseParticularSemSubjects" />
         <activity android:name=".AdminStudentEditAddDetails" />
-        <activity android:name=".AdminCourseEditAddCourseDetails" />
+        <activity android:name=".AdminCourseViewEditAddCourseDetails" />
         <activity android:name=".AdminTeacherHomeActivity" />
         <activity android:name=".AdminCourseEditAddSubject"></activity>
     </application>

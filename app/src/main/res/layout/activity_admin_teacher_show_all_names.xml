@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.bino.attendance.AdminShowTeacherNameActivity">
+    tools:context="com.example.bino.attendance.AdminTeacherShowAllNamesActivity">
 
 
     <RelativeLayout
@@ -43,8 +43,19 @@
         <ListView
             android:id="@+id/TEacherNameListView"
             android:layout_width="450dp"
-            android:layout_height="430dp"
+            android:layout_height="380dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/adminShowTeacherNameSearchbar"
+            android:layout_marginTop="15dp" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/AddTeacher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/SearchNameTextView"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true" />
+            android:clickable="true"
+            android:onClick="goToEditTeacher"
+            app:srcCompat="@drawable/floatingactionbutton" />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

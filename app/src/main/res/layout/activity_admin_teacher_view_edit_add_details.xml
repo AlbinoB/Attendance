@@ -13,6 +13,8 @@
         android:layout_marginBottom="2dp"
         android:layout_marginEnd="103dp"
         android:layout_marginStart="103dp"
+        android:layout_marginTop="11dp"
+        android:onClick="saveTeacherDetails"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,19 +40,31 @@
             android:layout_marginTop="16dp"
             app:srcCompat="@drawable/ic_launcher_background" />
 
+        <Button
+            android:id="@+id/editDetailsButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignBottom="@+id/TeacherEditImageView"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/editicon"
+            android:onClick="editTeacherDetails" />
+
 
     </RelativeLayout>
 
     <ScrollView
         android:id="@+id/scrollView3"
         android:layout_width="384dp"
-        android:layout_height="330dp"
+        android:layout_height="319dp"
+        android:layout_marginBottom="11dp"
         android:scrollbars="none"
-        app:layout_constraintEnd_toEndOf="parent"
 
+        app:layout_constraintBottom_toTopOf="@+id/save"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="134dp">
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
 
         <TableLayout
             android:layout_width="match_parent"

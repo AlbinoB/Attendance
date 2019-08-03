@@ -18,7 +18,7 @@
             android:id="@+id/dateTextView"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/StudentEditButton"
+            android:layout_alignBottom="@+id/editTeacher"
             android:layout_alignParentStart="true"
             android:layout_marginStart="23dp"
             android:text="21/07/2019"
@@ -34,7 +34,7 @@
             android:layout_marginEnd="95dp" />
 
         <Button
-            android:id="@+id/StudentEditButton"
+            android:id="@+id/editTeacher"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"

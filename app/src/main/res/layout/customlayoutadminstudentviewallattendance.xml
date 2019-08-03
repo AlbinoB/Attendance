@@ -53,7 +53,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/StudentEditButton"
+            android:id="@+id/editTeacher"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_alignParentBottom="true"

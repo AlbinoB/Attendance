@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.bino.attendance.AdminCourseEditAddCourseDetails">
+    tools:context="com.example.bino.attendance.AdminCourseViewEditAddCourseDetails">
 
 
     <Button
@@ -14,6 +14,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="97dp"
         android:layout_marginStart="97dp"
+        android:onClick="saveCourseDetails"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -124,6 +125,15 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             app:srcCompat="@drawable/ic_launcher_background" />
+
+        <Button
+            android:id="@+id/editbutton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/editicon"
+            android:onClick="editCourseDetails" />
 
 
     </RelativeLayout>

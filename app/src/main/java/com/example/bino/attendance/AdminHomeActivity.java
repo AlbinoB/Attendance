@@ -31,7 +31,8 @@ public class AdminHomeActivity extends AppCompatActivity {
                 startActivity(adminteacherhomeactivitys);
             }break;
             case "3":{
-                Toast.makeText(this, "you cleicked:"+nextActivity, Toast.LENGTH_SHORT).show();
+                Intent adminCourseHomeActivity = new Intent(getApplicationContext(), AdminCourseHomeActivity.class);
+                startActivity(adminCourseHomeActivity);
             }break;
             case "4":{
                 Toast.makeText(this, "you cleicked:"+nextActivity, Toast.LENGTH_SHORT).show();

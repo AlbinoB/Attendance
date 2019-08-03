@@ -25,7 +25,7 @@
             app:srcCompat="@drawable/ic_launcher_background" />
 
         <TextView
-            android:id="@+id/TeacherNameAddTextView"
+            android:id="@+id/SubjectCodeTextView"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/TeacherIdAddTextView"
@@ -38,8 +38,8 @@
             android:id="@+id/TeacherNameShowAddEditText"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/TeacherNameAddTextView"
-            android:layout_alignBottom="@+id/TeacherNameAddTextView"
+            android:layout_alignBaseline="@+id/SubjectCodeTextView"
+            android:layout_alignBottom="@+id/SubjectCodeTextView"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="12dp"
             android:text="Amit gour"
@@ -50,7 +50,7 @@
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/TeacherNameAddTextView"
+            android:layout_below="@+id/SubjectCodeTextView"
             android:layout_marginStart="17dp"
             android:layout_marginTop="49dp"
             android:text="ID"

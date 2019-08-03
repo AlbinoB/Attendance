@@ -35,7 +35,7 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/TeachernameshowAddTextView"
+            android:id="@+id/TeacherNameShowAddEditText"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/TeacherNameAddTextView"
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/TeacherIdAddTextView"
             android:layout_alignBottom="@+id/TeacherIdAddTextView"
-            android:layout_alignStart="@+id/TeacherDOBShowAddTextView"
+            android:layout_alignStart="@+id/TeacherDOBShowAddEditText"
             android:text="1234"
             android:textSize="20sp" />
 
@@ -77,11 +77,11 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/TeacherDOBShowAddTextView"
+            android:id="@+id/TeacherDOBShowAddEditText"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_above="@+id/TeacherJoinDateAddTextView"
-            android:layout_alignStart="@+id/TeachernameshowAddTextView"
+            android:layout_alignStart="@+id/TeacherNameShowAddEditText"
             android:layout_marginBottom="11dp"
             android:text="09/11//1996"
             android:textSize="20sp" />
@@ -102,7 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/TeacherJoinDateAddTextView"
             android:layout_alignBottom="@+id/TeacherJoinDateAddTextView"
-            android:layout_alignStart="@+id/TeacherDOBShowAddTextView"
+            android:layout_alignStart="@+id/TeacherDOBShowAddEditText"
             android:text="10/11/2014"
             android:textSize="20sp" />
     </RelativeLayout>

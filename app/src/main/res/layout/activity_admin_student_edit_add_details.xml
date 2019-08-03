@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context="com.example.bino.attendance.AdminStudentEditAddDetails">
 
+    <Button
+        android:id="@+id/Save"
+        android:layout_width="169dp"
+        android:layout_height="53dp"
+        android:layout_marginBottom="11dp"
+        android:layout_marginEnd="107dp"
+        android:layout_marginStart="108dp"
+        android:text="Save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView4" />
+
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="385dp"
@@ -29,148 +42,149 @@
     </RelativeLayout>
 
     <ScrollView
-        android:layout_width="384dp"
-        android:layout_height="383dp"
+        android:id="@+id/scrollView4"
+        android:layout_width="395dp"
+        android:layout_height="325dp"
+        android:layout_marginBottom="7dp"
+        android:layout_marginTop="3dp"
+
         android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/Save"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.984">
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="382dp"
-        android:layout_marginStart="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
-        android:stretchColumns="1"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
 
-        <TableRow>
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:stretchColumns="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.461"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
+            app:layout_constraintVertical_bias="1.0">
 
-            <TextView
-                android:id="@+id/StudentNameAddTextView"
-                android:layout_width="90dp"
-                android:layout_height="wrap_content"
-                android:text="Name"
-                android:textSize="20sp" />
+            <TableRow>
 
-            <EditText
-                android:id="@+id/StudentNameShowAddEditText"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:text="Amit gour"
-                android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/StudentNameAddTextView"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:textSize="20sp" />
 
-
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:id="@+id/StudentDOBAddTextView"
-                android:layout_width="90dp"
-                android:layout_height="wrap_content"
-                android:text="DOB"
-                android:textSize="20sp" />
-
-            <EditText
-                android:id="@+id/StudentDOBShowAddEditText"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:text="21/02/1997"
-                android:textSize="20sp"
-                />
+                <EditText
+                    android:id="@+id/StudentNameShowAddEditText"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:text="Amit gour"
+                    android:textSize="20sp" />
 
 
-        </TableRow>
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/StudentDOBAddTextView"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="DOB"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/StudentDOBShowAddEditText"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:text="21/02/1997"
+                    android:textSize="20sp" />
 
 
-        <TableRow>
-
-            <TextView
-                android:id="@+id/StudentEmailAddTextView"
-                android:layout_width="90dp"
-                android:layout_height="wrap_content"
-                android:text="Email"
-                android:textSize="20sp" />
-
-            <EditText
-                android:id="@+id/StudentEmailShowAddEditText"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:text="albinobraganza21@gmail.com"
-                android:textSize="20sp" />
+            </TableRow>
 
 
-        </TableRow>
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/StudentEmailAddTextView"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="Email"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/StudentEmailShowAddEditText"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:text="albinobraganza21@gmail.com"
+                    android:textSize="20sp" />
 
 
-        <TableRow>
-
-            <TextView
-                android:id="@+id/StudentRollAddTextView"
-                android:layout_width="90dp"
-                android:layout_height="wrap_content"
-                android:text="Rollno"
-                android:textSize="20sp" />
-
-            <EditText
-                android:id="@+id/StudentRollShowAddEditText"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:text="09"
-                android:textSize="20sp" />
+            </TableRow>
 
 
-        </TableRow>
+            <TableRow>
 
-        <TableRow>
+                <TextView
+                    android:id="@+id/StudentRollAddTextView"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="Rollno"
+                    android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/StudentContactAddTextView"
-                android:layout_width="90dp"
-                android:layout_height="wrap_content"
-                android:text="Contact"
-                android:textSize="20sp" />
-
-            <EditText
-                android:id="@+id/StudentContactShowAddEditText"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:text="98998989898"
-                android:textSize="20sp" />
+                <EditText
+                    android:id="@+id/StudentRollShowAddEditText"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:text="09"
+                    android:textSize="20sp" />
 
 
-        </TableRow>
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/StudentContactAddTextView"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="Contact"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/StudentContactShowAddEditText"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:text="98998989898"
+                    android:textSize="20sp" />
 
 
-        <TableRow>
-
-            <TextView
-                android:id="@+id/StudentCourseIdAddTextView"
-                android:layout_width="90dp"
-                android:layout_height="wrap_content"
-                android:text="CourseID"
-                android:textSize="20sp" />
-
-            <EditText
-                android:id="@+id/StudentCourseIdShowAddEditText"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:text="9999999"
-                android:textSize="20sp" />
+            </TableRow>
 
 
-        </TableRow>
+            <TableRow>
 
-    </TableLayout>
+                <TextView
+                    android:id="@+id/StudentCourseIdAddTextView"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="CourseID"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/StudentCourseIdShowAddEditText"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:text="9999999"
+                    android:textSize="20sp" />
+
+
+            </TableRow>
+
+        </TableLayout>
     </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

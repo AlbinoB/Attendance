@@ -4,6 +4,112 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.bino.attendance.AdminAddNewTeacherActivity">
+    tools:context="com.example.bino.attendance.AdminNewTeacherAddActivity">
 
+    <RelativeLayout
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/TeacherEditImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="26dp"
+            app:srcCompat="@drawable/ic_launcher_background" />
+
+        <TextView
+            android:id="@+id/SubjectCodeTextView"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/TeacherIdAddTextView"
+            android:layout_below="@+id/TeacherEditImageView"
+            android:layout_marginTop="47dp"
+            android:text="Name"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/TeachernameshowAddTextView"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/SubjectCodeTextView"
+            android:layout_alignBottom="@+id/SubjectCodeTextView"
+            android:layout_alignParentEnd="true"
+            android:text="Amit gour"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/TeacherIdAddTextView"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/TeachernameshowAddTextView"
+            android:layout_marginTop="33dp"
+            android:layout_toStartOf="@+id/TeacherEditImageView"
+            android:text="ID"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/TeacherIdShowAddTextView"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/TeacherIdAddTextView"
+            android:layout_alignBottom="@+id/TeacherIdAddTextView"
+            android:layout_alignStart="@+id/TeacherDOBShowAddTextView"
+            android:text="1234"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/TeacherDOBAddTextView"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/TeacherIdAddTextView"
+            android:layout_below="@+id/TeacherIdAddTextView"
+            android:layout_marginTop="42dp"
+            android:text="DOB"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/TeacherDOBShowAddTextView"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/TeacherDOBAddTextView"
+            android:layout_alignBottom="@+id/TeacherDOBAddTextView"
+            android:layout_alignParentEnd="true"
+            android:text="09/11//1996"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/TeacherJoinDateAddTextView"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/TeacherDOBAddTextView"
+            android:layout_below="@+id/TeacherDOBAddTextView"
+            android:layout_marginTop="43dp"
+            android:text="Joining Date"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/TeacherJoinDateShowAddTextView"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/TeacherJoinDateAddTextView"
+            android:layout_alignBottom="@+id/TeacherJoinDateAddTextView"
+            android:layout_alignStart="@+id/TeacherDOBShowAddTextView"
+            android:text="10/11/2014"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/SaveNewTeacherButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="Save" />
+    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

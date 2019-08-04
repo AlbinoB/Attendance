@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
             url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
             connection=DriverManager.getConnection(url);
             Statement stmt = connection.createStatement();
-            String sql="Insert into Course VALUES(111111,'MCA','')";
+            String sql="Insert into Course VALUES(11112,'BDA','')";
             ResultSet rs=null;
             int sucessOrFail = stmt.executeUpdate(sql);
            if(sucessOrFail!=-1){

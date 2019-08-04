@@ -1,5 +1,9 @@
 package com.example.bino.attendance;
 import java.sql.*;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import android.content.Intent;
 import android.os.StrictMode;
@@ -29,11 +33,23 @@ public class MainActivity extends AppCompatActivity {
             url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
             connection=DriverManager.getConnection(url);
             Statement stmt = connection.createStatement();
-            String sql="Insert into Course VALUES(11112,'BDA','')";
+            String sql="SELECT * FROM Course";
             ResultSet rs=null;
-            int sucessOrFail = stmt.executeUpdate(sql);
-           if(sucessOrFail!=-1){
-               Log.i("table:","created");
+            rs = stmt.executeQuery(sql);
+           if(rs!=null){
+               Log.i("table:","fetched");
+               DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+               java.util.Date date = new java.util.Date();
+
+               while(rs.next()){
+                   int courseId  = rs.getInt(1);
+                   String courseName = rs.getString(2);
+                   date = rs.getDate(3);
+                   String fetchedDate=dateFormat.format(date);
+                   System.out.println("courseId:"+courseId  + "\tcourseName:" + courseName + "\tfetchedDate:" + fetchedDate+"\n");
+                   System.out.println();
+               }
+
            }else
            {
                Log.i("table:","failed");

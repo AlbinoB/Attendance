@@ -18,11 +18,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Intent loginActivity = new Intent(getApplicationContext(), LoginActivity.class);
-        //startActivity(loginActivity);
-        connectionClass();
+        Intent loginActivity = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(loginActivity);
+        //connectionClass();
     }
-
+/*
     public  Connection connectionClass(){
         StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -60,4 +60,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return  connection;
     }
+    */
 }

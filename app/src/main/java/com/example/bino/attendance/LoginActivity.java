@@ -51,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 userName = usernametext.getText().toString();
                 password = passwordtext.getText().toString();
+                Log.i("llllllllllllllllllll",userName +" "+password);
                 user = typeOfUser.getSelectedItem().toString();
                 if (checkEmptyFields()) {
 
@@ -60,28 +61,38 @@ public class LoginActivity extends AppCompatActivity {
                         }
                         break;
                         case "Teacher": {
-                            String sql = "SELECT teacherId FROM Teacher where teacherName=" + userName + "and teacherPassword=" + password;
-                            if(connectionClass(sql)){
+                            String sql = "SELECT teacherId FROM Teacher where teacherName= '" + userName + "' and teacherPassword='" + password+"' ";
+                            if(connectionClass(sql)&&user.equals("Teacher")){
+                                Toast.makeText(this, "Welcome "+userName, Toast.LENGTH_LONG).show();
                                 Intent teacherHomeActivity = new Intent(getApplicationContext(), TeacherHomeActivity.class);
                                 startActivity(teacherHomeActivity);
+                            }else
+                            {
+                                Toast.makeText(this, "Wrong User!!! ", Toast.LENGTH_LONG).show();
                             }
                         }
                         break;
                         case "Student": {
-                            String sql = "SELECT studentErpNo FROM Student where studentName=" + userName + "and studentPassword=" + password;
-                            if(connectionClass(sql)){
+                            String sql = "SELECT studentErpNo FROM Student where studentName= '" + userName + "' and studentPassword= '" + password+"' ";
+                            if(connectionClass(sql)&&user.equals("Student")){
                                 Toast.makeText(this, "Welcome "+userName, Toast.LENGTH_LONG).show();
                                 Intent studentViewAllAttendance = new Intent(getApplicationContext(), StudentViewAllAttendance.class);
                                 startActivity(studentViewAllAttendance);
+                            }else
+                            {
+                                Toast.makeText(this, "Wrong User!!! ", Toast.LENGTH_LONG).show();
                             }
 
                         }
                         break;
                         case "Admin": {
-                            if (userName.equals("admin") && password.equals("admin")) {
+                            if (userName.equals("admin") && password.equals("admin") && user.equals("Admin")) {
                                 Toast.makeText(this, "Welcome "+userName, Toast.LENGTH_LONG).show();
                                 Intent adminhomeactivity = new Intent(getApplicationContext(), AdminHomeActivity.class);
                                 startActivity(adminhomeactivity);
+                            }else
+                            {
+                                Toast.makeText(this, "Wrong Credentials!!! ", Toast.LENGTH_LONG).show();
                             }
                             break;
 
@@ -134,18 +145,22 @@ public class LoginActivity extends AppCompatActivity {
             Statement stmt = connection.createStatement();
             ResultSet rs=null;
             rs = stmt.executeQuery(sql);
-            if(rs!=null){
-                Toast.makeText(this, "Wrong Credentials!!!", Toast.LENGTH_LONG).show();
-                return false;
+            //Log.i("data:::::::::::::",Integer.toString(rs.getInt(1)));
+
+            Log.i("data:::::::::::::",sql);
+
+            if(rs.next()){
+                return true;
                 }else
                  {
-                    return true;
+                     Toast.makeText(this, "Wrong Credentials!!!", Toast.LENGTH_LONG).show();
+                     return false;
                  }
         }
         catch (Exception e){
             e.printStackTrace();
+            return  false;
         }
-        return  true;
     }
 
 

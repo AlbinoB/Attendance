@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                             Intent teacherHomeActivity = new Intent(getApplicationContext(), TeacherHomeActivity.class);
 
                             sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
-                            sharedPreferences.edit().putString("currentUserName",userName).apply();
+                            sharedPreferences.edit().putString("currentTeacherName",userName).apply();
 
                             startActivity(teacherHomeActivity);
                         }else

@@ -18,7 +18,7 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
                     {"21/07/2019", "true"},
                     {"21/07/2019", "false"},
                     {"21/07/2019", "true"}
-
+//
             };
 
     @Override

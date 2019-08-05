@@ -23,12 +23,8 @@ import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 public class StudentViewAllAttendance extends AppCompatActivity {
-          String[][] studentsarr =
-            {
-                    {"3001", "Advance Java", "90.2"},
-                    {"3001", "Advance Java", "90.2"},
-                    {"3001", "Advance Java", "90.2"}
-            };
+          String[][] studentsarr ;
+
 
 
     ListView studentlistView;
@@ -39,62 +35,177 @@ public class StudentViewAllAttendance extends AppCompatActivity {
 
     CustomAdapter customAdapter;
 
+    int numberOfSubjects=0;
 
-    public class ConnectToDB extends AsyncTask<String,Void,Boolean>{
+
+    public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
+
+        Connection connection = null;
+        String url = null;
+        Statement stmt;
+        ResultSet rs = null;
+        String sql = "";
+
         @Override
         protected Boolean doInBackground(String... sqlarr) {
-            StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
-            Connection connection=null;
-            String url=null;
+
             try {
                 Class.forName("net.sourceforge.jtds.jdbc.Driver");
                 url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
-                connection= DriverManager.getConnection(url);
-                Statement stmt = connection.createStatement();
-                ResultSet rs=null;
-                String sql=sqlarr[0];
-
-                Log.i("data:::::::::::::",sql);
-
-                rs = stmt.executeQuery(sql);
+                connection = DriverManager.getConnection(url);
+                stmt = connection.createStatement();
 
 
+                getAndSetStudentName();
 
-                if(rs.next())
-                studentCourseNameTextView.setText(rs.getString("courseName"));
-                else{
-                    Log.i("nothing","nothing");
+                getCourseName();
+
+                getSubjectCount();
+
+                getSubjectCodeAndNamesOfPaticularCourse();
+
+                getStudentRoll();
+
+
+
+                //getSem();
+
+                //getYear();
+                //percentage
+
+
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }//doInBackground
+
+        public void getAndSetStudentName() {
+            currentUserTextView.setText((String)sharedPreferences.getString("currentUserName","no  name"));
+
+        }
+
+
+        public void getCourseName() {
+
+         //  sql="select courseName from Course where courseId=(select fkcourseIdStudent from Student where studentName='"+currentUserTextView.getText().toString()+"')";
+            Log.i("data:::::::::::::", sql);
+            try {
+                rs=null;
+                rs = stmt.executeQuery("select courseName from Course where courseId=(select fkcourseIdStudent from Student where studentName='"+currentUserTextView.getText().toString()+"')");
+
+
+                if (rs.next())
+                    studentCourseNameTextView.setText(rs.getString("courseName"));
+                else {
+                    Log.i("nothing", "nothing");
                 }
 
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }//getCourseName
+
+        public void getSubjectCount() {
+            sql="select count(*) as countOfSubjects from Subject where fkcourseIdSubject in (select courseId from Course where courseName='"+studentCourseNameTextView.getText().toString()+"')";
+            try {
+            rs = stmt.executeQuery(sql);
+                if (rs.next()) {
+                    numberOfSubjects = (rs.getInt("countOfSubjects"));
+                    studentsarr =new String[numberOfSubjects][3];
+                }
+                else {
+                    Log.i("nothing", "nothing");
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
 
-                sql="select subjectId,subjectName from Subject,Course where fkcourseIdSubject =courseId and  courseName='"+studentCourseNameTextView.getText().toString()+"'";
 
-                Log.i("data:::::::cccc::::::",sql);
+        }//getSubjectCount
 
-                rs=null;
+
+
+
+
+
+
+
+        public void getSubjectCodeAndNamesOfPaticularCourse() {
+
+
+            try {
+                sql = "select subjectId,subjectName from Subject,Course where fkcourseIdSubject =courseId and  courseName='" + studentCourseNameTextView.getText().toString() + "'";
+
+                Log.i("data:::::::cccc::::::", sql);
+
+                rs = null;
                 rs = stmt.executeQuery(sql);
-                int indexOfstudentarr=0;
-                while(rs.next()){
-                    Log.i("values from db:",Integer.toString(rs.getInt("subjectId"))+rs.getString("subjectName"));
+                int indexOfstudentarr = 0;
+                while (rs.next()) {
+                    Log.i("values from db:", Integer.toString(rs.getInt("subjectId")) + rs.getString("subjectName"));
 
 
-                   // studentsarr= Arrays.copyOf(studentsarr, studentsarr.length + 1);
-                    studentsarr[indexOfstudentarr][0]=Integer.toString(rs.getInt("subjectId"));
-                    studentsarr[indexOfstudentarr][1]=rs.getString("subjectName");
-                    studentsarr[indexOfstudentarr][2]="";
+                    // studentsarr= Arrays.copyOf(studentsarr, studentsarr.length + 1);
+                    studentsarr[indexOfstudentarr][0] = Integer.toString(rs.getInt("subjectId"));
+                    studentsarr[indexOfstudentarr][1] = rs.getString("subjectName");
+
+                    studentsarr[indexOfstudentarr][2] = "";
                     indexOfstudentarr++;
 
+
                 }
-                return true;
-            }
-            catch (Exception e){
+
+                studentlistView=(ListView)findViewById(R.id.listView);
+                customAdapter=new CustomAdapter();
+                studentlistView.setAdapter(customAdapter);
+
+                studentlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Intent studentviewindividualattendance = new Intent(getApplicationContext(), StudentViewIndividualAttendance.class);
+                        //studentviewindividualattendance.putExtra("item index selected",i);
+                        startActivity(studentviewindividualattendance);
+                    }
+                });
+
+            } catch (Exception e) {
                 e.printStackTrace();
-                return  false;
             }
-        }
-    }
+
+
+        }//getSubjectCodeAndNamesOfPaticularCourse
+
+
+        public void getStudentRoll() {
+
+            try {
+                sql="select studentRollNo from Student where studentName='"+currentUserTextView.getText().toString()+"'";
+                rs = stmt.executeQuery(sql);
+                if (rs.next()) {
+                    studentRollNoTextView.setText(Integer.toString(rs.getInt("studentRollNo")));
+                }
+                else {
+                    Log.i("nothing", "nothing");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+        }//getStudentRoll
+
+
+    }//AsyncTask
+
+
 
 
 
@@ -107,23 +218,22 @@ public class StudentViewAllAttendance extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_view_all_attendance);
 
-
-
         sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
-
-
 
         currentUserTextView=(TextView)findViewById(R.id.currentUser);
         studentRollNoTextView=(TextView)findViewById(R.id.studentRollNo);
         studentCourseNameTextView=(TextView)findViewById(R.id.studentCourseName);
 
-        currentUserTextView.setText((String)sharedPreferences.getString("currentUserName","no  name"));
+
+
 
 
         ConnectToDB connectToDB=new ConnectToDB();//obj of async class
+
         String[] sql={
-                "select courseName from Course where courseId=(select fkcourseIdStudent from Student where studentName='"+currentUserTextView.getText().toString()+"')",
+
         };
+
         try {
             if(connectToDB.execute(sql).get()){
                 {
@@ -138,21 +248,8 @@ public class StudentViewAllAttendance extends AppCompatActivity {
 
 
 
-        studentlistView=(ListView)findViewById(R.id.listView);
-        customAdapter=new CustomAdapter();
-        studentlistView.setAdapter(customAdapter);
 
 
-        studentlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent studentviewindividualattendance = new Intent(getApplicationContext(), StudentViewIndividualAttendance.class);
-                studentviewindividualattendance.putExtra("item index selected",i);
-                startActivity(studentviewindividualattendance);
-            }
-        });
-
-        Log.i("contents of studentarr",studentsarr[0][0]+studentsarr[0][1]+studentsarr[0][2]);
 
     }
 

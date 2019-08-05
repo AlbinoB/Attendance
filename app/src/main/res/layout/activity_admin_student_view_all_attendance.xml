@@ -7,7 +7,7 @@
     tools:context="com.example.bino.attendance.AdminStudentViewAllAttendance">
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/currentUser"
         android:layout_width="218dp"
         android:layout_height="50dp"
         android:layout_marginEnd="22dp"
@@ -31,12 +31,12 @@
         android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/textView14"
+        app:layout_constraintEnd_toStartOf="@+id/sName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/courseName"
         android:layout_width="117dp"
         android:layout_height="41dp"
         android:layout_marginBottom="17dp"
@@ -51,7 +51,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView14"
+        android:id="@+id/sName"
         android:layout_width="54dp"
         android:layout_height="26dp"
         android:layout_marginEnd="16dp"
@@ -62,7 +62,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView12"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintTop_toBottomOf="@+id/courseName" />
 
     <TextView
         android:id="@+id/textView15"
@@ -74,9 +74,9 @@
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/textView12"
-        app:layout_constraintEnd_toStartOf="@+id/textView14"
+        app:layout_constraintEnd_toStartOf="@+id/sName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+        app:layout_constraintTop_toBottomOf="@+id/currentUser" />
 
     <ListView
         android:id="@+id/listView"

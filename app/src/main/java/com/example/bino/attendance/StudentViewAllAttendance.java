@@ -14,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -171,7 +172,9 @@ public class StudentViewAllAttendance extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         Intent studentviewindividualattendance = new Intent(getApplicationContext(), StudentViewIndividualAttendance.class);
-                        //studentviewindividualattendance.putExtra("item index selected",i);
+                        studentviewindividualattendance.putExtra("passScode",studentsarr[i][0]);
+                        studentviewindividualattendance.putExtra("passSname",studentsarr[i][1]);
+                        studentviewindividualattendance.putExtra("courseName",studentCourseNameTextView.getText().toString());
                         startActivity(studentviewindividualattendance);
                     }
                 });

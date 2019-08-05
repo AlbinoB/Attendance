@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,6 +25,7 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
     ListView listView;
 
     SharedPreferences sharedPreferences;
+    TextView currentUser,courseName,passSname,sCode;
 
     Intent previousIndent;
     String[][] studentsarr ;
@@ -35,9 +37,25 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
         previousIndent=getIntent();
         sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
 
-        listView=(ListView)findViewById(R.id.listView);
-        CustomAdapter customAdapter=new CustomAdapter();
-        listView.setAdapter(customAdapter);
+        ConnectToDB connectToDB=new ConnectToDB();//obj of async class
+
+        String[] sql={
+
+        };
+
+        try {
+            if(connectToDB.execute(sql).get()){
+                {
+                    Log.i("updated:mmmmm","doneenbbfge");
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
     }
 
 
@@ -66,11 +84,14 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = getLayoutInflater().inflate(R.layout.customlayoutstudentindividualattendance, null);
             TextView dateTextView=(TextView)view.findViewById(R.id.dateTextView);
+            TextView takenTime=(TextView)view.findViewById(R.id.takenTime);
             CheckBox presentabsent=(CheckBox)view.findViewById(R.id.presentabsentcheckBox);
             dateTextView.setText(studentsarr[i][0]);
+            takenTime.setText(studentsarr[i][2]);
 
-            if(studentsarr[i][1].equalsIgnoreCase("true")){
+            if(studentsarr[i][1].equalsIgnoreCase("P")){
                 presentabsent.setChecked(true);
+                presentabsent.setEnabled(false);
             }else{
 
                 presentabsent.setChecked(false);
@@ -109,6 +130,8 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
                 setCourseName();
                 setSubjectSName();
                 setSubjectScode();
+                getNumberOfdays();
+
 
 
                 return true;
@@ -121,35 +144,40 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
 
 
         public void setcurrentUser(){
-            TextView currentUser=(TextView)findViewById(R.id.currentUser);
+            currentUser=(TextView)findViewById(R.id.currentUser);
 
             currentUser.setText((String)sharedPreferences.getString("currentUserName","no  name"));
 
         }
         public void setCourseName(){
-            TextView courseName=(TextView)findViewById(R.id.courseName);
+            courseName=(TextView)findViewById(R.id.courseName);
             courseName.setText(previousIndent.getStringExtra("courseName"));
         }
         public void setSubjectSName(){
-            TextView passSname=(TextView)findViewById(R.id.sName);
+            passSname=(TextView)findViewById(R.id.sName);
             passSname.setText(previousIndent.getStringExtra("passSname"));
 
         }
         public void setSubjectScode(){
-            TextView sCode=(TextView)findViewById(R.id.sCode);
+            sCode=(TextView)findViewById(R.id.sCode);
             sCode.setText(previousIndent.getStringExtra("passScode"));
 
         }
 
         public void getNumberOfdays(){
-            sql="sel";//////////////////////////////
+            sql="select fksubjectId,count(*) as totalLectures from Attendance where takenDate between '2019-08-01' and '2019-08-02' and fkstudentErpNo=(select studentErpNo from Student where studentName='"+currentUser.getText().toString()+"') and fksubjectId=(select subjectId from Subject where subjectId='"+sCode.getText().toString()+"') group by fksubjectId";
+
+            Log.i("sqldays",sql);
             try {
                 rs = stmt.executeQuery(sql);
                 if (rs.next()) {
-                    int numberOfdays = (rs.getInt("countOfDays"));
-                    studentsarr=new String[numberOfdays][2];
+                    int numberOfdays = (rs.getInt("totalLectures"));
+                    studentsarr=new String[numberOfdays][3];
+
+                    getDatesPresentAbsent();//if days are fetched then call else
                 }
                 else {
+
                     Log.i("nothing", "nothing");
                 }
 
@@ -160,13 +188,20 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
 
 
         public void getDatesPresentAbsent(){
-            sql="sel";//////////////////////////////
+            sql="select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenTime from Attendance where takenDate between '2019-08-01' and '2019-08-02' and fkstudentErpNo=(select studentErpNo from Student where studentName='"+currentUser.getText().toString()+"') and fksubjectId=(select subjectId from Subject where subjectId='"+sCode.getText().toString()+"')";
+
+            Log.i("sqldatas",sql);
+            listView=(ListView)findViewById(R.id.listView);
+            CustomAdapter customAdapter=new CustomAdapter();
+            listView.setAdapter(customAdapter);
+
             try {
                 rs = stmt.executeQuery(sql);
                 int i=0;
                 while(rs.next()) {
                    studentsarr[i][0]=rs.getDate("takenDate")+"";
                    studentsarr[i][1]=rs.getString("presentabsent");
+                    studentsarr[i][2]=rs.getString("takenTime");
                    i++;
                 }
 

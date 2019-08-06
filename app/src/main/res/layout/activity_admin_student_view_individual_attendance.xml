@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/semName"
         android:layout_width="145dp"
         android:layout_height="24dp"
         android:layout_marginBottom="4dp"
@@ -33,7 +33,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textView16"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toBottomOf="@+id/semYear" />
 
     <TextView
         android:id="@+id/courseName"
@@ -63,11 +63,11 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/textView16"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView12"
+        app:layout_constraintStart_toEndOf="@+id/semName"
         app:layout_constraintTop_toBottomOf="@+id/courseName" />
 
     <TextView
-        android:id="@+id/textView15"
+        android:id="@+id/semYear"
         android:layout_width="181dp"
         android:layout_height="25dp"
         android:layout_marginEnd="34dp"
@@ -75,7 +75,7 @@
         android:text="Second Year"
         android:textAlignment="center"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView12"
+        app:layout_constraintBottom_toTopOf="@+id/semName"
         app:layout_constraintEnd_toStartOf="@+id/sName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/currentUser" />
@@ -118,7 +118,7 @@
         app:layout_constraintBottom_toTopOf="@+id/listView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+        app:layout_constraintTop_toBottomOf="@+id/semName" />
 
     <TextView
         android:id="@+id/textView23"
@@ -129,8 +129,8 @@
         android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/textView12"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintStart_toEndOf="@+id/semName"
+        app:layout_constraintTop_toBottomOf="@+id/semYear" />
 
     <EditText
         android:id="@+id/StartDate"

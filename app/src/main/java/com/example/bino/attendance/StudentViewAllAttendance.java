@@ -19,6 +19,7 @@ import android.widget.Toast;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
@@ -32,7 +33,7 @@ public class StudentViewAllAttendance extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
 
-    TextView currentUserTextView,studentRollNoTextView,studentCourseNameTextView;
+    TextView currentUserTextView,studentRollNoTextView,studentCourseNameTextView,semName,semYear;
 
     CustomAdapter customAdapter;
 
@@ -73,9 +74,9 @@ public class StudentViewAllAttendance extends AppCompatActivity {
 
 
 
-                //getSem();
+                getSemYear();
 
-                //getYear();
+
                 //percentage
 
 
@@ -91,6 +92,25 @@ public class StudentViewAllAttendance extends AppCompatActivity {
 
         }
 
+        public void getSemYear(){
+            sql="select semName,semYear from Semester where semId=(select fksemIdStudent from Student where studentErpNo='"+(Integer)sharedPreferences.getInt("currentUserErpNo",0)+"')";
+            rs=null;
+            try {
+                rs = stmt.executeQuery(sql);
+                if (rs.next()){
+
+                 semName.setText(rs.getString("semName"));
+                 semYear.setText(rs.getString("semYear"));
+                }
+                else {
+                    Log.i("nothing", "nothing");
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
 
         public void getCourseName() {
 
@@ -98,7 +118,7 @@ public class StudentViewAllAttendance extends AppCompatActivity {
             Log.i("data:::::::::::::", sql);
             try {
                 rs=null;
-                rs = stmt.executeQuery("select courseName from Course where courseId=(select fkcourseIdStudent from Student where studentName='"+currentUserTextView.getText().toString()+"')");
+                rs = stmt.executeQuery("select courseName from Course where courseId=(select fkcourseIdStudent from Student where studentErpNo='"+(Integer)sharedPreferences.getInt("currentUserErpNo",0)+"')");
 
 
                 if (rs.next())
@@ -175,6 +195,11 @@ public class StudentViewAllAttendance extends AppCompatActivity {
                         studentviewindividualattendance.putExtra("passScode",studentsarr[i][0]);
                         studentviewindividualattendance.putExtra("passSname",studentsarr[i][1]);
                         studentviewindividualattendance.putExtra("courseName",studentCourseNameTextView.getText().toString());
+
+                        studentviewindividualattendance.putExtra("semName",semName.getText().toString());
+
+                        studentviewindividualattendance.putExtra("semYear",semYear.getText().toString());
+
                         startActivity(studentviewindividualattendance);
                     }
                 });
@@ -190,7 +215,7 @@ public class StudentViewAllAttendance extends AppCompatActivity {
         public void getStudentRoll() {
 
             try {
-                sql="select studentRollNo from Student where studentName='"+currentUserTextView.getText().toString()+"'";
+                sql="select studentRollNo from Student where studentErpNo='"+(Integer)sharedPreferences.getInt("currentUserErpNo",0)+"'";
                 rs = stmt.executeQuery(sql);
                 if (rs.next()) {
                     studentRollNoTextView.setText(Integer.toString(rs.getInt("studentRollNo")));
@@ -226,6 +251,8 @@ public class StudentViewAllAttendance extends AppCompatActivity {
         currentUserTextView=(TextView)findViewById(R.id.currentUser);
         studentRollNoTextView=(TextView)findViewById(R.id.studentRollNo);
         studentCourseNameTextView=(TextView)findViewById(R.id.studentCourseName);
+        semName=(TextView)findViewById(R.id.semName);
+        semYear=(TextView)findViewById(R.id.semYear);
 
 
 

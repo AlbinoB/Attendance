@@ -105,9 +105,10 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     break;
                     case "Teacher": {
-                        String[] sql = {"SELECT teacherId FROM Teacher where teacherName= '" + userName + "' and teacherPassword='" + password+"' "};
+                        String[] sql = {"SELECT teacherName FROM Teacher where teacherId= '" + Integer.parseInt(userName) + "' and teacherPassword='" + password+"' "};
 
                         if(connectToDB.execute(sql).get()&&user.equals("Teacher")){
+                         
                             Toast.makeText(this, "Welcome "+userName, Toast.LENGTH_LONG).show();
                             Intent teacherHomeActivity = new Intent(getApplicationContext(), TeacherHomeActivity.class);
 

@@ -35,8 +35,8 @@ public class TeacherHomeActivity extends AppCompatActivity {
 
     private Spinner courseSpiner,yearSpiner,semesterSpiner,subjectSpiner;
     String[] coursename ;
-    private static final String[] yearNo ={"Select Year","1st Year","2nd Year","3rd Year"};
-    private static final String[] semesterNo ={"Select Semester","1st Sem","2nd Sem","3rd Sem"};
+    private static final String[] yearNo ={"Select Year","FY","SY","TY"};
+    private static final String[] semesterNo ={"Select Semester","SEM 1","SEM 2","SEM 3","SEM 4","SEM 5","SEM 6","SEM 7","SEM 8","SEM 9",};
      String[] subjectName ;
 
 
@@ -71,7 +71,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
 
         }//doInBackground;
             public void getTeacherName(){
-                 currentTeacherTextView =((String)sharedPreferences.getString("currentTeacherName","no  name"));
+                 currentTeacherTextView =((String)sharedPreferences.getString("currentTeacherName","no name"));
 
 
             }
@@ -87,7 +87,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
                   }
                     coursename =new String[noOfCourse+1];
                    coursename[0] ="Select Course" ;
-                    rs = stmt.executeQuery("select courseName from Course where courseId IN (select fkcourseIdTeacher from Teacher where teacherName  = '"+currentTeacherTextView+"') ");
+                    rs = stmt.executeQuery("select courseName from Course where courseId IN (select fkcourseIdTeacher from Teacher where teacherName = '"+currentTeacherTextView+"') ");
                    while(rs.next()){
 
                        coursename[i++] = rs.getString("courseName");
@@ -106,7 +106,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
             try{
                 int i=1;
                 int noOfSubject=0;
-                rs = stmt.executeQuery("select count(*) as countOfSubject from Subject where fkcourseIdSubject IN (select fkcourseIdTeacher from Teacher where teacherName  = '"+currentTeacherTextView+"') ");
+                rs = stmt.executeQuery("select count(*) as countOfSubject from Subject where fkcourseIdSubject IN (select fkcourseIdTeacher from Teacher where teacherName = '"+currentTeacherTextView+"') ");
                 if(rs.next()){
                     noOfSubject  = (rs.getInt("countOfSubject"));
                     Log.i("no of subject",""+rs.getInt("countOfSubject"));

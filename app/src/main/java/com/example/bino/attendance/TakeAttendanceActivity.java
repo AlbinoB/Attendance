@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,6 +23,16 @@ public class TakeAttendanceActivity extends AppCompatActivity {
     String currentyear;
     String currentsem;
     String currentsubject;
+    String[]studentName;
+    String[] studentRollNo ;
+    String[][] studentNameRollno;
+    TextView studentshowname;
+    TextView studentshowrollno;
+    int countfornoofstudent=1;
+    int lengthofstudentarray;
+    Button absentbutton;
+    Button presentbutton;
+    Button saveattendancebutton;
 
     public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
         Connection connection = null;
@@ -41,6 +52,7 @@ public class TakeAttendanceActivity extends AppCompatActivity {
                 stmt = connection.createStatement();
 
                 getCourseYearSemSubject();
+                getNameAndRollNo();
 
                 return true;
             } catch (Exception e) {
@@ -59,7 +71,45 @@ public class TakeAttendanceActivity extends AppCompatActivity {
 
         }
 
-        
+        public void getNameAndRollNo(){
+            try{
+                int noOfStudent=0;
+                int i=0;
+                rs = stmt.executeQuery("select count(*) As totalstudent from Student where (fkcourseIdStudent=(select courseId from Course where courseName='"+currentcourse+"')   AND fksemIdStudent=(select semId from Semester where semName='"+currentsem+"'))");
+                if(rs.next()){
+                    noOfStudent  = (rs.getInt("totalstudent"));
+                    lengthofstudentarray=noOfStudent;
+                }
+                studentName =new String[noOfStudent];
+                studentRollNo=new String[noOfStudent];
+                studentNameRollno =new String[noOfStudent][2];
+
+                rs = stmt.executeQuery("select studentName,studentRollNo from Student where (fkcourseIdStudent=(select courseId from Course where courseName='"+currentcourse+"')   AND fksemIdStudent=(select semId from Semester where semName='"+currentsem+"'))ORDER BY studentRollNo");
+
+                    while(rs.next()){
+                      //  studentName[i] = rs.getString("studentName");
+                      //  studentRollNo[i]=rs.getString("studentRollNo");
+
+                            studentNameRollno[i][0] =rs.getString("studentName");
+                        studentNameRollno[i][1] =rs.getString("studentRollNo");
+                            Log.i("name no ",""+studentNameRollno[i][0]);
+                        Log.i("roll no ",""+studentNameRollno[i][1]);
+                       i++;
+                      //  Log.i("name ",""+studentName[i]);
+                      //  Log.i("roll no ",""+studentRollNo[i]);
+                    }
+
+                studentshowname =(TextView)findViewById(R.id.StudentShowNameTextView);
+                studentshowrollno =(TextView)findViewById(R.id.StudentShowRollNoTextView);
+                studentshowname.setText(studentNameRollno[0][0]);
+                studentshowrollno.setText(studentNameRollno[0][1]);
+
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+
+
     }//AsyncTask
 
     @Override
@@ -68,7 +118,9 @@ public class TakeAttendanceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_take_attendance);
 
         sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
-
+        absentbutton =(Button)findViewById(R.id.AbsentButton);
+        presentbutton=(Button)findViewById(R.id.PresentButton);
+        saveattendancebutton=(Button)findViewById(R.id.SaveAttendanceButton);
 
         TakeAttendanceActivity.ConnectToDB connectToDB = new ConnectToDB();
 
@@ -86,6 +138,29 @@ public class TakeAttendanceActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+        public void markAbsent(View view){
+        if(countfornoofstudent<lengthofstudentarray) {
+            studentshowname.setText(studentNameRollno[countfornoofstudent][0]);
+            studentshowrollno.setText(studentNameRollno[countfornoofstudent][1]);
+            countfornoofstudent++;
+        } else{
+            saveattendancebutton.setVisibility(View.VISIBLE);
+            absentbutton.setVisibility(View.INVISIBLE);
+            presentbutton.setVisibility(View.INVISIBLE);
+        }
+        }
+
+    public void markPresent(View view){
+        if(countfornoofstudent<lengthofstudentarray) {
+            studentshowname.setText(studentNameRollno[countfornoofstudent][0]);
+            studentshowrollno.setText(studentNameRollno[countfornoofstudent][1]);
+            countfornoofstudent++;
+        } else{
+            saveattendancebutton.setVisibility(View.VISIBLE);
+            absentbutton.setVisibility(View.INVISIBLE);
+            presentbutton.setVisibility(View.INVISIBLE);
         }
     }
 

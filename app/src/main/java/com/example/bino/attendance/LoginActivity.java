@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.i("data:::::::::::::",sqlarr[0]);
 
                     if(rs.next()){
-                        sharedPreferences.edit().putString("currentUserName",rs.getString("studentName")).apply();
+                        sharedPreferences.edit().putString("currentUserName",rs.getString("currentUserName")).apply();
                         return true;
                     }else
                     {
@@ -105,15 +105,13 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     break;
                     case "Teacher": {
-                        String[] sql = {"SELECT teacherName FROM Teacher where teacherId= '" + Integer.parseInt(userName) + "' and teacherPassword='" + password+"' "};
+                        String[] sql = {"SELECT teacherName as currentUserName FROM Teacher where teacherId= '" + userName + "' and teacherPassword='" + password+"' "};
 
                         if(connectToDB.execute(sql).get()&&user.equals("Teacher")){
-                         
-                            Toast.makeText(this, "Welcome "+userName, Toast.LENGTH_LONG).show();
+                            Toast.makeText(this, "Welcome "+(String)sharedPreferences.getString("currentUserName","no  name"), Toast.LENGTH_LONG).show();
                             Intent teacherHomeActivity = new Intent(getApplicationContext(), TeacherHomeActivity.class);
 
-                            sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
-                            sharedPreferences.edit().putString("currentTeacherName",userName).apply();
+                            sharedPreferences.edit().putInt("currentUserId",Integer.parseInt(userName)).apply();
 
                             startActivity(teacherHomeActivity);
                         }else
@@ -123,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     break;
                     case "Student": {
-                        String sql = "SELECT studentName FROM Student where studentErpNo= '" + Integer.parseInt(userName) + "' and studentPassword= '" + password+"' ";
+                        String sql = "SELECT studentName as currentUserName FROM Student where studentErpNo= '" + Integer.parseInt(userName) + "' and studentPassword= '" + password+"' ";
                         if(connectToDB.execute(sql).get()&&user.equals("Student")){
                             Toast.makeText(this, "Welcome "+(String)sharedPreferences.getString("currentUserName","no  name"), Toast.LENGTH_LONG).show();
                             Intent studentViewAllAttendance = new Intent(getApplicationContext(), StudentViewAllAttendance.class);

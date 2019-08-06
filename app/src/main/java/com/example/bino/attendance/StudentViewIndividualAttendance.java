@@ -94,6 +94,7 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
                 presentabsent.setEnabled(false);
             }else{
 
+                presentabsent.setEnabled(false);
                 presentabsent.setChecked(false);
             }
 

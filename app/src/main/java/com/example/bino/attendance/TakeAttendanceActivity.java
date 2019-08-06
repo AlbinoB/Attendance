@@ -150,7 +150,7 @@ public class TakeAttendanceActivity extends AppCompatActivity {
             absentbutton.setVisibility(View.INVISIBLE);
             presentbutton.setVisibility(View.INVISIBLE);
         }
-        }
+        }//
 
     public void markPresent(View view){
         if(countfornoofstudent<lengthofstudentarray) {

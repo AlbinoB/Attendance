@@ -26,7 +26,7 @@ import java.sql.Statement;
 public class TeacherHomeActivity extends AppCompatActivity {
 
     Intent teacherNextActivity;
-    String currentTeacherTextView;
+    int currentTeacherTextView;
     String particularcoursename;
     String particularyear;
     String particularsemester;
@@ -71,7 +71,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
 
         }//doInBackground;
             public void getTeacherName(){
-                 currentTeacherTextView =((String)sharedPreferences.getString("currentTeacherName","no name"));
+                 currentTeacherTextView =((Integer)sharedPreferences.getInt("currentUserId",0));
 
 
             }
@@ -80,14 +80,14 @@ public class TeacherHomeActivity extends AppCompatActivity {
                 try{
                     int i=1;
                     int noOfCourse=0;
-                    rs = stmt.executeQuery("select count(*) as countOfCourse from Course where courseId IN (select fkcourseIdTeacher from Teacher where teacherName  = '"+currentTeacherTextView+"') ");
+                    rs = stmt.executeQuery("select count(*) as countOfCourse from Course where courseId IN (select fkcourseIdTeacher from Teacher where teacherId  = '"+currentTeacherTextView+"') ");
                   if(rs.next()){
                        noOfCourse  = (rs.getInt("countOfCourse"));
 
                   }
                     coursename =new String[noOfCourse+1];
                    coursename[0] ="Select Course" ;
-                    rs = stmt.executeQuery("select courseName from Course where courseId IN (select fkcourseIdTeacher from Teacher where teacherName = '"+currentTeacherTextView+"') ");
+                    rs = stmt.executeQuery("select courseName from Course where courseId IN (select fkcourseIdTeacher from Teacher where teacherId = '"+currentTeacherTextView+"') ");
                    while(rs.next()){
 
                        coursename[i++] = rs.getString("courseName");
@@ -106,7 +106,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
             try{
                 int i=1;
                 int noOfSubject=0;
-                rs = stmt.executeQuery("select count(*) as countOfSubject from Subject where fkcourseIdSubject IN (select fkcourseIdTeacher from Teacher where teacherName = '"+currentTeacherTextView+"') ");
+                rs = stmt.executeQuery("select count(*) as countOfSubject from Subject where fkcourseIdSubject IN (select fkcourseIdTeacher from Teacher where teacherId = '"+currentTeacherTextView+"') ");
                 if(rs.next()){
                     noOfSubject  = (rs.getInt("countOfSubject"));
                     Log.i("no of subject",""+rs.getInt("countOfSubject"));
@@ -114,7 +114,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
                 }
                 subjectName =new String[noOfSubject+1];
                 subjectName[0] ="Select Subject" ;
-                rs = stmt.executeQuery( "select subjectName from Subject  where fkcourseIdSubject IN (select fkcourseIdTeacher from Teacher where teacherName = '"+currentTeacherTextView+"') ");
+                rs = stmt.executeQuery( "select subjectName from Subject  where fkcourseIdSubject IN (select fkcourseIdTeacher from Teacher where teacherId = '"+currentTeacherTextView+"') ");
 
                 while(rs.next()){
                     Log.i(" subject name",""+rs.getString("subjectName"));

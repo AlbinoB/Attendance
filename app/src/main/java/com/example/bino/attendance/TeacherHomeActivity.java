@@ -11,7 +11,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +27,11 @@ public class TeacherHomeActivity extends AppCompatActivity {
 
     Intent teacherNextActivity;
     String currentTeacherTextView;
+    String particularcoursename;
+    String particularyear;
+    String particularsemester;
+    String particularsubject;
+    SharedPreferences sharedPreferences;
 
     private Spinner courseSpiner,yearSpiner,semesterSpiner,subjectSpiner;
     String[] coursename ;
@@ -32,7 +39,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
     private static final String[] semesterNo ={"Select Semester","1st Sem","2nd Sem","3rd Sem"};
      String[] subjectName ;
 
-    SharedPreferences sharedPreferences;
+
 
     public class ConnectToDB extends AsyncTask<String,Void,Boolean>{
         Connection connection = null;
@@ -214,8 +221,46 @@ public class TeacherHomeActivity extends AppCompatActivity {
     }
 
     public void takeAttendance(View view){
+        Button teacherhomebutton = (Button) findViewById(R.id.teacherHomeSubmitButton);
+        Log.i("inside ","nothing ");
+        if(checkEmptyFields()) {
+            sharedPreferences.edit().putString("currentCourseName",particularcoursename).apply();
+            sharedPreferences.edit().putString("currentYearNo",particularyear).apply();
+            sharedPreferences.edit().putString("currentSemNo",particularsemester).apply();
+            sharedPreferences.edit().putString("currentSubjectName",particularsubject).apply();
+            Intent takeAttendanceActivity = new Intent(getApplicationContext(), com.example.bino.attendance.TakeAttendanceActivity.class);
+            startActivity(takeAttendanceActivity);
 
-        Intent takeAttendanceActivity = new Intent(getApplicationContext(), com.example.bino.attendance.TakeAttendanceActivity.class);
-        startActivity(takeAttendanceActivity);
+        }
+
+    }
+    public boolean checkEmptyFields(){
+        String error="";
+        particularcoursename =courseSpiner.getSelectedItem().toString();
+        particularyear = yearSpiner.getSelectedItem().toString();
+        particularsemester = semesterSpiner.getSelectedItem().toString();
+        particularsubject = subjectSpiner.getSelectedItem().toString();
+        Log.i("course selected ",particularcoursename);
+        if( particularcoursename.equals("Select Course")){
+            error="Please Select Course!!!";
+
+        }else if( particularyear.equals("Select Year")){
+            error="Please Select Year!!!";
+        }else if( particularsemester.equals("Select Semester")){
+            error="Please Select Semester!!!";
+        }else if( particularsubject.equals("Select Subject")){
+            error="Please Select Subject!!!";
+        }
+
+        if(error!="")
+        {
+            Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+
     }
 }

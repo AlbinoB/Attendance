@@ -25,7 +25,7 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
     ListView listView;
 
     SharedPreferences sharedPreferences;
-    TextView currentUser,courseName,passSname,sCode;
+    TextView currentUser,courseName,passSname,sCode,semName,semYear;
 
     Intent previousIndent;
     String[][] studentsarr ;
@@ -128,6 +128,7 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
 
                 setcurrentUser();
                 setCourseName();
+                setSemNameAndYear();
                 setSubjectSName();
                 setSubjectScode();
                 getNumberOfdays();
@@ -149,9 +150,17 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
             currentUser.setText((String)sharedPreferences.getString("currentUserName","no  name"));
 
         }
+
         public void setCourseName(){
             courseName=(TextView)findViewById(R.id.courseName);
             courseName.setText(previousIndent.getStringExtra("courseName"));
+        }
+
+        public void setSemNameAndYear(){
+            semName=(TextView)findViewById(R.id.semName);
+            semYear=(TextView)findViewById(R.id.semYear);
+            semName.setText(previousIndent.getStringExtra("semName"));
+            semYear.setText(previousIndent.getStringExtra("semYear"));
         }
         public void setSubjectSName(){
             passSname=(TextView)findViewById(R.id.sName);
@@ -165,7 +174,7 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
         }
 
         public void getNumberOfdays(){
-            sql="select fksubjectId,count(*) as totalLectures from Attendance where takenDate between '2019-08-01' and '2019-08-02' and fkstudentErpNo=(select studentErpNo from Student where studentName='"+currentUser.getText().toString()+"') and fksubjectId=(select subjectId from Subject where subjectId='"+sCode.getText().toString()+"') group by fksubjectId";
+            sql="select fksubjectId,count(*) as totalLectures from Attendance where takenDate between '2019-08-01' and '2019-08-02' and fkstudentErpNo=(select studentErpNo from Student where studentErpNo='"+(Integer)sharedPreferences.getInt("currentUserErpNo",0)+"') and fksubjectId=(select subjectId from Subject where subjectId='"+sCode.getText().toString()+"') group by fksubjectId";
 
             Log.i("sqldays",sql);
             try {
@@ -188,7 +197,7 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
 
 
         public void getDatesPresentAbsent(){
-            sql="select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenTime from Attendance where takenDate between '2019-08-01' and '2019-08-02' and fkstudentErpNo=(select studentErpNo from Student where studentName='"+currentUser.getText().toString()+"') and fksubjectId=(select subjectId from Subject where subjectId='"+sCode.getText().toString()+"')";
+            sql="select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenTime from Attendance where takenDate between '2019-08-01' and '2019-08-02' and fkstudentErpNo=(select studentErpNo from Student where studentErpNo='"+(Integer)sharedPreferences.getInt("currentUserErpNo",0)+"') and fksubjectId=(select subjectId from Subject where subjectId='"+sCode.getText().toString()+"' and fksemIdSubject=(select fksemIdStudent from Student where studentErpNo='"+(Integer)sharedPreferences.getInt("currentUserErpNo",0)+"'))";
 
             Log.i("sqldatas",sql);
             listView=(ListView)findViewById(R.id.listView);

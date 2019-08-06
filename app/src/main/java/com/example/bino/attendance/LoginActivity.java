@@ -56,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.i("data:::::::::::::",sqlarr[0]);
 
                     if(rs.next()){
+                        sharedPreferences.edit().putString("currentUserName",rs.getString("studentName")).apply();
                         return true;
                     }else
                     {
@@ -75,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             requestWindowFeature(Window.FEATURE_NO_TITLE);
 
+            sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//full screen login activity
             setContentView(R.layout.activity_login);
 
@@ -120,13 +122,12 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     break;
                     case "Student": {
-                        String sql = "SELECT studentErpNo FROM Student where studentName= '" + userName + "' and studentPassword= '" + password+"' ";
+                        String sql = "SELECT studentName FROM Student where studentErpNo= '" + Integer.parseInt(userName) + "' and studentPassword= '" + password+"' ";
                         if(connectToDB.execute(sql).get()&&user.equals("Student")){
-                            Toast.makeText(this, "Welcome "+userName, Toast.LENGTH_LONG).show();
+                            Toast.makeText(this, "Welcome "+(String)sharedPreferences.getString("currentUserName","no  name"), Toast.LENGTH_LONG).show();
                             Intent studentViewAllAttendance = new Intent(getApplicationContext(), StudentViewAllAttendance.class);
 
-                            sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
-                            sharedPreferences.edit().putString("currentUserName",userName).apply();
+                            sharedPreferences.edit().putInt("currentUserErpNo",Integer.parseInt(userName)).apply();
 
                             startActivity(studentViewAllAttendance);
                         }else

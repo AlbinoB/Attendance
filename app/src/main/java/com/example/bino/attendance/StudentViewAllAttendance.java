@@ -133,7 +133,7 @@ public class StudentViewAllAttendance extends AppCompatActivity {
         }//getCourseName
 
         public void getSubjectCount() {
-            sql="select count(*) as countOfSubjects from Subject where fkcourseIdSubject in (select courseId from Course where courseName='"+studentCourseNameTextView.getText().toString()+"')";
+            sql="select count(*) as countOfSubjects from Subject where fkcourseIdSubject in (select courseId from Course where courseName='"+studentCourseNameTextView.getText().toString()+"')and fksemIdSubject=(select fksemIdStudent from Student where studentName='"+currentUserTextView.getText().toString()+"')";
             try {
             rs = stmt.executeQuery(sql);
                 if (rs.next()) {
@@ -163,7 +163,7 @@ public class StudentViewAllAttendance extends AppCompatActivity {
 
 
             try {
-                sql = "select subjectId,subjectName from Subject,Course where fkcourseIdSubject =courseId and  courseName='" + studentCourseNameTextView.getText().toString() + "'";
+                sql = "select subjectId,subjectName from Subject,Course where fkcourseIdSubject =courseId and  courseName='" + studentCourseNameTextView.getText().toString() + "' and fksemIdSubject=(select fksemIdStudent from Student where studentName='"+currentUserTextView.getText().toString()+"')";
 
                 Log.i("data:::::::cccc::::::", sql);
 

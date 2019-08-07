@@ -74,7 +74,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
             public void getTeacherName(){
                  currentTeacherTextView =((Integer)sharedPreferences.getInt("currentUserId",0));
 
-                Log.i("sadascurrentTead",currentTeacherTextView);
+                Log.i("sadascurrentTead",currentTeacherTextView+"");
 
             }
 
@@ -185,6 +185,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_home);
 
+        Bundle bundle=new Bundle();
         sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
 
         courseSpiner = (Spinner)findViewById(R.id.CourseSpinner);

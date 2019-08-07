@@ -30,9 +30,8 @@ public class MainActivity extends AppCompatActivity {
         String url=null;
         try {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
-            connection=DriverManager.getConnection(url);
-            Statement stmt = connection.createStatement();
+            url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.n
+
             String sql="SELECT * FROM Course";
             ResultSet rs=null;
             rs = stmt.executeQuery(sql);

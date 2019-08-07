@@ -58,6 +58,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
                 connection = DriverManager.getConnection(url);
                 stmt = connection.createStatement();
 
+                Log.i("sadasd","asdfaf");
                 getTeacherName();
                 getAndSetCourseName();
                 getAndSetSubjectName();
@@ -73,10 +74,13 @@ public class TeacherHomeActivity extends AppCompatActivity {
             public void getTeacherName(){
                  currentTeacherTextView =((Integer)sharedPreferences.getInt("currentUserId",0));
 
+                Log.i("sadascurrentTead",currentTeacherTextView+"");
 
             }
 
             public void getAndSetCourseName(){
+
+                Log.i("sadasd","aspublic void getAndSetCourseName(){dfaf");
                 try{
                     int i=1;
                     int noOfCourse=0;
@@ -181,6 +185,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_home);
 
+        Bundle bundle=new Bundle();
         sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
 
         courseSpiner = (Spinner)findViewById(R.id.CourseSpinner);
@@ -188,7 +193,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
         semesterSpiner = (Spinner)findViewById(R.id.SemesterSpinner);
         subjectSpiner = (Spinner)findViewById(R.id.SubjectSpinner);
 
-       TeacherHomeActivity.ConnectToDB connectToDB = new  ConnectToDB();
+       ConnectToDB connectToDB = new  ConnectToDB();
 
 
         String[] sql={

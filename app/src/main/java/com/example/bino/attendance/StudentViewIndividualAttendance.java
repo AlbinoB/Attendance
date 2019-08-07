@@ -198,7 +198,7 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
 
 
         public void getDatesPresentAbsent(){
-            sql="select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenTime from Attendance where takenDate between '2019-08-01' and '2019-08-02' and fkstudentErpNo=(select studentErpNo from Student where studentErpNo='"+(Integer)sharedPreferences.getInt("currentUserErpNo",0)+"') and fksubjectId=(select subjectId from Subject where subjectId='"+sCode.getText().toString()+"' and fksemIdSubject=(select fksemIdStudent from Student where studentErpNo='"+(Integer)sharedPreferences.getInt("currentUserErpNo",0)+"'))";
+            sql="select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenTime from Attendance where takenDate between '2019-08-01' and '2019-08-28' and fkstudentErpNo=(select studentErpNo from Student where studentErpNo='"+(Integer)sharedPreferences.getInt("currentUserErpNo",0)+"') and fksubjectId=(select subjectId from Subject where subjectId='"+sCode.getText().toString()+"' and fksemIdSubject=(select fksemIdStudent from Student where studentErpNo='"+(Integer)sharedPreferences.getInt("currentUserErpNo",0)+"'))";
 
             Log.i("sqldatas",sql);
             listView=(ListView)findViewById(R.id.listView);

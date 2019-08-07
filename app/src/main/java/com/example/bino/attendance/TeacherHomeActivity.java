@@ -58,6 +58,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
                 connection = DriverManager.getConnection(url);
                 stmt = connection.createStatement();
 
+                Log.i("sadasd","asdfaf");
                 getTeacherName();
                 getAndSetCourseName();
                 getAndSetSubjectName();
@@ -73,10 +74,13 @@ public class TeacherHomeActivity extends AppCompatActivity {
             public void getTeacherName(){
                  currentTeacherTextView =((String)sharedPreferences.getString("currentTeacherName","no name"));
 
+                Log.i("sadascurrentTead",currentTeacherTextView);
 
             }
 
             public void getAndSetCourseName(){
+
+                Log.i("sadasd","aspublic void getAndSetCourseName(){dfaf");
                 try{
                     int i=1;
                     int noOfCourse=0;
@@ -188,7 +192,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
         semesterSpiner = (Spinner)findViewById(R.id.SemesterSpinner);
         subjectSpiner = (Spinner)findViewById(R.id.SubjectSpinner);
 
-       TeacherHomeActivity.ConnectToDB connectToDB = new  ConnectToDB();
+       ConnectToDB connectToDB = new  ConnectToDB();
 
 
         String[] sql={

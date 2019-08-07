@@ -15,6 +15,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class TakeAttendanceActivity extends AppCompatActivity {
 
@@ -23,8 +26,9 @@ public class TakeAttendanceActivity extends AppCompatActivity {
     String currentyear;
     String currentsem;
     String currentsubject;
-    String[]studentName;
-    String[] studentRollNo ;
+    int currentteacherid;
+  //  String[]studentName;
+   // String[] studentRollNo ;
     String[][] studentNameRollno;
     TextView studentshowname;
     TextView studentshowrollno;
@@ -68,6 +72,8 @@ public class TakeAttendanceActivity extends AppCompatActivity {
             currentyear =((String)sharedPreferences.getString("currentYearNo","no year"));
             currentsem =((String)sharedPreferences.getString("currentSemNo","no sem"));
             currentsubject =((String)sharedPreferences.getString("currentSubjectName","no subject"));
+            currentteacherid=((Integer)sharedPreferences.getInt("currentUserId",0));
+
 
         }
 
@@ -80,29 +86,54 @@ public class TakeAttendanceActivity extends AppCompatActivity {
                     noOfStudent  = (rs.getInt("totalstudent"));
                     lengthofstudentarray=noOfStudent;
                 }
-                studentName =new String[noOfStudent];
-                studentRollNo=new String[noOfStudent];
-                studentNameRollno =new String[noOfStudent][2];
+               // studentName =new String[noOfStudent];
+              //  studentRollNo=new String[noOfStudent];
+                studentNameRollno =new String[noOfStudent][9];
 
-                rs = stmt.executeQuery("select studentName,studentRollNo from Student where (fkcourseIdStudent=(select courseId from Course where courseName='"+currentcourse+"')   AND fksemIdStudent=(select semId from Semester where semName='"+currentsem+"'))ORDER BY studentRollNo");
+                String subId=null,courseid=null;
+                rs=stmt.executeQuery("select subjectId from Subject where subjectName='"+currentsubject+"'");
+                if(rs.next()){
+                    subId=rs.getString("subjectId");
+                }
+                rs = stmt.executeQuery("select courseId from Course where courseName='"+currentcourse+"'");
+                if(rs.next()){
+                     courseid=rs.getString("courseId");
+
+                }
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+                Date date = new Date();
+                dateFormat.format(date);
+
+                rs = stmt.executeQuery("select studentName,studentRollNo,studentErpNo from Student where (fkcourseIdStudent=(select courseId from Course where courseName='"+currentcourse+"')   AND fksemIdStudent=(select semId from Semester where semName='"+currentsem+"'))ORDER BY studentRollNo");
 
                     while(rs.next()){
                       //  studentName[i] = rs.getString("studentName");
                       //  studentRollNo[i]=rs.getString("studentRollNo");
 
-                            studentNameRollno[i][0] =rs.getString("studentName");
-                        studentNameRollno[i][1] =rs.getString("studentRollNo");
-                            Log.i("name no ",""+studentNameRollno[i][0]);
-                        Log.i("roll no ",""+studentNameRollno[i][1]);
+                            studentNameRollno[i][7] =rs.getString("studentName");
+                        studentNameRollno[i][8] =rs.getString("studentRollNo");
+                        studentNameRollno[i][1]=rs.getString("studentErpNo");
+                        studentNameRollno[i][0]= subId;
+                        studentNameRollno[i][2]=courseid;
+                        studentNameRollno[i][3] =Integer.toString(currentteacherid);
+                        studentNameRollno[i][4]=dateFormat.format(date);
+                        studentNameRollno[i][5]=timeFormat.format(date);;
+                        Log.i("name no ",""+studentNameRollno[i][7]);
+                        Log.i("roll no ",""+studentNameRollno[i][8]);
                        i++;
                       //  Log.i("name ",""+studentName[i]);
                       //  Log.i("roll no ",""+studentRollNo[i]);
                     }
 
+
+
+
+
                 studentshowname =(TextView)findViewById(R.id.StudentShowNameTextView);
                 studentshowrollno =(TextView)findViewById(R.id.StudentShowRollNoTextView);
-                studentshowname.setText(studentNameRollno[0][0]);
-                studentshowrollno.setText(studentNameRollno[0][1]);
+                studentshowname.setText(studentNameRollno[0][7]);
+                studentshowrollno.setText(studentNameRollno[0][8]);
 
             }catch(Exception e){
                 e.printStackTrace();
@@ -140,19 +171,37 @@ public class TakeAttendanceActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-        public void markAbsent(View view){
-        if(countfornoofstudent<lengthofstudentarray) {
-            studentshowname.setText(studentNameRollno[countfornoofstudent][0]);
-            studentshowrollno.setText(studentNameRollno[countfornoofstudent][1]);
-            countfornoofstudent++;
-        } else{
+        public void mark(View view){
+            Log.i("current attd",""+countfornoofstudent);
+           if(countfornoofstudent==lengthofstudentarray) {
+                studentNameRollno[countfornoofstudent-1][6] = view.getTag().toString();
+               Log.i(" in fifth ",""+countfornoofstudent);
+              Log.i("attendance",studentNameRollno[countfornoofstudent-1][6]);
+              for(int f=0; f<studentNameRollno.length;f++){
+
+
+                      Log.i("details", " "+studentNameRollno[f][0]+" "+studentNameRollno[f][1]+" "+studentNameRollno[f][2]+" "+studentNameRollno[f][3]+" "+studentNameRollno[f][4]+" "+studentNameRollno[f][5]+" "+studentNameRollno[f][6]+" "+studentNameRollno[f][7]+" "+studentNameRollno[f][8]);
+
+              }
+            }
+            if(countfornoofstudent<lengthofstudentarray) {
+            studentNameRollno[countfornoofstudent-1][6]=view.getTag().toString();
+            studentshowname.setText(studentNameRollno[countfornoofstudent][7]);
+            studentshowrollno.setText(studentNameRollno[countfornoofstudent][8]);
+                Log.i("attendance",studentNameRollno[countfornoofstudent-1][6]);
+            //    Log.i("lengthofstudentarray",""+lengthofstudentarray);
+              //  Log.i("before incement",""+countfornoofstudent);
+                //  Log.i("after increment",""+countfornoofstudent);
+                countfornoofstudent++;
+        } else {
             saveattendancebutton.setVisibility(View.VISIBLE);
             absentbutton.setVisibility(View.INVISIBLE);
             presentbutton.setVisibility(View.INVISIBLE);
         }
+
         }//
 
-    public void markPresent(View view){
+ /*   public void markPresent(View view){
         if(countfornoofstudent<lengthofstudentarray) {
             studentshowname.setText(studentNameRollno[countfornoofstudent][0]);
             studentshowrollno.setText(studentNameRollno[countfornoofstudent][1]);
@@ -162,7 +211,7 @@ public class TakeAttendanceActivity extends AppCompatActivity {
             absentbutton.setVisibility(View.INVISIBLE);
             presentbutton.setVisibility(View.INVISIBLE);
         }
-    }
+    }*/
 
     public  void ShowAttendance(View view){
         Button savebutton =(Button) findViewById(R.id.SaveAttendanceButton);

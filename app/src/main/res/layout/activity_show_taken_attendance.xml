@@ -63,10 +63,14 @@
         android:id="@+id/ShowTotalTextView"
         android:layout_width="80dp"
         android:layout_height="28dp"
+        android:layout_marginBottom="40dp"
         android:layout_marginEnd="44dp"
+        android:layout_marginStart="72dp"
         android:layout_marginTop="40dp"
         android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/ShowPresentTextView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/TotalTextView"
         app:layout_constraintTop_toBottomOf="@+id/ShowDateTextView" />
 
     <TextView
@@ -85,9 +89,11 @@
         android:layout_width="80dp"
         android:layout_height="28dp"
         android:layout_marginEnd="44dp"
+        android:layout_marginStart="72dp"
         android:layout_marginTop="40dp"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/PresentTextView"
         app:layout_constraintTop_toBottomOf="@+id/ShowTotalTextView" />
 
     <TextView

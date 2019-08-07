@@ -36,7 +36,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
     private Spinner courseSpiner,yearSpiner,semesterSpiner,subjectSpiner;
     String[] coursename ;
     private static final String[] yearNo ={"Select Year","FY","SY","TY"};
-    private static final String[] semesterNo ={"Select Semester","SEM 1","SEM 2","SEM 3","SEM 4","SEM 5","SEM 6","SEM 7","SEM 8","SEM 9",};
+    private static final String[] semesterNo ={"Select Semester","SEM 1","SEM 2","SEM 3","SEM 4","SEM 5","SEM 6","SEM 7","SEM 8","SEM 9"};
      String[] subjectName ;
 
 

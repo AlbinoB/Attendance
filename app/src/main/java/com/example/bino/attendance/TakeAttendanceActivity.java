@@ -228,6 +228,7 @@ public class TakeAttendanceActivity extends AppCompatActivity {
     public void ShowAttendance(View view) {
         Button savebutton = (Button) findViewById(R.id.SaveAttendanceButton);
         Intent showtakenattendance = new Intent(getApplicationContext(), ShowTakenAttendanceActivity.class);
+        finish();
         startActivity(showtakenattendance);
     }
 

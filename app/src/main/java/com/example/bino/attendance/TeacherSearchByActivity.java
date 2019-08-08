@@ -114,7 +114,7 @@ public class TeacherSearchByActivity extends AppCompatActivity {
             try{
                 int i=1;
                 int noOfSubject=0;
-                rs = stmt.executeQuery("select count(*) as countOfSubject from Subject where fkcourseIdSubject IN (select fkcourseIdTeacher from Teacher where teacherId = '"+currentTeacherTextView+"') ");
+                rs = stmt.executeQuery("select count(*) as countOfSubject from Subject where fkteacherIdSubject ='"+currentTeacherTextView+"' ");
                 if(rs.next()){
                     noOfSubject  = (rs.getInt("countOfSubject"));
                     Log.i("no of subject",""+rs.getInt("countOfSubject"));
@@ -122,7 +122,7 @@ public class TeacherSearchByActivity extends AppCompatActivity {
                 }
                 subjectNames =new String[noOfSubject+1];
                 subjectNames[0] ="Select Subject" ;
-                rs = stmt.executeQuery( "select subjectName from Subject  where fkcourseIdSubject IN (select fkcourseIdTeacher from Teacher where teacherId = '"+currentTeacherTextView+"') ");
+                rs = stmt.executeQuery( "select subjectName from Subject  where fkteacherIdSubject = '"+currentTeacherTextView+"' ");
 
                 while(rs.next()){
                     Log.i(" subject name",""+rs.getString("subjectName"));

@@ -15,7 +15,7 @@
 
         <TextView
             android:id="@+id/rollno"
-            android:layout_width="50dp"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
@@ -27,13 +27,13 @@
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="110dp"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/rollno"
             android:layout_alignBottom="@+id/rollno"
             android:layout_marginStart="23dp"
             android:layout_toEndOf="@+id/rollno"
-            android:text="Albino"
+            android:text="Albino Braganza"
             android:textAlignment="center"
             android:textSize="18sp" />
 

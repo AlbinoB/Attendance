@@ -17,6 +17,7 @@
         android:layout_marginStart="27dp"
         android:layout_marginTop="2dp"
         android:background="?attr/colorError"
+        android:onClick="cancelRed"
         android:text="Cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/saveButtonEditAttendance"

@@ -32,11 +32,12 @@ public class TeacherHomeActivity extends AppCompatActivity {
     String particularsemester;
     String particularsubject;
     SharedPreferences sharedPreferences;
+    ConnectToDB connectToDB;
 
     private Spinner courseSpiner,yearSpiner,semesterSpiner,subjectSpiner;
     String[] coursename ;
     String[] yearNo ;
-    private static final String[] semesterNo ={"Select Semester","SEM 1","SEM 2","SEM 3","SEM 4","SEM 5","SEM 6","SEM 7","SEM 8","SEM 9"};
+    String[] semesterNo ;
      String[] subjectName ;
 
 
@@ -61,8 +62,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
                 Log.i("sadasd","asdfaf");
                 getTeacherName();
                 getAndSetCourseName();
-                getYears();
-                getAndSetSubjectName();
+
 
                 return true;
             } catch (Exception e) {
@@ -85,13 +85,14 @@ public class TeacherHomeActivity extends AppCompatActivity {
                 try{
                     int i=0;
                     int noOfCourse=0;
-                    rs = stmt.executeQuery("select count(*) as countOfCourse from Course where courseId IN (select fkcourseIdTeacher from Teacher where teacherId  = '"+currentTeacherTextView+"') ");
-                  if(rs.next()){
+                    rs = stmt.executeQuery("select count(courseName) as countOfCourse from Course where courseId in (select fkcourseIdSubject from Subject where fkteacherIdSubject=(select teacherId from Teacher where teacherId='"+(Integer)sharedPreferences.getInt("currentUserId",0)+"'))");
+
+                    if(rs.next()){
                        noOfCourse  = (rs.getInt("countOfCourse"));
 
                   }
                     coursename =new String[noOfCourse];
-                    rs = stmt.executeQuery("select courseName from Course where courseId IN (select fkcourseIdTeacher from Teacher where teacherId = '"+currentTeacherTextView+"') ");
+                    rs = stmt.executeQuery("select courseName from Course where courseId in (select fkcourseIdSubject from Subject where fkteacherIdSubject=(select teacherId from Teacher where teacherId='"+(Integer)sharedPreferences.getInt("currentUserId",0)+"'))");
                    while(rs.next()){
 
                        coursename[i++] = rs.getString("courseName");
@@ -100,6 +101,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
                     ArrayAdapter<String> courseAdapter = new ArrayAdapter<String>(TeacherHomeActivity.this,android.R.layout.simple_spinner_dropdown_item,coursename);
                     courseAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     courseSpiner.setAdapter(courseAdapter);
+                    getYears();
 
                 }catch(Exception e){
                     e.printStackTrace();
@@ -111,14 +113,14 @@ public class TeacherHomeActivity extends AppCompatActivity {
                 int i = 0;
                 int noOfYears = 0;
 
-                rs = stmt.executeQuery("select count(*) as noOfYears from CourseYears where fkcourseIdCourseYears=(select courseId from Course where courseName='"+courseSpiner.getItemAtPosition(0)+"')");
+                rs = stmt.executeQuery("select count(*) as noOfYears from CourseYears where fkcourseIdCourseYears=(select courseId from Course where courseName='"+courseSpiner.getSelectedItem()+"')");
                 if (rs.next()) {
                     noOfYears = (rs.getInt("noOfYears"));
 
                 }
                 Log.i("noOfYears:",noOfYears+"");
                 yearNo=new String[noOfYears];
-                rs = stmt.executeQuery("select courseYears from CourseYears where fkcourseIdCourseYears=(select courseId from Course where courseName='"+courseSpiner.getItemAtPosition(0)+"')");
+                rs = stmt.executeQuery("select courseYears from CourseYears where fkcourseIdCourseYears=(select courseId from Course where courseName='"+courseSpiner.getSelectedItem()+"')");
                 while (rs.next()) {
                     Log.i("courseYears:",rs.getString("courseYears"));
                     yearNo[i++] = rs.getString("courseYears");
@@ -127,6 +129,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
                 ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(TeacherHomeActivity.this,android.R.layout.simple_spinner_dropdown_item,yearNo);
                 yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 yearSpiner.setAdapter(yearAdapter);
+                getSemesters();
             }
                 catch(Exception e){
                     e.printStackTrace();
@@ -139,22 +142,24 @@ public class TeacherHomeActivity extends AppCompatActivity {
                 int i = 0;
                 int noOfSemesters = 0;
 
-                rs = stmt.executeQuery("select count(*) as noOfSemesters from CourseYears where fkcourseIdCourseYears=(select courseId from Course where courseName='"+courseSpiner.getItemAtPosition(0)+"')");
+                rs = stmt.executeQuery("select Count(*) as noOfSemesters from Semester where semYear='"+yearSpiner.getSelectedItem()+"'");
                 if (rs.next()) {
                     noOfSemesters = (rs.getInt("noOfSemesters"));
 
                 }
                 Log.i("noOfYears:",noOfSemesters+"");
-                yearNo=new String[noOfSemesters];
-                rs = stmt.executeQuery("select courseYears from CourseYears where fkcourseIdCourseYears=(select courseId from Course where courseName='"+courseSpiner.getItemAtPosition(0)+"')");
+                semesterNo=new String[noOfSemesters];
+                rs = stmt.executeQuery("select semName from Semester where semYear='"+yearSpiner.getSelectedItem()+"'");
                 while (rs.next()) {
-                    Log.i("courseYears:",rs.getString("courseYears"));
-                    yearNo[i++] = rs.getString("courseYears");
+                    Log.i("semName:",rs.getString("semName"));
+                    semesterNo[i++] = rs.getString("semName");
 
                 }
-                ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(TeacherHomeActivity.this,android.R.layout.simple_spinner_dropdown_item,yearNo);
-                yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                yearSpiner.setAdapter(yearAdapter);
+                ArrayAdapter<String> semesterAdapter = new ArrayAdapter<String>(TeacherHomeActivity.this,android.R.layout.simple_spinner_dropdown_item,semesterNo);
+                semesterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                semesterSpiner.setAdapter(semesterAdapter);
+
+                getAndSetSubjectName();
             }
             catch(Exception e){
                 e.printStackTrace();
@@ -164,17 +169,17 @@ public class TeacherHomeActivity extends AppCompatActivity {
 
         public void getAndSetSubjectName(){
             try{
-                int i=1;
+                int i=0;
                 int noOfSubject=0;
-                rs = stmt.executeQuery("select count(*) as countOfSubject from Subject where fkcourseIdSubject IN (select fkcourseIdTeacher from Teacher where teacherId = '"+currentTeacherTextView+"') ");
+                rs = stmt.executeQuery("select count(subjectName) as countOfSubject from Subject where fkteacherIdSubject="+(Integer)sharedPreferences.getInt("currentUserId",0)+" and fkcourseIdSubject=(select courseId from Course where courseName='"+courseSpiner.getSelectedItem()+"') and  fksemIdSubject=(select semId from Semester where semName='"+semesterSpiner.getSelectedItem()+"')");
+
                 if(rs.next()){
                     noOfSubject  = (rs.getInt("countOfSubject"));
                     Log.i("no of subject",""+rs.getInt("countOfSubject"));
 
                 }
-                subjectName =new String[noOfSubject+1];
-                subjectName[0] ="Select Subject" ;
-                rs = stmt.executeQuery( "select subjectName from Subject  where fkcourseIdSubject IN (select fkcourseIdTeacher from Teacher where teacherId = '"+currentTeacherTextView+"') ");
+                subjectName =new String[noOfSubject];
+                rs = stmt.executeQuery( "select subjectName from Subject where fkteacherIdSubject="+(Integer)sharedPreferences.getInt("currentUserId",0)+" and fkcourseIdSubject=(select courseId from Course where courseName='"+courseSpiner.getSelectedItem()+"') and  fksemIdSubject=(select semId from Semester where semName='"+semesterSpiner.getSelectedItem()+"')");
 
                 while(rs.next()){
                     Log.i(" subject name",""+rs.getString("subjectName"));
@@ -249,32 +254,28 @@ public class TeacherHomeActivity extends AppCompatActivity {
         semesterSpiner = (Spinner)findViewById(R.id.SemesterSpinner);
         subjectSpiner = (Spinner)findViewById(R.id.SubjectSpinner);
 
-       ConnectToDB connectToDB = new  ConnectToDB();
+        connectToDB = new  ConnectToDB();
+                String[] sql={
 
+                };
+                try {
+                    if(connectToDB.execute(sql).get()){
+                        {
+                            Log.i("updated:mmmmm","doneee");
 
-        String[] sql={
-
-        };
-
-        try {
-            if(connectToDB.execute(sql).get()){
-                {
-                    Log.i("updated:mmmmm","doneee");
-
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
 
 
 
 
 
-        ArrayAdapter<String> semesterAdapter = new ArrayAdapter<String>(TeacherHomeActivity.this,android.R.layout.simple_spinner_dropdown_item,semesterNo);
-        semesterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        semesterSpiner.setAdapter(semesterAdapter);
+
+
 
 
     }

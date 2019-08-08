@@ -52,10 +52,10 @@ public class ShowTakenAttendanceActivity extends AppCompatActivity {
             Log.i("nextdetails", " " + studentNameRollno[f][0] + " " + studentNameRollno[f][1] + " " + studentNameRollno[f][2] + " " + studentNameRollno[f][3] + " " + studentNameRollno[f][4] + " " + studentNameRollno[f][5] + " " + studentNameRollno[f][6] + " " + studentNameRollno[f][7] + " " + studentNameRollno[f][8]);
         }
 
-        //ShowSubjectTextView.setText();
-                ShowDateTextView.setText(studentNameRollno[0][4]);
+        ShowSubjectTextView.setText((String)sharedPreferences.getString("currentSubjectName","no subject"));
+        ShowDateTextView.setText(studentNameRollno[0][4]);
         ShowTotalTextView.setText(noOfStudent+"");
-                ShowPresentTextView.setText(presentCount+"");
+        ShowPresentTextView.setText(presentCount+"");
         ShowAbsentTextView.setText(absentCount+"");
 
 

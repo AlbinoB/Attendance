@@ -28,9 +28,10 @@ public class EditAttendanceActivity extends AppCompatActivity {
     static int j=0;
     static  int updateAttendanceIndex;
     SharedPreferences sharedPreferences;
-    String[][] studentNameRollno;
-
     TextView textViewPresent,textViewAbsent;
+    String[][] studentNameRollno;
+    CustomAdapter customAdapter;
+    View viewnew;
             /*
             {       {"01","Albino","P",""},
                     {"01","amit","","A"},
@@ -77,50 +78,50 @@ public class EditAttendanceActivity extends AppCompatActivity {
             listView = (ListView) findViewById(R.id.displaystudents);
             save = (Button) findViewById(R.id.saveButtonEditAttendance);
             cancel = (Button) findViewById(R.id.cancelButtonEditAttendance);
-            CustomAdapter customAdapter = new CustomAdapter();
+            customAdapter = new CustomAdapter();
             listView.setAdapter(customAdapter);
 
-            listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    updateAttendanceIndex=i;
-                    textViewPresent.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View viewAP) {
-
-                            if(textViewPresent.getText().toString().equals("")){
-                                Log.i("beforetextViewPresent:",studentNameRollno[updateAttendanceIndex][6]);
-                                studentNameRollno[updateAttendanceIndex][6]="P";
-                                textViewPresent.setText("P");
-                                textViewAbsent.setText("");
-                                Log.i("aftertextViewPresent:",studentNameRollno[updateAttendanceIndex][6]);
-                            }
-                        }
-                    });
-
-                    textViewAbsent.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View viewAP) {
-
-                            if(textViewAbsent.getText().toString().equals("")){
-                                Log.i("beforetextViewAbsent:",studentNameRollno[updateAttendanceIndex][6]);
-                                studentNameRollno[updateAttendanceIndex][6]="A";
-                                textViewPresent.setText("");
-                                textViewAbsent.setText("A");
-                                Log.i("aftertextViewAbsent:",studentNameRollno[updateAttendanceIndex][6]);
-                            }
-
-                        }
-                    });
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Toast.makeText(EditAttendanceActivity.this, ""+i, Toast.LENGTH_SHORT).show();
+                    updateAttendance(i);
                 }
             });
 
 
+
+
+
+
+
+
+
+    }
+
+    public void updateAttendance(int updateAttendanceIndex){
+        Log.i("dddd","ssss");
+        View viewnew=customAdapter.getView(updateAttendanceIndex,listView,listView);
+        textViewPresent=(TextView)viewnew.findViewById(R.id.present);
+        textViewAbsent=(TextView)viewnew.findViewById(R.id.absent);
+        if(textViewPresent.getText().toString().equals("")){
+            studentNameRollno[updateAttendanceIndex][6]="P";
+            textViewPresent.setText("P");
+            textViewAbsent.setText("");
+            Log.i("aftertextViewPresent:",studentNameRollno[updateAttendanceIndex][6]);
+        }
+        else
+        {
+            Log.i("beforetextViewPresent:",studentNameRollno[updateAttendanceIndex][6]);
+            studentNameRollno[updateAttendanceIndex][6]="A";
+            textViewPresent.setText("");
+            textViewAbsent.setText("A");
+            Log.i("aftertextViewPresent:",studentNameRollno[updateAttendanceIndex][6]);
+        }
+
+        listView.setAdapter(customAdapter);
     }
 
 
@@ -166,8 +167,8 @@ public class EditAttendanceActivity extends AppCompatActivity {
              textViewAbsent=(TextView)view.findViewById(R.id.absent);
 
 
-            textViewRoll.setText(studentNameRollno[i][8]);
-            textViewName.setText(studentNameRollno[i][7]);
+            textViewRoll.setText(studentNameRollno[i][7]);
+            textViewName.setText(studentNameRollno[i][8]);
 
 
             if (studentNameRollno[i][6].equals("P")) {
@@ -179,8 +180,17 @@ public class EditAttendanceActivity extends AppCompatActivity {
                 textViewAbsent.setText(studentNameRollno[i][6]);
 
             }
+
+
+
             return view;
         }
+    }
+
+    public void cancelRed(View view){
+        Intent gotoshowtakenattendanceActivity = new Intent(getApplicationContext(), ShowTakenAttendanceActivity.class);
+        finish();
+        startActivity(gotoshowtakenattendanceActivity);
     }
 
     public void confirmSave(View view){

@@ -141,8 +141,14 @@ public class TeacherSearchByActivity extends AppCompatActivity {
     }//AsyncTask
 
         public void SearchAttendance(View view){
-            Button teachersearchbutton = (Button) findViewById(R.id.TeacherSearchButton);
+
             if(checkEmptyFields()) {
+                Button teachersearchbutton = (Button) findViewById(R.id.TeacherSearchButton);
+                sharedPreferences.edit().putInt("currentenddate",Integer.parseInt(particularstartdate)).apply();
+                sharedPreferences.edit().putInt("currentenddate",Integer.parseInt(particularenddate)).apply();
+                sharedPreferences.edit().putInt("currentcoursename",Integer.parseInt(particularcoursename)).apply();
+                sharedPreferences.edit().putInt("currentsubjectname",Integer.parseInt(particularsubject)).apply();
+                sharedPreferences.edit().putInt("currentyear",Integer.parseInt(particularyear)).apply();
                 Intent teachersearchresult = new Intent(getApplicationContext(), TeacherSearchResult.class);
                 startActivity(teachersearchresult);
             }
@@ -172,6 +178,27 @@ public class TeacherSearchByActivity extends AppCompatActivity {
         //startDate.setText(getDateTime());
         startDate.setInputType(InputType.TYPE_NULL);//disable softkey board
         endDate.setInputType(InputType.TYPE_NULL);
+
+        sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
+
+        TeacherSearchByActivity.ConnectToDB connectToDB = new ConnectToDB();
+
+
+        String[] sql={
+
+        };
+
+        try {
+            if(connectToDB.execute(sql).get()){
+                {
+                    Log.i("updated:mmmmm","doneee");
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -214,26 +241,6 @@ public class TeacherSearchByActivity extends AppCompatActivity {
                 datePickerDialogEndDate.show();
             }
         });
-
-        sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
-
-        TeacherSearchByActivity.ConnectToDB connectToDB = new ConnectToDB();
-
-
-        String[] sql={
-
-        };
-
-        try {
-            if(connectToDB.execute(sql).get()){
-                {
-                    Log.i("updated:mmmmm","doneee");
-
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
 
 

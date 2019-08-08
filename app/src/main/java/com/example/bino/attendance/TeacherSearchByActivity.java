@@ -143,12 +143,16 @@ public class TeacherSearchByActivity extends AppCompatActivity {
         public void SearchAttendance(View view){
 
             if(checkEmptyFields()) {
+                Log.i("check activity",""+checkEmptyFields());
+                Log.i("check activity",""+particularstartdate);
+                Log.i("check activity",""+particularenddate);
                 Button teachersearchbutton = (Button) findViewById(R.id.TeacherSearchButton);
-                sharedPreferences.edit().putInt("currentenddate",Integer.parseInt(particularstartdate)).apply();
-                sharedPreferences.edit().putInt("currentenddate",Integer.parseInt(particularenddate)).apply();
-                sharedPreferences.edit().putInt("currentcoursename",Integer.parseInt(particularcoursename)).apply();
-                sharedPreferences.edit().putInt("currentsubjectname",Integer.parseInt(particularsubject)).apply();
-                sharedPreferences.edit().putInt("currentyear",Integer.parseInt(particularyear)).apply();
+               sharedPreferences.edit().putString("currentenddate",particularstartdate).apply();
+                sharedPreferences.edit().putString("currentenddate",particularenddate).apply();
+                sharedPreferences.edit().putString("currentcoursename",particularcoursename).apply();
+                sharedPreferences.edit().putString("currentsubjectname",particularsubject).apply();
+                sharedPreferences.edit().putString("currentyear",particularyear).apply();
+                sharedPreferences.edit().putString("currentsem",particularsemester).apply();
                 Intent teachersearchresult = new Intent(getApplicationContext(), TeacherSearchResult.class);
                 startActivity(teachersearchresult);
             }
@@ -178,27 +182,6 @@ public class TeacherSearchByActivity extends AppCompatActivity {
         //startDate.setText(getDateTime());
         startDate.setInputType(InputType.TYPE_NULL);//disable softkey board
         endDate.setInputType(InputType.TYPE_NULL);
-
-        sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
-
-        TeacherSearchByActivity.ConnectToDB connectToDB = new ConnectToDB();
-
-
-        String[] sql={
-
-        };
-
-        try {
-            if(connectToDB.execute(sql).get()){
-                {
-                    Log.i("updated:mmmmm","doneee");
-
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
 
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -242,6 +225,26 @@ public class TeacherSearchByActivity extends AppCompatActivity {
             }
         });
 
+        sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
+
+        TeacherSearchByActivity.ConnectToDB connectToDB = new ConnectToDB();
+
+
+        String[] sql={
+
+        };
+
+        try {
+            if(connectToDB.execute(sql).get()){
+                {
+                    Log.i("updated:mmmmm","doneee");
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
 
         ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(TeacherSearchByActivity.this,android.R.layout.simple_spinner_dropdown_item,yearNos);
@@ -262,7 +265,7 @@ public class TeacherSearchByActivity extends AppCompatActivity {
         particularsubject = SearchsubjectSpiner.getSelectedItem().toString();
         particularstartdate=startDate.getText().toString();
         particularenddate=endDate.getText().toString();
-        Log.i("course selected ",particularcoursename);
+
         if( particularcoursename.equals("Select Course")){
             error="Please Select Course!!!";
 

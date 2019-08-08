@@ -8,47 +8,41 @@
 
     <Spinner
         android:id="@+id/CourseSpinner"
-        android:layout_width="250dp"
+        android:layout_width="172dp"
         android:layout_height="41dp"
+        android:layout_marginBottom="30dp"
         android:layout_marginEnd="67dp"
-        android:layout_marginStart="67dp"
         android:layout_marginTop="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/yearSpinner"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <Spinner
         android:id="@+id/yearSpinner"
-        android:layout_width="250dp"
+        android:layout_width="172dp"
         android:layout_height="41dp"
         android:layout_marginEnd="67dp"
-        android:layout_marginStart="67dp"
         android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/CourseSpinner" />
 
     <Spinner
         android:id="@+id/SemesterSpinner"
-        android:layout_width="250dp"
+        android:layout_width="172dp"
         android:layout_height="41dp"
         android:layout_marginEnd="67dp"
-        android:layout_marginStart="67dp"
         android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/yearSpinner" />
 
     <Spinner
         android:id="@+id/SubjectSpinner"
-        android:layout_width="250dp"
+        android:layout_width="172dp"
         android:layout_height="41dp"
         android:layout_marginEnd="67dp"
-        android:layout_marginStart="67dp"
         android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SemesterSpinner" />
 
     <RadioGroup
@@ -100,5 +94,55 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioButtonGroup" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="100dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="46dp"
+        android:text="Course"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="100dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="30dp"
+        android:text="Year"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="100dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="30dp"
+        android:text="Semester"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="100dp"
+        android:layout_height="41dp"
+        android:layout_marginBottom="48dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="30dp"
+        android:text="Subjects"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/radioButtonGroup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
 </android.support.constraint.ConstraintLayout>

@@ -35,7 +35,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
 
     private Spinner courseSpiner,yearSpiner,semesterSpiner,subjectSpiner;
     String[] coursename ;
-    private static final String[] yearNo ={"Select Year","FY","SY","TY"};
+    String[] yearNo ;
     private static final String[] semesterNo ={"Select Semester","SEM 1","SEM 2","SEM 3","SEM 4","SEM 5","SEM 6","SEM 7","SEM 8","SEM 9"};
      String[] subjectName ;
 
@@ -61,6 +61,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
                 Log.i("sadasd","asdfaf");
                 getTeacherName();
                 getAndSetCourseName();
+                getYears();
                 getAndSetSubjectName();
 
                 return true;
@@ -82,15 +83,14 @@ public class TeacherHomeActivity extends AppCompatActivity {
 
                 Log.i("sadasd","aspublic void getAndSetCourseName(){dfaf");
                 try{
-                    int i=1;
+                    int i=0;
                     int noOfCourse=0;
                     rs = stmt.executeQuery("select count(*) as countOfCourse from Course where courseId IN (select fkcourseIdTeacher from Teacher where teacherId  = '"+currentTeacherTextView+"') ");
                   if(rs.next()){
                        noOfCourse  = (rs.getInt("countOfCourse"));
 
                   }
-                    coursename =new String[noOfCourse+1];
-                   coursename[0] ="Select Course" ;
+                    coursename =new String[noOfCourse];
                     rs = stmt.executeQuery("select courseName from Course where courseId IN (select fkcourseIdTeacher from Teacher where teacherId = '"+currentTeacherTextView+"') ");
                    while(rs.next()){
 
@@ -105,6 +105,62 @@ public class TeacherHomeActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }//getAndSetCourseName
+
+        public void getYears(){
+            try {
+                int i = 0;
+                int noOfYears = 0;
+
+                rs = stmt.executeQuery("select count(*) as noOfYears from CourseYears where fkcourseIdCourseYears=(select courseId from Course where courseName='"+courseSpiner.getItemAtPosition(0)+"')");
+                if (rs.next()) {
+                    noOfYears = (rs.getInt("noOfYears"));
+
+                }
+                Log.i("noOfYears:",noOfYears+"");
+                yearNo=new String[noOfYears];
+                rs = stmt.executeQuery("select courseYears from CourseYears where fkcourseIdCourseYears=(select courseId from Course where courseName='"+courseSpiner.getItemAtPosition(0)+"')");
+                while (rs.next()) {
+                    Log.i("courseYears:",rs.getString("courseYears"));
+                    yearNo[i++] = rs.getString("courseYears");
+
+                }
+                ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(TeacherHomeActivity.this,android.R.layout.simple_spinner_dropdown_item,yearNo);
+                yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                yearSpiner.setAdapter(yearAdapter);
+            }
+                catch(Exception e){
+                    e.printStackTrace();
+                }
+        }
+
+
+        public void getSemesters(){
+            try {
+                int i = 0;
+                int noOfSemesters = 0;
+
+                rs = stmt.executeQuery("select count(*) as noOfSemesters from CourseYears where fkcourseIdCourseYears=(select courseId from Course where courseName='"+courseSpiner.getItemAtPosition(0)+"')");
+                if (rs.next()) {
+                    noOfSemesters = (rs.getInt("noOfSemesters"));
+
+                }
+                Log.i("noOfYears:",noOfSemesters+"");
+                yearNo=new String[noOfSemesters];
+                rs = stmt.executeQuery("select courseYears from CourseYears where fkcourseIdCourseYears=(select courseId from Course where courseName='"+courseSpiner.getItemAtPosition(0)+"')");
+                while (rs.next()) {
+                    Log.i("courseYears:",rs.getString("courseYears"));
+                    yearNo[i++] = rs.getString("courseYears");
+
+                }
+                ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(TeacherHomeActivity.this,android.R.layout.simple_spinner_dropdown_item,yearNo);
+                yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                yearSpiner.setAdapter(yearAdapter);
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+
 
         public void getAndSetSubjectName(){
             try{
@@ -214,9 +270,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
 
 
 
-        ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(TeacherHomeActivity.this,android.R.layout.simple_spinner_dropdown_item,yearNo);
-        yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        yearSpiner.setAdapter(yearAdapter);
+
 
         ArrayAdapter<String> semesterAdapter = new ArrayAdapter<String>(TeacherHomeActivity.this,android.R.layout.simple_spinner_dropdown_item,semesterNo);
         semesterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

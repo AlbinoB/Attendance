@@ -34,15 +34,15 @@ public class ShowTakenAttendanceActivity extends AppCompatActivity {
         int presentCount=0,absentCount=0;
         for (int f = 0; f < studentNameRollno.length; f++) {
 
-            if(studentNameRollno[f][6]=="P"){
-                presentCount++;
-            }else
-            {
-                absentCount++;
-            }
-
-            Log.i("nextdetails", " " + studentNameRollno[f][0] + " " + studentNameRollno[f][1] + " " + studentNameRollno[f][2] + " " + studentNameRollno[f][3] + " " + studentNameRollno[f][4] + " " + studentNameRollno[f][5] + " " + studentNameRollno[f][6] + " " + studentNameRollno[f][7] + " " + studentNameRollno[f][8]);
+        if(studentNameRollno[f][6]=="P"){
+            presentCount++;
+        }else
+        {
+            absentCount++;
         }
+
+        Log.i("nextdetails", " " + studentNameRollno[f][0] + " " + studentNameRollno[f][1] + " " + studentNameRollno[f][2] + " " + studentNameRollno[f][3] + " " + studentNameRollno[f][4] + " " + studentNameRollno[f][5] + " " + studentNameRollno[f][6] + " " + studentNameRollno[f][7] + " " + studentNameRollno[f][8]);
+    }
 
         //ShowSubjectTextView.setText();
                 ShowDateTextView.setText(studentNameRollno[0][4]+"");

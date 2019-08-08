@@ -141,8 +141,18 @@ public class TeacherSearchByActivity extends AppCompatActivity {
     }//AsyncTask
 
         public void SearchAttendance(View view){
-            Button teachersearchbutton = (Button) findViewById(R.id.TeacherSearchButton);
+
             if(checkEmptyFields()) {
+                Log.i("check activity",""+checkEmptyFields());
+                Log.i("check activity",""+particularstartdate);
+                Log.i("check activity",""+particularenddate);
+                Button teachersearchbutton = (Button) findViewById(R.id.TeacherSearchButton);
+               sharedPreferences.edit().putString("currentenddate",particularstartdate).apply();
+                sharedPreferences.edit().putString("currentenddate",particularenddate).apply();
+                sharedPreferences.edit().putString("currentcoursename",particularcoursename).apply();
+                sharedPreferences.edit().putString("currentsubjectname",particularsubject).apply();
+                sharedPreferences.edit().putString("currentyear",particularyear).apply();
+                sharedPreferences.edit().putString("currentsem",particularsemester).apply();
                 Intent teachersearchresult = new Intent(getApplicationContext(), TeacherSearchResult.class);
                 startActivity(teachersearchresult);
             }
@@ -255,7 +265,7 @@ public class TeacherSearchByActivity extends AppCompatActivity {
         particularsubject = SearchsubjectSpiner.getSelectedItem().toString();
         particularstartdate=startDate.getText().toString();
         particularenddate=endDate.getText().toString();
-        Log.i("course selected ",particularcoursename);
+
         if( particularcoursename.equals("Select Course")){
             error="Please Select Course!!!";
 

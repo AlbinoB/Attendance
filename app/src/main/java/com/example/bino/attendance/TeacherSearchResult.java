@@ -1,5 +1,6 @@
 package com.example.bino.attendance;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.StrictMode;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -39,6 +41,7 @@ public class TeacherSearchResult extends AppCompatActivity {
     CustomAdapter customAdapter;
 
     static String[][] studentsarr ;
+    int totallecture=0;
 
 
     public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
@@ -113,7 +116,7 @@ public class TeacherSearchResult extends AppCompatActivity {
 
                         }
                         studentsarr = new String[totalstudent][4];
-                        int totallecture=0;
+
 
                         rs = stmt.executeQuery("select count(*) as totallecture from Attendance where takenDate between '"+currentstartdate+"' and '"+currentenddate+"' and fksubjectId=(select subjectId from Subject where subjectName='"+currentsubject+"') and fkstudentErpNo=(select studentErpNo from Student where studentRollNo='"+9+"')");
                         if(rs.next()){
@@ -169,7 +172,7 @@ public class TeacherSearchResult extends AppCompatActivity {
 
 
 
-        TeacherSearchResult.ConnectToDB connectToDB = new ConnectToDB();
+        ConnectToDB connectToDB = new ConnectToDB();
 
         String[] sql={
 
@@ -185,6 +188,18 @@ public class TeacherSearchResult extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent teacherSearchResultIndividual = new Intent(getApplicationContext(), TeacherSearchResultIndividual.class);
+                teacherSearchResultIndividual.putExtra("passStudentRoll",studentsarr[i][1]);
+                teacherSearchResultIndividual.putExtra("passStudentName",studentsarr[i][2]);
+
+                teacherSearchResultIndividual.putExtra("totallecture",totallecture);
+                startActivity(teacherSearchResultIndividual);
+            }
+        });
+
 
     }
 

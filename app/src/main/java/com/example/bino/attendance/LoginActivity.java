@@ -109,10 +109,8 @@ public class LoginActivity extends AppCompatActivity {
 
                         if(connectToDB.execute(sql).get()&&user.equals("Teacher")){
                             Toast.makeText(this, "Welcome "+(String)sharedPreferences.getString("currentUserName","no  name"), Toast.LENGTH_LONG).show();
-                            Intent teacherHomeActivity = new Intent(getApplicationContext(), TeacherHomeActivity.class);
-
                             sharedPreferences.edit().putInt("currentUserId",Integer.parseInt(userName)).apply();
-
+                            Intent teacherHomeActivity = new Intent(getApplicationContext(), TeacherHomeActivity.class);
                             startActivity(teacherHomeActivity);
                         }else
                         {

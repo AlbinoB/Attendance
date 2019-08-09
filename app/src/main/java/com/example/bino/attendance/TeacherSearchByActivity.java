@@ -190,14 +190,14 @@ public class TeacherSearchByActivity extends AppCompatActivity {
                 String[] dataarr=tempdate.split("/");
                 Log.i("date",getDateTime());
                 int day=Integer.parseInt(dataarr[2]);
-                int month=Integer.parseInt(dataarr[1]);
+                int month=Integer.parseInt(dataarr[1])-1;
                 int year=Integer.parseInt(dataarr[0]);
 
                 datePickerDialogStartDate=new DatePickerDialog(TeacherSearchByActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                                startDate.setText((year+"/"+month+"/"+day));
+                                startDate.setText((year+"/"+(month+1)+"/"+day));
                             }
                         },year,month,day);
                 datePickerDialogStartDate.show();
@@ -211,14 +211,14 @@ public class TeacherSearchByActivity extends AppCompatActivity {
                 String[] dataarr=tempdate.split("/");
                 Log.i("date",getDateTime());
                 int day=Integer.parseInt(dataarr[2]);
-                int month=Integer.parseInt(dataarr[1]);
+                int month=Integer.parseInt(dataarr[1])-1;
                 int year=Integer.parseInt(dataarr[0]);
 
                 datePickerDialogEndDate=new DatePickerDialog(TeacherSearchByActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                                endDate.setText((year+"/"+month+"/"+day));
+                                endDate.setText((year+"/"+(month+1)+"/"+day));
                             }
                         },year,month,day);
                 datePickerDialogEndDate.show();

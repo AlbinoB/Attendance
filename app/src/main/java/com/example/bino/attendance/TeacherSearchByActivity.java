@@ -114,7 +114,7 @@ public class TeacherSearchByActivity extends AppCompatActivity {
             try{
                 int i=1;
                 int noOfSubject=0;
-                rs = stmt.executeQuery("select count(*) as countOfSubject from Subject where fkteacherIdSubject ='"+currentTeacherTextView+"' ");
+                rs = stmt.executeQuery("select count(*) as countOfSubject from Subject where fkcourseIdSubject IN (select fkcourseIdTeacher from Teacher where teacherId = '"+currentTeacherTextView+"') ");
                 if(rs.next()){
                     noOfSubject  = (rs.getInt("countOfSubject"));
                     Log.i("no of subject",""+rs.getInt("countOfSubject"));
@@ -122,7 +122,7 @@ public class TeacherSearchByActivity extends AppCompatActivity {
                 }
                 subjectNames =new String[noOfSubject+1];
                 subjectNames[0] ="Select Subject" ;
-                rs = stmt.executeQuery( "select subjectName from Subject  where fkteacherIdSubject = '"+currentTeacherTextView+"' ");
+                rs = stmt.executeQuery( "select subjectName from Subject  where fkcourseIdSubject IN (select fkcourseIdTeacher from Teacher where teacherId = '"+currentTeacherTextView+"') ");
 
                 while(rs.next()){
                     Log.i(" subject name",""+rs.getString("subjectName"));
@@ -147,7 +147,7 @@ public class TeacherSearchByActivity extends AppCompatActivity {
                 Log.i("check activity",""+particularstartdate);
                 Log.i("check activity",""+particularenddate);
                 Button teachersearchbutton = (Button) findViewById(R.id.TeacherSearchButton);
-               sharedPreferences.edit().putString("currentenddate",particularstartdate).apply();
+               sharedPreferences.edit().putString("currentstartdate",particularstartdate).apply();
                 sharedPreferences.edit().putString("currentenddate",particularenddate).apply();
                 sharedPreferences.edit().putString("currentcoursename",particularcoursename).apply();
                 sharedPreferences.edit().putString("currentsubjectname",particularsubject).apply();
@@ -190,14 +190,14 @@ public class TeacherSearchByActivity extends AppCompatActivity {
                 String[] dataarr=tempdate.split("/");
                 Log.i("date",getDateTime());
                 int day=Integer.parseInt(dataarr[2]);
-                int month=Integer.parseInt(dataarr[1])-1;
+                int month=Integer.parseInt(dataarr[1]);
                 int year=Integer.parseInt(dataarr[0]);
 
                 datePickerDialogStartDate=new DatePickerDialog(TeacherSearchByActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                                startDate.setText((day+"/"+month+"/"+year));
+                                startDate.setText((year+"/"+month+"/"+day));
                             }
                         },year,month,day);
                 datePickerDialogStartDate.show();
@@ -211,14 +211,14 @@ public class TeacherSearchByActivity extends AppCompatActivity {
                 String[] dataarr=tempdate.split("/");
                 Log.i("date",getDateTime());
                 int day=Integer.parseInt(dataarr[2]);
-                int month=Integer.parseInt(dataarr[1])-1;
+                int month=Integer.parseInt(dataarr[1]);
                 int year=Integer.parseInt(dataarr[0]);
 
                 datePickerDialogEndDate=new DatePickerDialog(TeacherSearchByActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                                endDate.setText((day+"/"+month+"/"+year));
+                                endDate.setText((year+"/"+month+"/"+day));
                             }
                         },year,month,day);
                 datePickerDialogEndDate.show();

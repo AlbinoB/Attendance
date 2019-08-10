@@ -118,7 +118,7 @@ public class TeacherSearchResult extends AppCompatActivity {
                         studentsarr = new String[totalstudent][4];
 
 
-                        rs = stmt.executeQuery("select count(*) as totallecture from Attendance where takenDate between '"+currentstartdate+"' and '"+currentenddate+"' and fksubjectId=(select subjectId from Subject where subjectName='"+currentsubject+"') and fkstudentErpNo=(select studentErpNo from Student where studentRollNo='"+9+"')");
+                        rs = stmt.executeQuery("select count(*) as totallecture from Attendance where takenDate between '"+currentstartdate+"' and '"+currentenddate+"' and fksubjectId=(select subjectId from Subject where subjectName='"+currentsubject+"') and fkstudentErpNo=(select studentErpNo from Student where studentRollNo='"+11+"')");
                         if(rs.next()){
                             totallecture =(Integer)rs.getInt("totallecture");
 
@@ -137,10 +137,19 @@ public class TeacherSearchResult extends AppCompatActivity {
 
                             }
                             float percent=0;
-                            percent =(100*totalpresent)/totallecture;
-                                    studentsarr[i][3]=Float.toString(percent);
+                            if(totallecture!=0){
+                                percent =(100*totalpresent)/totallecture;
+                                studentsarr[i][3]=Float.toString(percent);
 
-                                    i++;
+                                i++;
+                            }else
+                            {
+
+                                studentsarr[i][3]="No Lectures";
+                                i++;
+
+                            }
+
                                 }
 
                         listView.setAdapter(customAdapter);

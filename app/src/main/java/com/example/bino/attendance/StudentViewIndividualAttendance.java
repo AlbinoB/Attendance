@@ -87,6 +87,7 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
             TextView takenTime=(TextView)view.findViewById(R.id.takenTime);
             CheckBox presentabsent=(CheckBox)view.findViewById(R.id.presentabsentcheckBox);
             dateTextView.setText(studentsarr[i][0]);
+
             takenTime.setText(studentsarr[i][2]);
 
             if(studentsarr[i][1].equalsIgnoreCase("P")){

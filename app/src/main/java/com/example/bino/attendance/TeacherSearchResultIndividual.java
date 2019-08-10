@@ -25,10 +25,13 @@ public class TeacherSearchResultIndividual extends AppCompatActivity {
     ListView listView;
     Button download;
     String[][] studentsarr ;
+    Intent previousIndent;
 
 
     public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
-        Intent previousIndent=getIntent();
+
+
+
         Connection connection = null;
         String url = null;
         Statement stmt;
@@ -40,6 +43,8 @@ public class TeacherSearchResultIndividual extends AppCompatActivity {
         protected Boolean doInBackground(String... sqlarr) {
 
 
+
+            Log.i("len",""+previousIndent.getIntExtra("totallecture",0));
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
@@ -63,11 +68,12 @@ public class TeacherSearchResultIndividual extends AppCompatActivity {
 
 
         public void getDatesPresentAbsent(){
+            Log.i("lenaaaa",""+previousIndent.getIntExtra("totallecture",0));
 
-            studentsarr=new String[(previousIndent.getIntExtra("totallecture",0))][3];
             sql="select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenTime from Attendance where takenDate between '"+(String)sharedPreferences.getString("currentstartdate","no subject")+"' and '"+(String)sharedPreferences.getString("currentenddate","no subject")+"' and fkstudentErpNo=(select studentErpNo from Student where studentRollNo="+previousIndent.getStringExtra("passStudentRoll")+") and fksubjectId=(select subjectId from Subject where subjectName='"+(String)sharedPreferences.getString("currentsubjectname","no subject")+"' and fksemIdSubject=(select fksemIdStudent from Student where studentErpNo=(select studentErpNo from Student where studentRollNo="+previousIndent.getStringExtra("passStudentRoll")+")))";
 
             Log.i("sqldatas",sql);
+
 
 
             try {
@@ -77,8 +83,11 @@ public class TeacherSearchResultIndividual extends AppCompatActivity {
                     studentsarr[i][0]=rs.getDate("takenDate")+"";
                     studentsarr[i][1]=rs.getString("presentabsent");
                     studentsarr[i][2]=rs.getString("takenTime");
+
+                    Log.i("data:","s"+studentsarr[i][0]+studentsarr[i][1]+studentsarr[i][2]);
                     i++;
                 }
+
 
 
             } catch (Exception e) {
@@ -97,15 +106,21 @@ public class TeacherSearchResultIndividual extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_search_result_individual);
         download = (Button) findViewById(R.id.download);
+            previousIndent=getIntent();
+            int numOfRows=previousIndent.getIntExtra("totallecture",0);
+            studentsarr=new String[numOfRows][3];
             ConnectToDB connectToDB = new ConnectToDB();
             String[] sql={
 
             };
 
+
             connectToDB.execute(sql);
+            Log.i("sfaf","asa");
             listView=(ListView)findViewById(R.id.listView);
             CustomAdapter customAdapter=new CustomAdapter();
             listView.setAdapter(customAdapter);
+
 
     }
 
@@ -128,16 +143,20 @@ public class TeacherSearchResultIndividual extends AppCompatActivity {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            view = getLayoutInflater().inflate(R.layout.customlayoutteachersearchresultindividual, null);
+            view = getLayoutInflater().inflate(R.layout.customlayoutstudentindividualattendance, null);
             TextView dateTextView=(TextView)view.findViewById(R.id.dateTextView);
             CheckBox presentabsent=(CheckBox)view.findViewById(R.id.presentabsentcheckBox);
             dateTextView.setText(studentsarr[i][0]);
+            TextView takenTime=(TextView)view.findViewById(R.id.takenTime);
+            takenTime.setText(studentsarr[i][2]);
 
-            if(studentsarr[i][1].equalsIgnoreCase("true")){
+            if(studentsarr[i][1].equalsIgnoreCase("P")){
                 presentabsent.setChecked(true);
+                presentabsent.setEnabled(false);
             }else{
 
                 presentabsent.setChecked(false);
+                presentabsent.setEnabled(false);
             }
 
 

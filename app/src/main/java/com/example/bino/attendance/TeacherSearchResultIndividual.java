@@ -19,6 +19,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.concurrent.ExecutionException;
 
 public class TeacherSearchResultIndividual extends AppCompatActivity {
 
@@ -26,6 +27,7 @@ public class TeacherSearchResultIndividual extends AppCompatActivity {
     Button download;
     String[][] studentsarr ;
     Intent previousIndent;
+    CustomAdapter customAdapter;
 
 
     public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
@@ -90,6 +92,8 @@ public class TeacherSearchResultIndividual extends AppCompatActivity {
 
 
 
+
+
             } catch (Exception e) {
                 Log.i("nothing", "nothing");
                 e.printStackTrace();
@@ -109,20 +113,32 @@ public class TeacherSearchResultIndividual extends AppCompatActivity {
             previousIndent=getIntent();
             int numOfRows=previousIndent.getIntExtra("totallecture",0);
             studentsarr=new String[numOfRows][3];
+            listView=(ListView)findViewById(R.id.listView);
+            customAdapter=new CustomAdapter();
             ConnectToDB connectToDB = new ConnectToDB();
             String[] sql={
 
             };
 
 
-            connectToDB.execute(sql);
-            Log.i("sfaf","asa");
-            listView=(ListView)findViewById(R.id.listView);
-            CustomAdapter customAdapter=new CustomAdapter();
-            listView.setAdapter(customAdapter);
+            try {
+                if(connectToDB.execute(sql).get()){
+                    Log.i("sfaf","asa");
+                    listView.setAdapter(customAdapter);
+                }
+                else
+                {
+                    Log.i("no data","nodata");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+                Log.i("no data","nodata");
+            }
 
 
-    }
+
+        }
 
     public class CustomAdapter extends BaseAdapter {
 

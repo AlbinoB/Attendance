@@ -297,7 +297,6 @@ public class TeacherHomeActivity extends AppCompatActivity {
 
 
 
-
     }
 
     public void takeAttendance(View view){

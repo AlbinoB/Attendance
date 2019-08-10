@@ -147,7 +147,7 @@ public class TeacherSearchByActivity extends AppCompatActivity {
                 Log.i("check activity",""+particularstartdate);
                 Log.i("check activity",""+particularenddate);
                 Button teachersearchbutton = (Button) findViewById(R.id.TeacherSearchButton);
-               sharedPreferences.edit().putString("currentenddate",particularstartdate).apply();
+               sharedPreferences.edit().putString("currentstartdate",particularstartdate).apply();
                 sharedPreferences.edit().putString("currentenddate",particularenddate).apply();
                 sharedPreferences.edit().putString("currentcoursename",particularcoursename).apply();
                 sharedPreferences.edit().putString("currentsubjectname",particularsubject).apply();
@@ -197,7 +197,7 @@ public class TeacherSearchByActivity extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                                startDate.setText((day+"/"+month+"/"+year));
+                                startDate.setText((year+"/"+(month+1)+"/"+day));
                             }
                         },year,month,day);
                 datePickerDialogStartDate.show();
@@ -218,7 +218,7 @@ public class TeacherSearchByActivity extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                                endDate.setText((day+"/"+month+"/"+year));
+                                endDate.setText((year+"/"+(month+1)+"/"+day));
                             }
                         },year,month,day);
                 datePickerDialogEndDate.show();

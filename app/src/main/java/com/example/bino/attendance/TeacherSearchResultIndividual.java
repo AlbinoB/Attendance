@@ -70,13 +70,7 @@ public class TeacherSearchResultIndividual extends AppCompatActivity {
 
 
         public void getDatesPresentAbsent(){
-            Log.i("lenaaaa",""+previousIndent.getIntExtra("totallecture",0));
-
             sql="select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenTime from Attendance where takenDate between '"+(String)sharedPreferences.getString("currentstartdate","no subject")+"' and '"+(String)sharedPreferences.getString("currentenddate","no subject")+"' and fkstudentErpNo=(select studentErpNo from Student where studentRollNo="+previousIndent.getStringExtra("passStudentRoll")+") and fksubjectId=(select subjectId from Subject where subjectName='"+(String)sharedPreferences.getString("currentsubjectname","no subject")+"' and fksemIdSubject=(select fksemIdStudent from Student where studentErpNo=(select studentErpNo from Student where studentRollNo="+previousIndent.getStringExtra("passStudentRoll")+")))";
-
-            Log.i("sqldatas",sql);
-
-
 
             try {
                 rs = stmt.executeQuery(sql);
@@ -85,17 +79,9 @@ public class TeacherSearchResultIndividual extends AppCompatActivity {
                     studentsarr[i][0]=rs.getDate("takenDate")+"";
                     studentsarr[i][1]=rs.getString("presentabsent");
                     studentsarr[i][2]=rs.getString("takenTime");
-
-                    Log.i("data:","s"+studentsarr[i][0]+studentsarr[i][1]+studentsarr[i][2]);
                     i++;
                 }
-
-
-
-
-
             } catch (Exception e) {
-                Log.i("nothing", "nothing");
                 e.printStackTrace();
             }
 
@@ -123,17 +109,10 @@ public class TeacherSearchResultIndividual extends AppCompatActivity {
 
             try {
                 if(connectToDB.execute(sql).get()){
-                    Log.i("sfaf","asa");
                     listView.setAdapter(customAdapter);
-                }
-                else
-                {
-                    Log.i("no data","nodata");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-
-                Log.i("no data","nodata");
             }
 
 

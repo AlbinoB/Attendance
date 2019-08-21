@@ -40,52 +40,52 @@ public class StudentViewAllAttendance extends AppCompatActivity {
     int numberOfSubjects=0;
 
 
-    public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
+        public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
 
-        Connection connection = null;
-        String url = null;
-        Statement stmt;
-        ResultSet rs = null;
-        String sql = "";
+            Connection connection = null;
+            String url = null;
+            Statement stmt;
+            ResultSet rs = null;
+            String sql = "";
 
-        @Override
-        protected Boolean doInBackground(String... sqlarr) {
-
-
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-
-            try {
-                Class.forName("net.sourceforge.jtds.jdbc.Driver");
-                url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
-                connection = DriverManager.getConnection(url);
-                stmt = connection.createStatement();
+            @Override
+            protected Boolean doInBackground(String... sqlarr) {
 
 
-                getAndSetStudentName();
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
 
-                getCourseName();
-
-                getSubjectCount();
-
-                getSubjectCodeAndNamesOfPaticularCourse();
-
-                getStudentRoll();
-
+                try {
+                    Class.forName("net.sourceforge.jtds.jdbc.Driver");
+                    url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+                    connection = DriverManager.getConnection(url);
+                    stmt = connection.createStatement();
 
 
-                getSemYear();
+                    getAndSetStudentName();
+
+                    getCourseName();
+
+                    getSubjectCount();
+
+                    getSubjectCodeAndNamesOfPaticularCourse();
+
+                    getStudentRoll();
 
 
-                //percentage
+
+                    getSemYear();
 
 
-                return true;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            }
-        }//doInBackground
+                    //percentage
+
+
+                    return true;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            }//doInBackground
 
         public void getAndSetStudentName() {
             currentUserTextView.setText((String)sharedPreferences.getString("currentUserName","no  name"));

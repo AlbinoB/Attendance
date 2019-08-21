@@ -1,22 +1,92 @@
 package com.example.bino.attendance;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
 
     ListView teachernamelistview;
+    SharedPreferences sharedPreferences;
+    String currentcourse;
 
-     String[] teachernames={
-            "amit1", "amit2", "amit3", "amit4", "amit5", "amit6"};
+     String[] teachernames;
+
+    public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
+
+        Connection connection = null;
+        String url = null;
+        Statement stmt;
+        ResultSet rs = null;
+        String sql = "";
+
+        @Override
+        protected Boolean doInBackground(String... sqlarr) {
+
+
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
+            try {
+                Class.forName("net.sourceforge.jtds.jdbc.Driver");
+                url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+                connection = DriverManager.getConnection(url);
+                stmt = connection.createStatement();
+
+
+                getcoursename();
+                getandSetTeachers();
+
+
+
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }//doInBackground
+
+        public void getcoursename(){
+            currentcourse =((String)sharedPreferences.getString("coursename","no course"));
+        }
+
+        void getandSetTeachers(){
+            try {
+                rs = stmt.executeQuery("select  count(*) as noofcourse from Teacher,Course where fkcourseIdTeacher=courseId and courseName='"+currentcourse+"'");
+
+                if(rs.next()) {
+                    teachernames = new String[(rs.getInt("noofcourse"))];
+                }
+                rs = stmt.executeQuery("select  teacherName from Teacher,Course where fkcourseIdTeacher=courseId and courseName='"+currentcourse+"'");
+                int i=0;
+                while(rs.next()) {
+                    teachernames[i++] =(rs.getString("teacherName"));
+                }
+
+
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+
+    }//AsyncTask
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +95,30 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
 
         teachernamelistview= (ListView)findViewById(R.id.TEacherNameListView);
         EditText searchnametextview =(EditText) findViewById(R.id.SearchNameTextView);
+        sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
+
+
+
+        AdminTeacherShowAllNamesActivity.ConnectToDB connectToDB=new ConnectToDB();//obj of async class
+
+        String[] sql={
+
+        };
+
+        try {
+            if(connectToDB.execute(sql).get()){
+                {
+                    Log.i("updated:mmmmm","doneee");
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         CustomAdapter customAdapter =new CustomAdapter();
         teachernamelistview.setAdapter(customAdapter);
-
 
     }
 

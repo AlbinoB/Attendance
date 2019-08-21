@@ -20,9 +20,8 @@ public class AdminTeacherHomeActivity extends AppCompatActivity {
 
 
     private Spinner admincourseSpiner;
-    private static final String[] admincoursename ={"Select Course Name","MCA","BCA","BBA","BCS"};
-    String course[] ;
-    private Spinner courseSpiner;
+    String[] course;
+
     SharedPreferences sharedPreferences;
 
     public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
@@ -47,7 +46,7 @@ public class AdminTeacherHomeActivity extends AppCompatActivity {
                 stmt = connection.createStatement();
 
 
-                getcourse();
+                getandsetcourse();
 
 
                 return true;
@@ -57,21 +56,24 @@ public class AdminTeacherHomeActivity extends AppCompatActivity {
             }
         }//doInBackground
 
-        public void getcourse(){
+        public void getandsetcourse(){
             try{
-            rs = stmt.executeQuery("select  count(*) as noofcourse  from Course");
+                rs = stmt.executeQuery("select  count(*) as noofcourse  from Course");
+
+                while(rs.next()) {
+                    course = new String[(rs.getInt("noofcourse")) + 1];
+                }
             int i=1;
-            sql="select courseName from Course";
-            course =new String[rs.getInt("noofcourse")+1];
-            course[0]="Select Course";
-                rs= stmt.executeQuery("sql");
+
+                course[0]="Select Course";
+                rs= stmt.executeQuery("select courseName from Course");
                 while(rs.next()){
                     course[i]=rs.getString("courseName");
                     i++;
                 }
                 ArrayAdapter<String> courseAdapter = new ArrayAdapter<String>(AdminTeacherHomeActivity.this,android.R.layout.simple_spinner_dropdown_item,course);
                 courseAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                courseSpiner.setAdapter(courseAdapter);
+                admincourseSpiner.setAdapter(courseAdapter);
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -84,11 +86,10 @@ public class AdminTeacherHomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
        setContentView(R.layout.activity_admin_teacher_home);
+       sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
 
        admincourseSpiner = (Spinner)findViewById(R.id.AdmincourseSpinner);
-       ArrayAdapter<String> courseAdapter = new ArrayAdapter<String>(AdminTeacherHomeActivity.this,android.R.layout.simple_spinner_dropdown_item,admincoursename);
-       courseAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-       admincourseSpiner.setAdapter(courseAdapter);
+
 
 
        AdminTeacherHomeActivity.ConnectToDB connectToDB=new ConnectToDB();//obj of async class
@@ -113,7 +114,7 @@ public class AdminTeacherHomeActivity extends AppCompatActivity {
    }
 
    public  void showAllTeachers(View view){
-       sharedPreferences.edit().putString("coursename",courseSpiner.getSelectedItem().toString()).apply();
+       sharedPreferences.edit().putString("coursename",admincourseSpiner.getSelectedItem().toString()).apply();
        Intent adminShowTeacherNamenActivity = new Intent(getApplicationContext(), AdminTeacherShowAllNamesActivity.class);
        startActivity(adminShowTeacherNamenActivity);
    }

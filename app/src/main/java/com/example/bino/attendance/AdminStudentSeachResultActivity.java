@@ -106,8 +106,9 @@ public class AdminStudentSeachResultActivity extends AppCompatActivity {
                         /*this code is for getting all the value which is present in
                          list view just we have to use this ids*/
                     Intent adminstudentviewallattendance = new Intent(getApplicationContext(), AdminStudentViewAllAttendance.class);
-                    adminstudentviewallattendance.putExtra("passStudentRoll",textViewSrollno.getText());
-                    adminstudentviewallattendance.putExtra("passStudentName",textViewSname.getText());
+                    sharedPreferences.edit().putString("passStudentRoll",textViewSrollno.getText().toString()).apply();
+                    sharedPreferences.edit().putString("passStudentName",textViewSname.getText().toString()).apply();
+
                     startActivity(adminstudentviewallattendance);
                 }
             });

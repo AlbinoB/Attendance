@@ -2,6 +2,7 @@ package com.example.bino.attendance;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -23,6 +24,15 @@ import java.util.Date;
 public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
 
     ListView listView;
+    Intent previousIntent;
+    SharedPreferences sharedPreferences;
+    String currentyear;
+    String currentsem;
+    String currentcourse;
+    String studentNameText;
+    String studentRollnoText;
+    String passScode;
+    String passSname;
     static String[][] studentsarr =
             {
                     {"21/07/2019", "true"},
@@ -60,6 +70,10 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_student_view_individual_attendance);
+
+
+        sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
+
         listView=(ListView)findViewById(R.id.listView);
 
 
@@ -111,6 +125,39 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
             }
         });
 
+        previousIntent=getIntent();
+
+
+        TextView studentName,studentRollNo,semName,currentYear,courseName,subjectName;
+        studentName=(TextView)findViewById(R.id.studentName);
+        studentRollNo=(TextView)findViewById(R.id.studentRollNo);
+        semName=(TextView)findViewById(R.id.semName);
+        currentYear=(TextView)findViewById(R.id.semYear);
+        courseName=(TextView)findViewById(R.id.courseName);
+        subjectName=(TextView)findViewById(R.id.subjectName);
+        previousIntent=getIntent();
+
+        currentyear =((String)sharedPreferences.getString("currentYearNo","no date"));
+        currentsem =((String)sharedPreferences.getString("currentSemester","no date"));
+        currentcourse =((String)sharedPreferences.getString("currentCourseName","no date"));
+        studentNameText=((String)sharedPreferences.getString("passStudentName","no date"));
+        studentRollnoText=((String)sharedPreferences.getString("passStudentRoll","no date"));
+        passScode=previousIntent.getStringExtra("passScode");
+        passSname=previousIntent.getStringExtra("passSname");
+
+
+        studentName.setText(studentNameText);
+        studentRollNo.setText(studentRollnoText);
+        semName.setText(currentsem);
+        currentYear.setText(currentyear);
+        courseName.setText(currentcourse);
+        subjectName.setText(passSname);
+
+
+
+
+
+
         CustomAdapter customAdapter=new CustomAdapter();
         listView.setAdapter(customAdapter);
 
@@ -152,4 +199,8 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
 
         }
     }
+
+
+
+
 }

@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -53,12 +52,12 @@ public class AdminStudentViewAllAttendance extends AppCompatActivity {
         currentyear =((String)sharedPreferences.getString("currentYearNo","no date"));
         currentsem =((String)sharedPreferences.getString("currentSemester","no date"));
         currentcourse =((String)sharedPreferences.getString("currentCourseName","no date"));
-        studentNameText=previousIntent.getStringExtra("passStudentName");
-        studentRollnoText=previousIntent.getStringExtra("passStudentRoll");
+        studentNameText=((String)sharedPreferences.getString("passStudentName","no date"));
+        studentRollnoText=((String)sharedPreferences.getString("passStudentRoll","no date"));
 
 
-        studentName.setText(previousIntent.getStringExtra("passStudentName"));
-        studentRollNo.setText(previousIntent.getStringExtra("passStudentRoll"));
+        studentName.setText(studentNameText);
+        studentRollNo.setText(studentRollnoText);
         semName.setText(currentsem);
         currentYear.setText(currentyear);
         courseName.setText(currentcourse);
@@ -85,6 +84,8 @@ public class AdminStudentViewAllAttendance extends AppCompatActivity {
 
         CustomAdapter customAdapter=new CustomAdapter();
         listView.setAdapter(customAdapter);
+
+
 
     }
 
@@ -229,25 +230,9 @@ public class AdminStudentViewAllAttendance extends AppCompatActivity {
 
                 }
 
-               /* studentlistView=(ListView)findViewById(R.id.listView);
-                customAdapter=new StudentViewAllAttendance.CustomAdapter();
-                studentlistView.setAdapter(customAdapter);
 
-                studentlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        Intent studentviewindividualattendance = new Intent(getApplicationContext(), StudentViewIndividualAttendance.class);
-                        studentviewindividualattendance.putExtra("passScode",studentsarr[i][0]);
-                        studentviewindividualattendance.putExtra("passSname",studentsarr[i][1]);
-                        studentviewindividualattendance.putExtra("courseName",studentCourseNameTextView.getText().toString());
 
-                        studentviewindividualattendance.putExtra("semName",semName.getText().toString());
 
-                        studentviewindividualattendance.putExtra("semYear",semYear.getText().toString());
-
-                        startActivity(studentviewindividualattendance);
-                    }
-                });*/
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -291,8 +276,15 @@ public class AdminStudentViewAllAttendance extends AppCompatActivity {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    TextView textViewScode = (TextView) view.findViewById(R.id.sCode);
+                    TextView textViewSname = (TextView) view.findViewById(R.id.studentRollNo);
+
                     Intent adminstudentviewindividualattendance = new Intent(getApplicationContext(), AdminStudentViewIndividualAttendance.class);
+                    adminstudentviewindividualattendance.putExtra("passScode",textViewScode.getText().toString());
+                    adminstudentviewindividualattendance.putExtra("passSname",textViewSname.getText().toString());
+
                     startActivity(adminstudentviewindividualattendance);
+
                 }
             });
 

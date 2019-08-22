@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Attendance.iml" filepath="$PROJECT_DIR$/Attendance.iml" />
       <module fileurl="file://C:\Users\goura\Desktop\Attendance\.idea\Attendance.iml" filepath="C:\Users\goura\Desktop\Attendance\.idea\Attendance.iml" />
-      <module fileurl="file://C:\Users\Bino\Downloads\Attendance\Attendance.iml" filepath="C:\Users\Bino\Downloads\Attendance\Attendance.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/jtds-1.3.1/jtds-1.3.1.iml" filepath="$PROJECT_DIR$/jtds-1.3.1/jtds-1.3.1.iml" />
     </modules>

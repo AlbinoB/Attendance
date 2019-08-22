@@ -9,12 +9,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,6 +28,7 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
     ListView teachernamelistview;
     SharedPreferences sharedPreferences;
     String currentcourse;
+    CustomAdapter customAdapter;
 
      String[] teachernames;
 
@@ -116,9 +119,17 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        customAdapter =new CustomAdapter();
 
-        CustomAdapter customAdapter =new CustomAdapter();
+
+
         teachernamelistview.setAdapter(customAdapter);
+        teachernamelistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i1, long l) {
+                Log.i("clicked index",i1+"");
+            }
+        });
 
     }
 
@@ -145,26 +156,33 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
             return 0;
         }
 
+
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = getLayoutInflater().inflate(R.layout.customlayoutadminsteachershowallname,null);
-            TextView teachernametextview =(TextView)(view).findViewById(R.id.TeacherNameTextView);
+            final TextView teachernametextview =(TextView)(view).findViewById(R.id.TeacherNameTextView);
             teachernametextview.setText(teachernames[i]);
+
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Log.i("clicked","aaaaaaa"+teachernametextview.getText().toString());
+                    Intent adminTeacherViewEditAddDetailsActivity = new Intent(getApplicationContext(), AdminTeacherViewEditAddDetailsActivity.class);
+                    adminTeacherViewEditAddDetailsActivity.putExtra("teachername",teachernametextview.getText().toString());
 
-                    Intent loginActivity = new Intent(getApplicationContext(),AdminTeacherViewEditAddDetailsActivity.class);
-                    startActivity(loginActivity);
+                    startActivity(adminTeacherViewEditAddDetailsActivity);
+
                 }
             });
-
-            Button editButton=(Button)view.findViewById(R.id.editTeacher);
-            editButton.setOnClickListener(new View.OnClickListener() {
+            Button button =(Button)view.findViewById(R.id.editTeacher);
+            button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent loginActivity = new Intent(getApplicationContext(),AdminTeacherViewEditAddDetailsActivity.class);
-                    startActivity(loginActivity);
+                    Log.i("clicked","bbbbbb"+teachernametextview.getText().toString());
+                    Intent adminTeacherViewEditAddDetailsActivity = new Intent(getApplicationContext(), AdminTeacherViewEditAddDetailsActivity.class);
+                    adminTeacherViewEditAddDetailsActivity.putExtra("editteachername",teachernametextview.getText().toString());
+
+                    startActivity(adminTeacherViewEditAddDetailsActivity);
                 }
             });
             return view;

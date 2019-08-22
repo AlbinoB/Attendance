@@ -1,8 +1,12 @@
 package com.example.bino.attendance;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,26 +14,21 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 public class AdminStudentSeachResultActivity extends AppCompatActivity {
 
-    static String[][] studentsarr =
-            {
-                    {"01","09", "Albino Braganza", "90.2"},
-                    {"01","09", "Albino Braganza", "90.2"},
-                    {"01","09", "Albino Braganza", "90.2"},
-                    {"01","09", "Albino Braganza", "90.2"},
-                    {"01","09", "Albino Braganza", "90.2"},
-                    {"01","09", "Albino Braganza", "90.2"},
-                    {"01","09", "Albino Braganza", "90.2"},
-                    {"01","09", "Albino Braganza", "90.2"},
-                    {"01","09", "Albino Braganza", "90.2"},
-                    {"01","09", "Albino Braganza", "90.2"},
-                    {"01","09", "Albino Braganza", "90.2"},
-                    {"01","09", "Albino Braganza", "90.2"},
-                    {"01","09", "Albino Braganza", "90.2"}
-
-            };
+    String[][] studentsarr ;
     ListView adminstudentlistView;
+    String currentyear;
+    String currentsem;
+    String currentcourse;
+    SharedPreferences sharedPreferences;
+    CustomAdapter customAdapter;
+    TextView currentSem,currentCourse;
 
 
 
@@ -38,9 +37,27 @@ public class AdminStudentSeachResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_student_search_result);
 
+        sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
+        currentSem=findViewById(R.id.currentSem);
+        currentCourse=findViewById(R.id.currentCourse);
         adminstudentlistView=(ListView)findViewById(R.id.displayStudents);
-        CustomAdapter customAdapter=new CustomAdapter();
-        adminstudentlistView.setAdapter(customAdapter);
+
+        ConnectToDB connectToDB = new ConnectToDB();
+        String[] sql={
+
+        };
+
+
+        try {
+            if(connectToDB.execute(sql).get()){
+                customAdapter=new CustomAdapter();
+                adminstudentlistView.setAdapter(customAdapter);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
 
 
 
@@ -77,7 +94,7 @@ public class AdminStudentSeachResultActivity extends AppCompatActivity {
             TextView textViewSpercentage= (TextView) view.findViewById(R.id.percentage);
             Button admineditstudent = (Button) view.findViewById(R.id.editTeacher);
 
-                    textViewSsrno.setText(studentsarr[i][0]);
+            textViewSsrno.setText(studentsarr[i][0]);
              textViewSrollno.setText(studentsarr[i][1]);
             textViewSname.setText(studentsarr[i][2]);
             textViewSpercentage.setText(studentsarr[i][3]);
@@ -106,5 +123,113 @@ public class AdminStudentSeachResultActivity extends AppCompatActivity {
             return view;
         }
     }
+
+
+    public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
+        Connection connection = null;
+        String url = null;
+        Statement stmt,stmt2;
+        ResultSet rs,resultSet = null;
+        String sql = "";
+
+        @Override
+        protected Boolean doInBackground(String... sqlarr) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            try {
+                Class.forName("net.sourceforge.jtds.jdbc.Driver");
+                url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+                connection = DriverManager.getConnection(url);
+                stmt = connection.createStatement();
+                stmt2 = connection.createStatement();
+
+                Log.i("sadasd", "asdfaf");
+                getandsetcurrentdetails();
+                getandsetrollnonamepercent();
+
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+
+
+        }//doInBackground;
+
+
+        public void getandsetcurrentdetails(){
+
+            currentyear =((String)sharedPreferences.getString("currentYearNo","no date"));
+            currentsem =((String)sharedPreferences.getString("currentSemester","no date"));
+            currentcourse =((String)sharedPreferences.getString("currentCourseName","no date"));
+
+
+
+
+            currentSem.setText(currentsem);
+            currentCourse.setText(currentcourse);
+
+        }
+
+        public void  getandsetrollnonamepercent(){
+            try{
+                int i=0;
+                int totalstudent=0;
+                rs = stmt.executeQuery("select count(*) as totlastudent FROM Student,Semester where semId=fksemIdStudent and semName='"+currentsem+"'");
+                if(rs.next()){
+                    totalstudent =rs.getInt("totlastudent");
+
+
+                }
+                Log.i("number of students",totalstudent+"");
+                studentsarr = new String[totalstudent][4];
+
+
+                /*rs = stmt.executeQuery("select count(*) as totallecture from Attendance where takenDate between '"+currentstartdate+"' and '"+currentenddate+"' and fksubjectId=(select subjectId from Subject where subjectName='"+currentsubject+"') and fkstudentErpNo=(select studentErpNo from Student where studentRollNo='"+16+"')");
+                if(rs.next()){
+                    totallecture =(Integer)rs.getInt("totallecture");
+
+                }*/
+                rs = stmt.executeQuery("select studentRollNo,studentName FROM Student,Semester where semId=fksemIdStudent and semName='"+currentsem+"' order by studentRollNo");
+
+                while(rs.next()){
+                    String studentRollNo =rs.getString("studentRollNo");
+                    studentsarr[i][0]=Integer.toString(i+1);
+                    studentsarr[i][1]=rs.getString("studentRollNo");
+                    studentsarr[i][2]=rs.getString("studentName");
+                    /*int totalpresent=0;
+                    resultSet = stmt2.executeQuery("select count(*) as totalpresent from Attendance where( (takenDate between '"+currentstartdate+"' and '"+currentenddate+"') and( fkstudentErpNo=(select studentErpNo from Student where studentRollNo='"+studentRollNo+"'))and( presentabsent='P') and (fksubjectId=(select subjectId from Subject where subjectName='"+currentsubject+"')))");
+                    if(resultSet.next()){
+                        totalpresent =(Integer)resultSet.getInt("totalpresent");
+
+                    }
+                    float percent=0;
+                    Log.i("total lecture ",""+totallecture);
+                    Log.i("total present ",""+totalpresent);
+                    if(totallecture!=0){
+                        percent =(100*totalpresent)/totallecture;
+                        studentsarr[i][3]=Float.toString(percent);
+
+                        i++;
+                    }else
+                    {
+*/
+                        studentsarr[i][3]="No Lectures";
+                        i++;
+
+                    /*}*/
+
+                }
+
+                adminstudentlistView.setAdapter(customAdapter);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+        }
+
+
+    }//AsyncTask
+
     }
 

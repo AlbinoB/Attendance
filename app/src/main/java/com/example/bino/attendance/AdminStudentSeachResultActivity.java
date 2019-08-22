@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -58,9 +60,6 @@ public class AdminStudentSeachResultActivity extends AppCompatActivity {
         }
 
 
-
-
-
     }
 
     public void addStudent(View view){
@@ -95,20 +94,20 @@ public class AdminStudentSeachResultActivity extends AppCompatActivity {
             Button admineditstudent = (Button) view.findViewById(R.id.editTeacher);
 
             textViewSsrno.setText(studentsarr[i][0]);
-             textViewSrollno.setText(studentsarr[i][1]);
+            textViewSrollno.setText(studentsarr[i][1]);
             textViewSname.setText(studentsarr[i][2]);
             textViewSpercentage.setText(studentsarr[i][3]);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view1) {
 
-                   /* TextView textViewSsrno = (TextView) view1.findViewById(R.id.srno);
                     TextView textViewSrollno = (TextView) view1.findViewById(R.id.rollno);
                     TextView textViewSname = (TextView) view1.findViewById(R.id.name);
-                    TextView textViewSpercentage= (TextView) view1.findViewById(R.id.percentage);
-                        this code is for getting all the value which is present in
+                        /*this code is for getting all the value which is present in
                          list view just we have to use this ids*/
                     Intent adminstudentviewallattendance = new Intent(getApplicationContext(), AdminStudentViewAllAttendance.class);
+                    adminstudentviewallattendance.putExtra("passStudentRoll",textViewSrollno.getText());
+                    adminstudentviewallattendance.putExtra("passStudentName",textViewSname.getText());
                     startActivity(adminstudentviewallattendance);
                 }
             });

@@ -13,7 +13,6 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -147,7 +146,7 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
 
 
         public void setcurrentUser(){
-            currentUser=(TextView)findViewById(R.id.currentUser);
+            currentUser=(TextView)findViewById(R.id.studentName);
 
             currentUser.setText((String)sharedPreferences.getString("currentUserName","no  name"));
 
@@ -165,7 +164,7 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
             semYear.setText(previousIndent.getStringExtra("semYear"));
         }
         public void setSubjectSName(){
-            passSname=(TextView)findViewById(R.id.sName);
+            passSname=(TextView)findViewById(R.id.studentRollNo);
             passSname.setText(previousIndent.getStringExtra("passSname"));
 
         }

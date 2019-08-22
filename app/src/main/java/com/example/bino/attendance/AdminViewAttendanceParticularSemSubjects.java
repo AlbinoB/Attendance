@@ -53,7 +53,7 @@ public class AdminViewAttendanceParticularSemSubjects extends AppCompatActivity 
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = getLayoutInflater().inflate(R.layout.customlayoutadmincourseparticularsemsubjects, null);
             TextView sCode=(TextView)view.findViewById(R.id.sCode);
-            TextView sName=(TextView)view.findViewById(R.id.sName);
+            TextView sName=(TextView)view.findViewById(R.id.studentRollNo);
             sCode.setText(studentsarr[i][0]);
             sName.setText(studentsarr[i][1]);
 

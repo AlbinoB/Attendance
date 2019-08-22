@@ -8,7 +8,7 @@
 
 
     <TextView
-        android:id="@+id/currentUser"
+        android:id="@+id/studentName"
         android:layout_width="218dp"
         android:layout_height="50dp"
         android:layout_marginEnd="22dp"
@@ -33,7 +33,7 @@
         android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/sName"
+        app:layout_constraintEnd_toStartOf="@+id/studentRollNo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/semYear" />
 
@@ -48,13 +48,13 @@
         android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/sName"
+        app:layout_constraintBottom_toTopOf="@+id/studentRollNo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/currentUser"
+        app:layout_constraintStart_toEndOf="@+id/studentName"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/sName"
+        android:id="@+id/studentRollNo"
         android:layout_width="185dp"
         android:layout_height="26dp"
         android:layout_marginEnd="16dp"
@@ -77,9 +77,9 @@
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/semName"
-        app:layout_constraintEnd_toStartOf="@+id/sName"
+        app:layout_constraintEnd_toStartOf="@+id/studentRollNo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/currentUser" />
+        app:layout_constraintTop_toBottomOf="@+id/studentName" />
 
     <ListView
         android:id="@+id/listView"
@@ -120,7 +120,7 @@
         app:layout_constraintBottom_toTopOf="@+id/textView16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/semYear"
-        app:layout_constraintTop_toBottomOf="@+id/sName" />
+        app:layout_constraintTop_toBottomOf="@+id/studentRollNo" />
 
 
 </android.support.constraint.ConstraintLayout>

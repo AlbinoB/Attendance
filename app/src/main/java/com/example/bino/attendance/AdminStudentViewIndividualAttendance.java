@@ -18,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -192,14 +193,23 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = getLayoutInflater().inflate(R.layout.customlayoutadminstudentviewindividualattendance, null);
             TextView dateTextView=(TextView)view.findViewById(R.id.dateTextView);
-            CheckBox presentabsent=(CheckBox)view.findViewById(R.id.presentabsentcheckBox);
+            final CheckBox presentabsent=(CheckBox)view.findViewById(R.id.presentabsentcheckBox);
+            Button editAttendanceButton=(Button)view.findViewById(R.id.editAttendance);
+            editAttendanceButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view1) {
+                    Toast.makeText(AdminStudentViewIndividualAttendance.this, ""+presentabsent.getTag(), Toast.LENGTH_SHORT).show();
+                    presentabsent.setEnabled(true);
+                }
+            });
             dateTextView.setText(studentsarr[i][0]);
 
             if(studentsarr[i][1].equalsIgnoreCase("P")){
+                presentabsent.setTag(""+i);
                 presentabsent.setChecked(true);
                 presentabsent.setEnabled(false);
             }else{
-
+                presentabsent.setTag(""+i);
                 presentabsent.setEnabled(false);
                 presentabsent.setChecked(false);
             }

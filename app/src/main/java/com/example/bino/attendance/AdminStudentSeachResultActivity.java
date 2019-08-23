@@ -9,12 +9,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -91,7 +89,7 @@ public class AdminStudentSeachResultActivity extends AppCompatActivity {
             TextView textViewSrollno = (TextView) view.findViewById(R.id.rollno);
             TextView textViewSname = (TextView) view.findViewById(R.id.name);
             TextView textViewSpercentage= (TextView) view.findViewById(R.id.percentage);
-            Button admineditstudent = (Button) view.findViewById(R.id.editTeacher);
+            Button admineditstudent = (Button) view.findViewById(R.id.editAttendance);
 
             textViewSsrno.setText(studentsarr[i][0]);
             textViewSrollno.setText(studentsarr[i][1]);

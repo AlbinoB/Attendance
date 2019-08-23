@@ -10,13 +10,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -174,7 +172,7 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
 
                 }
             });
-            Button button =(Button)view.findViewById(R.id.editTeacher);
+            Button button =(Button)view.findViewById(R.id.editAttendance);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

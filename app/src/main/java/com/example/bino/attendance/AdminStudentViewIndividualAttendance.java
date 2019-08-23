@@ -3,6 +3,8 @@ package com.example.bino.attendance;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -17,6 +19,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,22 +39,8 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
     String studentRollnoText;
     String passScode;
     String passSname;
-    static String[][] studentsarr =
-            {
-                    {"21/07/2019", "true"},
-                    {"21/07/2019", "true"},
-                    {"21/07/2019", "true"},
-                    {"21/07/2019", "false"},
-                    {"21/07/2019", "true"},
-                    {"21/07/2019", "false"},
-                    {"21/07/2019", "true"},
-                    {"21/07/2019", "false"},
-                    {"21/07/2019", "true"},
-                    {"21/07/2019", "false"},
-                    {"21/07/2019", "false"},
-                    {"21/07/2019", "true"}
-
-            };
+    String semStartDate=null,semEndDate=null;
+    static String[][] studentsarr ;
 
     EditText startDate;
     EditText endDate;
@@ -155,6 +147,22 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
 
 
 
+        ConnectToDB connectToDB=new ConnectToDB();//obj of async class
+
+        String[] sql={
+
+        };
+
+        try {
+            if(connectToDB.execute(sql).get()){
+                {
+                    Log.i("updated:mmmmm","doneee");
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
 
@@ -187,10 +195,12 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
             CheckBox presentabsent=(CheckBox)view.findViewById(R.id.presentabsentcheckBox);
             dateTextView.setText(studentsarr[i][0]);
 
-            if(studentsarr[i][1].equalsIgnoreCase("true")){
+            if(studentsarr[i][1].equalsIgnoreCase("P")){
                 presentabsent.setChecked(true);
+                presentabsent.setEnabled(false);
             }else{
 
+                presentabsent.setEnabled(false);
                 presentabsent.setChecked(false);
             }
 
@@ -200,7 +210,115 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
         }
     }
 
+    public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
+
+        Connection connection = null;
+        String url = null;
+        Statement stmt;
+        ResultSet rs = null;
+        String sql = "";
+
+        @Override
+        protected Boolean doInBackground(String... sqlarr) {
 
 
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
+            try {
+                Class.forName("net.sourceforge.jtds.jdbc.Driver");
+                url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+                connection = DriverManager.getConnection(url);
+                stmt = connection.createStatement();
+
+
+                getStartAndEndDate();
+                getNumberOfdays();
+
+
+
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }//doInBackground
+
+
+
+
+
+        public void getStartAndEndDate(){
+
+            sql="select semStartDate,semEndDate from Semester where semId=(select fksemIdStudent from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"'))";
+            try {
+                rs = stmt.executeQuery(sql);
+                if (rs.next()) {
+                    semStartDate = rs.getString("semStartDate");
+                    semEndDate = rs.getString("semEndDate");
+                }
+            } catch (Exception e) {
+                Log.i("nothing", "nothing");
+                e.printStackTrace();
+            }
+        }
+
+        public void getNumberOfdays(){
+            sql="select fksubjectId,count(*) as totalLectures from Attendance where takenDate between '"+semStartDate+"' and '"+semEndDate+"' and fkstudentErpNo=(select studentErpNo from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"')) and fksubjectId=(select subjectId from Subject where subjectId='"+passScode+"') group by fksubjectId";
+
+            Log.i("sqldays",sql);
+            try {
+                rs = stmt.executeQuery(sql);
+                if (rs.next()) {
+                    int numberOfdays = (rs.getInt("totalLectures"));
+                    studentsarr=new String[numberOfdays][3];
+                    getDatesPresentAbsent();//if days are fetched then call else
+                }
+                else {
+
+                    Log.i("nothing", "nothing");
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        public void getDatesPresentAbsent(){
+
+
+            sql="select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenTime from Attendance where takenDate between '"+semStartDate+"' and '"+semEndDate+"' and fkstudentErpNo=(select studentErpNo from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"'))  and fksubjectId=(select subjectId from Subject where subjectId="+passScode+" and fksemIdSubject=(select fksemIdStudent from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"')))" ;
+
+            Log.i("sqldatas",sql);
+            listView=(ListView)findViewById(R.id.listView);
+            CustomAdapter customAdapter=new CustomAdapter();
+            listView.setAdapter(customAdapter);
+
+            try {
+                rs = stmt.executeQuery(sql);
+                int i=0;
+                while(rs.next()) {
+                    studentsarr[i][0]=rs.getDate("takenDate")+"";
+                    studentsarr[i][1]=rs.getString("presentabsent");
+                    studentsarr[i][2]=rs.getString("takenTime");
+
+                    i++;
+                }
+
+
+            } catch (Exception e) {
+                Log.i("nothing", "nothing");
+                e.printStackTrace();
+            }
+        }
+
+
+    }
+
+   /* public void endableEditAttendance{
+        presentabsent.setEnabled(false);
+
+    }*/
 
 }

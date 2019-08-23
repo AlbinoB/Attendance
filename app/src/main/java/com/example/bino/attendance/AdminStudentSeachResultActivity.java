@@ -214,7 +214,7 @@ public class AdminStudentSeachResultActivity extends AppCompatActivity {
                     }else
                     {
 */
-                        studentsarr[i][3]="No Lectures";
+                        studentsarr[i][3]="N/A";
                         i++;
 
                     /*}*/

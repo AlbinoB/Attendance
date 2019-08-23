@@ -193,8 +193,8 @@ public class AdminStudentViewAllAttendance extends AppCompatActivity {
                     studentsarr[indexOfstudentarr][0] = Integer.toString(rs.getInt("subjectId"));
                     studentsarr[indexOfstudentarr][1] = rs.getString("subjectName");
 
-
-                    rs2 = stmt2.executeQuery("select count(*) as totallecture from Attendance where takenDate between '"+semStartDate+"' and '"+semEndDate+"' and fksubjectId=(select subjectId from Subject where subjectName='"+rs.getString("subjectName")+"') and fkstudentErpNo=(select studentErpNo from Student where studentRollNo='"+studentRollnoText+"')");
+                    String sqltemp="select count(*) as totallecture from Attendance where takenDate between '"+semStartDate+"' and '"+semEndDate+"' and fksubjectId=(select subjectId from Subject where subjectName='"+rs.getString("subjectName")+"') and fkstudentErpNo=(select studentErpNo from Student where studentRollNo='"+studentRollnoText+"')";
+                    rs2 = stmt2.executeQuery(sqltemp);
                     if(rs2.next()){
                         totallecture =(Integer)rs2.getInt("totallecture");
                     }

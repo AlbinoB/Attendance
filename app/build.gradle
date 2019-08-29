@@ -20,7 +20,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation 'junit:junit:4.12'
@@ -29,4 +29,5 @@ dependencies {
     compile 'com.android.support:multidex:1.0.0'
     compile project(':jtds-1.3.1')
     implementation 'com.android.support:design:26.1.0'
+    implementation project(':jxl-2.6')
 }

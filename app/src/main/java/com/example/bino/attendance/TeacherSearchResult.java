@@ -1,10 +1,14 @@
 package com.example.bino.attendance;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +28,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import jxl.Cell;
 import jxl.CellView;
@@ -62,6 +69,8 @@ public class TeacherSearchResult extends AppCompatActivity {
     static String[][] studentsarr ;
     static String[][] attendancarray;
     int totallecture=0;
+
+    Handler handler =new Handler();
 
 
     public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
@@ -219,6 +228,272 @@ public class TeacherSearchResult extends AppCompatActivity {
     }//AsyncTask
 
 
+
+    public class SaveFile extends AsyncTask<String,Void,Boolean> {
+
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+        @Override
+        protected Boolean doInBackground(String... args) {
+
+                Thread thread = new Thread(new Runnable() {
+
+
+                    @Override
+                    public void run() {
+                        Looper.prepare();
+                        WritableCell makeCellRed;
+                        WritableCellFormat newFormat;
+
+
+                        if(download.getTag().equals("not downloaded")) {
+
+
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                download.setTag("downloaded");
+                                download.setBackgroundColor(Color.rgb(105, 105, 105));
+                            }
+                        });
+
+
+                        String filename = "/Download/" + currentsubject + ".xls";
+
+                        File f1 = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), filename);
+
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                        Date date = new Date();
+                        String todaysDate=dateFormat.format(date);
+
+                        try {
+                            WritableWorkbook myexcel = Workbook.createWorkbook(f1);
+                            WritableSheet sheet1 = myexcel.createSheet(currentstartdate+"_to_"+currentenddate, 0);
+                            WritableSheet defaulters = myexcel.createSheet("Defaulters", 1);
+
+                            //All labels are incremented by to to add subj name course subject name, date to date current falculty
+                            Label l1;
+
+                            l1 = new Label(0, 0, "Faculty Name:");
+                            sheet1.addCell(l1);
+                            l1 = new Label(1, 0,currentteacher );
+                            sheet1.addCell(l1);
+
+                            l1 = new Label(0, 1, "Department:");
+                            sheet1.addCell(l1);
+                            l1 = new Label(1, 1, currentcourse+"    Subject:"+currentsubject+"    Semester:"+currentsem);
+                            sheet1.addCell(l1);
+                            l1 = new Label(3, 0, "Downloaded:");
+                            sheet1.addCell(l1);
+                            l1 = new Label(4, 0, todaysDate);
+                            sheet1.addCell(l1);
+
+                            l1 = new Label(6, 0, "From:");
+                            sheet1.addCell(l1);
+                            l1 = new Label(7, 0, currentstartdate);
+                            sheet1.addCell(l1);
+                            l1 = new Label(8, 0, "    to    ");
+                            sheet1.addCell(l1);
+                            l1 = new Label(9, 0, currentenddate);
+                            sheet1.addCell(l1);
+
+
+                            //defaulter sheet
+                            l1 = new Label(0, 0, "Faculty Name:");
+                            defaulters.addCell(l1);
+                            l1 = new Label(1, 0,currentteacher );
+                            defaulters.addCell(l1);
+
+                            l1 = new Label(0, 1, "Department:");
+                            defaulters.addCell(l1);
+                            l1 = new Label(1, 1, currentcourse+"    Subject:"+currentsubject+"    Semester:"+currentsem);
+                            defaulters.addCell(l1);
+                            l1 = new Label(3, 0, "Downloaded:");
+                            defaulters.addCell(l1);
+                            l1 = new Label(4, 0, todaysDate);
+                            defaulters.addCell(l1);
+
+                            l1 = new Label(6, 0, "From:");
+                            defaulters.addCell(l1);
+                            l1 = new Label(7, 0, currentstartdate);
+                            defaulters.addCell(l1);
+                            l1 = new Label(8, 0, "    to    ");
+                            defaulters.addCell(l1);
+                            l1 = new Label(9, 0, currentenddate);
+                            defaulters.addCell(l1);
+
+
+                            l1 = new Label(0, 1+2, "Date Taken");
+                            sheet1.addCell(l1);
+                            l1 = new Label(0, 0+2, "Time Taken");
+                            sheet1.addCell(l1);
+
+                            l1 = new Label(totallecture + 2, 1+2, "Percentage");
+                            sheet1.addCell(l1);
+
+
+                            for (int i = 0; i < totalstudent; i++) {
+
+                                l1 = new Label(0, i + 2+2, studentsarr[i][1]);//rollno
+                                sheet1.addCell(l1);
+                                l1 = new Label(1, i + 2+2, studentsarr[i][2]);//name
+                                sheet1.addCell(l1);
+                                for (int j = 0; j < totallecture; j++) {
+
+                                    CellView cell = sheet1.getColumnView(j);
+                                    cell.setSize(3000);
+                                    sheet1.setColumnView(j, cell);
+
+                                    Log.i("second for j", "" + j);
+                                    if (i == 0) {
+                                        Log.i("second for if i==0", "" + i);
+                                        l1 = new Label(j + 2, 1+2, attendancarray[0][j]);
+                                        sheet1.addCell(l1);
+                                        Log.i("secattendancarray[0][j]", "" + attendancarray[0][j]);
+                                        l1 = new Label(j + 2, 0+2, attendancarray[1][j]);
+                                        sheet1.addCell(l1);
+                                        Log.i("secattendancarray[0][j]", "" + attendancarray[0][j]);
+                                    }
+                                    l1 = new Label(j + 2, i + 2+2, attendancarray[i + 2][j]);
+                                    sheet1.addCell(l1);
+
+                                    l1 = new Label(totallecture + 2, i + 2+2, attendancarray[i + 2][totallecture]);
+
+                                    sheet1.addCell(l1);
+
+                                    if(Float.parseFloat(attendancarray[i+2][totallecture])<75.0) {
+                                        l1 = new Label(0, i + 2+2, studentsarr[i][1]);//rollno
+                                        defaulters.addCell(l1);
+                                        l1 = new Label(1, i + 2+2, studentsarr[i][2]);//name
+                                        defaulters.addCell(l1);
+                                        l1 = new Label(2, i + 2+2, attendancarray[i + 2][totallecture]);//name
+                                        defaulters.addCell(l1);
+
+                                        makeCellRed = sheet1.getWritableCell(totallecture+2, i + 2+2);//colour bug perc column
+
+                                        newFormat = new WritableCellFormat();
+
+                                        newFormat.setBackground(Colour.RED);
+
+                                        makeCellRed.setCellFormat(newFormat);
+                                    }
+                                    Log.i("secattendancarray[i][j]", "" + attendancarray[i + 2][j]);
+
+                                }
+
+
+                                CellView rollno = defaulters.getColumnView(0);
+                                rollno.setSize(3000);
+                                defaulters.setColumnView(0, rollno);
+                                CellView name = defaulters.getColumnView(1);
+                                name.setSize(10000);
+                                defaulters.setColumnView(1, name);
+                                CellView perc = defaulters.getColumnView(2);
+                                perc.setSize(2200);
+                                defaulters.setColumnView(2, perc);
+                                CellView downloaded = defaulters.getColumnView(3);
+                                downloaded.setSize(3800);
+                                defaulters.setColumnView(3, downloaded);
+                                CellView downloadedDate = defaulters.getColumnView(5);
+                                downloadedDate.setSize(3500);
+                                defaulters.setColumnView(5, downloadedDate);
+                                CellView startDate = defaulters.getColumnView(7);
+                                startDate.setSize(3500);
+                                defaulters.setColumnView(7, startDate);
+                                CellView endDate = defaulters.getColumnView(9);
+                                endDate.setSize(3500);
+                                defaulters.setColumnView(9, endDate);
+
+
+
+
+                                CellView sheet1rollno = sheet1.getColumnView(0);
+                                sheet1rollno.setSize(3000);
+                                sheet1.setColumnView(0, sheet1rollno);
+                                CellView sheet1name = sheet1.getColumnView(1);
+                                sheet1name.setSize(10000);
+                                sheet1.setColumnView(1, sheet1name);
+                                CellView sheet1perc = sheet1.getColumnView(2);
+                                sheet1perc.setSize(2200);
+                                sheet1.setColumnView(2, sheet1perc);
+                                CellView sheet1downloaded = sheet1.getColumnView(3);
+                                sheet1downloaded.setSize(3800);
+                                sheet1.setColumnView(2, sheet1downloaded);
+                                CellView sheet1downloadedDate = sheet1.getColumnView(3);
+                                sheet1downloadedDate.setSize(3500);
+                                sheet1.setColumnView(2, sheet1downloadedDate);
+                                CellView sheet1startDate = sheet1.getColumnView(3);
+                                sheet1startDate.setSize(3500);
+                                sheet1.setColumnView(2, sheet1startDate);
+                                CellView sheet1endDate = sheet1.getColumnView(3);
+                                sheet1endDate.setSize(3500);
+                                sheet1.setColumnView(2, sheet1endDate);
+                                CellView cellsecondlast = sheet1.getColumnView(totallecture);
+                                cellsecondlast.setSize(3000);
+                                sheet1.setColumnView(totallecture, cellsecondlast);
+                                CellView celllast = sheet1.getColumnView(totallecture + 1);
+                                celllast.setSize(3000);
+                                sheet1.setColumnView(totallecture + 1, celllast);
+                                CellView cellperc = sheet1.getColumnView(totallecture + 2);
+                                cellperc.setSize(2200);
+                                sheet1.setColumnView(totallecture + 2, cellperc);
+                            }
+
+
+                            myexcel.write();
+                            myexcel.close();
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(TeacherSearchResult.this, "Saved to Downloads", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+
+                        } catch (RowsExceededException e) {
+                            e.printStackTrace();
+                        } catch (WriteException e) {
+                            e.printStackTrace();
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(TeacherSearchResult.this, "Give storage permissions", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                        }
+                    }else
+                    {
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(TeacherSearchResult.this, "Already downloaded", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    }
+
+                }
+                    });
+                thread.start();
+
+
+
+            return true;
+        }
+        @Override
+        protected void onPostExecute(Boolean result) {
+            // do UI work here
+
+        }
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -270,108 +545,24 @@ public class TeacherSearchResult extends AppCompatActivity {
     }
 
     public void download(View view){
-        WritableCell makeCellRed;
-        WritableCellFormat newFormat;
-
-        if(view.getTag().equals("not downloaded")) {
-            view.setTag("downloaded");
-            view.setBackgroundColor(Color.rgb(105,105,105));
-            String filename = "/Download/" + currentsubject + ".xls";
-
-            File f1 = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), filename);
+        SaveFile saveFile= new SaveFile();
 
 
-            try {
-                WritableWorkbook myexcel = Workbook.createWorkbook(f1);
-                WritableSheet sheet1 = myexcel.createSheet(currentstartdate+"_to_"+currentenddate, 0);
+        String[] sql={
 
-                Label l1;
-                l1 = new Label(0, 0, "Date Taken");
-                sheet1.addCell(l1);
-                l1 = new Label(0, 1, "Time Taken");
-                sheet1.addCell(l1);
+        };
 
-                l1 = new Label(totallecture + 2, 2, "Percentage");
-                sheet1.addCell(l1);
+        try {
+            if(saveFile.execute(sql).get()){
+                {
+                    Log.i("updated:mmmmm","doneee");
 
-
-                for (int i = 0; i < totalstudent; i++) {
-
-                    l1 = new Label(0, i + 2, studentsarr[i][1]);
-                    sheet1.addCell(l1);
-                    l1 = new Label(1, i + 2, studentsarr[i][2]);
-                    sheet1.addCell(l1);
-                    for (int j = 0; j < totallecture; j++) {
-
-                        CellView cell = sheet1.getColumnView(j);
-                        cell.setSize(3000);
-                        sheet1.setColumnView(j, cell);
-
-                        Log.i("second for j", "" + j);
-                        if (i == 0) {
-                            Log.i("second for if i==0", "" + i);
-                            l1 = new Label(j + 2, 0, attendancarray[0][j]);
-                            sheet1.addCell(l1);
-                            Log.i("secattendancarray[0][j]", "" + attendancarray[0][j]);
-                            l1 = new Label(j + 2, 1, attendancarray[1][j]);
-                            sheet1.addCell(l1);
-                            Log.i("secattendancarray[0][j]", "" + attendancarray[0][j]);
-                        }
-                        l1 = new Label(j + 2, i + 2, attendancarray[i + 2][j]);
-                        sheet1.addCell(l1);
-                        if(Float.parseFloat(attendancarray[i+2][totallecture])<75.0) {
-                            makeCellRed = sheet1.getWritableCell(totallecture+2, i + 2);
-
-                            newFormat = new WritableCellFormat();
-
-                            newFormat.setBackground(Colour.RED);
-
-                            makeCellRed.setCellFormat(newFormat);
-                        }
-                        Log.i("secattendancarray[i][j]", "" + attendancarray[i + 2][j]);
-
-                    }
-                    l1 = new Label(totallecture + 2, i + 2, attendancarray[i + 2][totallecture]);
-
-                    sheet1.addCell(l1);
-
-
-                    CellView cell0 = sheet1.getColumnView(0);
-                    cell0.setSize(3000);
-                    sheet1.setColumnView(0, cell0);
-                    CellView cell1 = sheet1.getColumnView(1);
-                    cell1.setSize(10000);
-                    sheet1.setColumnView(1, cell1);
-                    CellView cellsecondlast = sheet1.getColumnView(totallecture);
-                    cellsecondlast.setSize(3000);
-                    sheet1.setColumnView(totallecture, cellsecondlast);
-                    CellView celllast = sheet1.getColumnView(totallecture + 1);
-                    celllast.setSize(3000);
-                    sheet1.setColumnView(totallecture + 1, celllast);
-                    CellView cellperc = sheet1.getColumnView(totallecture + 2);
-                    cellperc.setSize(3000);
-                    sheet1.setColumnView(totallecture + 2, cellperc);
                 }
-
-
-                myexcel.write();
-                myexcel.close();
-
-                Toast.makeText(this, "Saved to Downloads", Toast.LENGTH_SHORT).show();
-            } catch (IOException e) {
-                e.printStackTrace();
-
-            } catch (RowsExceededException e) {
-                e.printStackTrace();
-            } catch (WriteException e) {
-                e.printStackTrace();
-                Toast.makeText(this, "Give storage permissions", Toast.LENGTH_SHORT).show();
             }
-        }else
-        {
-            Toast.makeText(this, "Already downloaded", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }
+           }
 
 
     public class CustomAdapter extends BaseAdapter {

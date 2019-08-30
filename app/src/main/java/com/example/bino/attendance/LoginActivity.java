@@ -1,5 +1,6 @@
 package com.example.bino.attendance;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -34,12 +35,21 @@ public class LoginActivity extends AppCompatActivity {
         String userName="",password="",user="";
 
         SharedPreferences sharedPreferences;
+        ProgressDialog progressdialog;
 
 
 
         public class ConnectToDB extends AsyncTask<String,Void,Boolean>{
+
+
+
+            @Override
+            protected void onPreExecute() {
+
+            }
             @Override
             protected Boolean doInBackground(String... sqlarr) {
+
                 StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
                 Connection connection=null;
@@ -57,16 +67,26 @@ public class LoginActivity extends AppCompatActivity {
 
                     if(rs.next()){
                         sharedPreferences.edit().putString("currentUserName",rs.getString("currentUserName")).apply();
+
                         return true;
                     }else
                     {
+
                         return false;
                     }
+
                 }
                 catch (Exception e){
                     e.printStackTrace();
                     return  false;
                 }
+
+            }
+            @Override
+            protected void onPostExecute(Boolean result) {
+                // do UI work here
+
+
             }
         }
 
@@ -84,6 +104,7 @@ public class LoginActivity extends AppCompatActivity {
             typeOfUser=(Spinner)findViewById(R.id.typeOfUser);
             usernametext=(EditText) findViewById(R.id.userNameEditText);
             passwordtext=(EditText) findViewById(R.id.passwordEditText);
+            progressdialog = new ProgressDialog(LoginActivity.this);
 
             ArrayAdapter<String> userAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,users);
 
@@ -91,6 +112,11 @@ public class LoginActivity extends AppCompatActivity {
 
         }
         public void Login(View view) throws Exception{
+
+
+            progressdialog.setMessage("Please Wait....");
+            progressdialog.show();
+
             ConnectToDB connectToDB=new ConnectToDB();//obj of async class
 
             userName = usernametext.getText().toString();
@@ -102,6 +128,9 @@ public class LoginActivity extends AppCompatActivity {
                 switch (user) {
                     case "Select User": {
                         Toast.makeText(this, "Please select Type of User!!!", Toast.LENGTH_LONG).show();
+                        if (progressdialog.isShowing()) {
+                            progressdialog.dismiss();
+                        }
                     }
                     break;
                     case "Teacher": {
@@ -111,9 +140,16 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(this, "Welcome "+(String)sharedPreferences.getString("currentUserName","no  name"), Toast.LENGTH_LONG).show();
                             sharedPreferences.edit().putInt("currentUserId",Integer.parseInt(userName)).apply();
                             Intent teacherHomeActivity = new Intent(getApplicationContext(), TeacherHomeActivity.class);
+
                             startActivity(teacherHomeActivity);
+                            if (progressdialog.isShowing()) {
+                                progressdialog.dismiss();
+                            }
                         }else
                         {
+                            if (progressdialog.isShowing()) {
+                                progressdialog.dismiss();
+                            }
                             Toast.makeText(this, "Wrong Credentials!!!", Toast.LENGTH_LONG).show();
                         }
                     }
@@ -125,10 +161,15 @@ public class LoginActivity extends AppCompatActivity {
                             Intent studentViewAllAttendance = new Intent(getApplicationContext(), StudentViewAllAttendance.class);
 
                             sharedPreferences.edit().putInt("currentUserErpNo",Integer.parseInt(userName)).apply();
-
+                            if (progressdialog.isShowing()) {
+                                progressdialog.dismiss();
+                            }
                             startActivity(studentViewAllAttendance);
                         }else
                         {
+                            if (progressdialog.isShowing()) {
+                                progressdialog.dismiss();
+                            }
                             Toast.makeText(this, "Wrong Credentials!!!", Toast.LENGTH_LONG).show();
                         }
 
@@ -140,10 +181,15 @@ public class LoginActivity extends AppCompatActivity {
                             Intent adminhomeactivity = new Intent(getApplicationContext(), AdminHomeActivity.class);
                             sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
                             sharedPreferences.edit().putString("currentUserName",userName).apply();
-
+                            if (progressdialog.isShowing()) {
+                                progressdialog.dismiss();
+                            }
                             startActivity(adminhomeactivity);
                         }else
                         {
+                            if (progressdialog.isShowing()) {
+                                progressdialog.dismiss();
+                            }
                             Toast.makeText(this, "Wrong Credentials!!! ", Toast.LENGTH_LONG).show();
                         }
                         break;
@@ -153,6 +199,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
             }
+
         }
 
         public boolean checkEmptyFields(){
@@ -164,6 +211,7 @@ public class LoginActivity extends AppCompatActivity {
             {
                 if(userName.equals("")){
                     error="Please enter User Name!!!";
+
                 }
                 else {
                     if(password.equals("")){
@@ -175,10 +223,12 @@ public class LoginActivity extends AppCompatActivity {
             if(error!="")
             {
                 Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+
                 return false;
             }
             else
             {
+
                 return true;
             }
 

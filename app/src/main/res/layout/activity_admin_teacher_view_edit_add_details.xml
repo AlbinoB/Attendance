@@ -21,38 +21,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout"
-        android:layout_width="385dp"
-        android:layout_height="134dp"
-        android:layout_marginBottom="377dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/TeacherEditImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            app:srcCompat="@drawable/ic_launcher_background" />
-
-        <Button
-            android:id="@+id/editDetailsButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignBottom="@+id/TeacherEditImageView"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="12dp"
-            android:background="@drawable/editicon"
-            android:onClick="editTeacherDetails" />
-
-
-    </RelativeLayout>
-
     <ScrollView
         android:id="@+id/scrollView3"
         android:layout_width="384dp"
@@ -99,14 +67,14 @@
             <TableRow>
 
                 <TextView
-                    android:id="@+id/TeacherDOBAddTextView"
+                    android:id="@+id/TeacherAgeAddTextView"
                     android:layout_width="90dp"
                     android:layout_height="wrap_content"
-                    android:text="DOB"
+                    android:text="Age"
                     android:textSize="20sp" />
 
                 <EditText
-                    android:id="@+id/TeacherDOBShowAddEditText"
+                    android:id="@+id/TeacherAgeShowAddEditText"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:text="21/02/1997"
@@ -177,17 +145,17 @@
             <TableRow>
 
                 <TextView
-                    android:id="@+id/TeacherJoinDateAddTextView"
+                    android:id="@+id/TeacherGenderAddTextView"
                     android:layout_width="90dp"
                     android:layout_height="wrap_content"
-                    android:text="Join Date"
+                    android:text="Gender"
                     android:textSize="20sp" />
 
                 <EditText
-                    android:id="@+id/TeacherJoinDateShowAddEditText"
+                    android:id="@+id/TeacherGenderShowAddEditText"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:text="21/02/1999"
+                    android:text="Male"
                     android:textSize="20sp" />
 
 
@@ -197,17 +165,17 @@
             <TableRow>
 
                 <TextView
-                    android:id="@+id/TeacherJoinDateAddTextView1"
+                    android:id="@+id/TeacherAdharNoAddTextView1"
                     android:layout_width="90dp"
                     android:layout_height="wrap_content"
-                    android:text="Join Date"
+                    android:text="Adhar No"
                     android:textSize="20sp" />
 
                 <EditText
-                    android:id="@+id/TeacherJoinDateShowAddEditText1"
+                    android:id="@+id/TeacherAdharNoShowAddEditText1"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:text="21/02/1999"
+                    android:text="123456789"
                     android:textSize="20sp" />
 
 
@@ -216,17 +184,17 @@
             <TableRow>
 
                 <TextView
-                    android:id="@+id/TeacherJoinDateAddTextView22"
+                    android:id="@+id/TeacherIdAddTextView22"
                     android:layout_width="90dp"
                     android:layout_height="wrap_content"
-                    android:text="Join Date"
+                    android:text="ID"
                     android:textSize="20sp" />
 
                 <EditText
-                    android:id="@+id/TeacherJoinDateShowAddEditTex2t"
+                    android:id="@+id/TeacherIdShowAddEditTex2t"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:text="21/02/1999"
+                    android:text="1111"
                     android:textSize="20sp" />
 
 
@@ -235,17 +203,17 @@
             <TableRow>
 
                 <TextView
-                    android:id="@+id/TeacherJoinDateAddTextVie2w"
+                    android:id="@+id/TeacherSalaryAddTextVie2w"
                     android:layout_width="90dp"
                     android:layout_height="wrap_content"
-                    android:text="Join Date"
+                    android:text="Salary"
                     android:textSize="20sp" />
 
                 <EditText
-                    android:id="@+id/TeacherJoinDateShowAddEdi2tText"
+                    android:id="@+id/TeacherSalaryShowAddEdi2tText"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:text="21/02/1999"
+                    android:text="50000"
                     android:textSize="20sp" />
 
 
@@ -328,4 +296,38 @@
             </TableRow>
         </TableLayout>
     </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="385dp"
+        android:layout_height="134dp"
+        android:layout_marginBottom="377dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:id="@+id/TeacherEditImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            app:srcCompat="@drawable/ic_launcher_background" />
+
+        <Button
+            android:id="@+id/editDetailsButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignBottom="@+id/TeacherEditImageView"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/editicon"
+            android:onClick="editTeacherDetails" />
+
+
+    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

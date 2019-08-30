@@ -7,10 +7,16 @@ import android.view.View;
 
 public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
 
+    Intent intent;
+    String teacherid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_teacher_view_edit_add_details);
+            intent = new Intent();
+             teacherid=intent.getStringExtra("teacherid");
+
 
     }
 

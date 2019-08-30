@@ -26,11 +26,13 @@ import java.sql.Statement;
 public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
 
     ListView teachernamelistview;
+    ListView teacheridlistview;
     SharedPreferences sharedPreferences;
     String currentcourse;
     CustomAdapter customAdapter;
 
      String[] teachernames;
+     String[] teacherid;
 
     public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
 
@@ -76,11 +78,18 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
 
                 if(rs.next()) {
                     teachernames = new String[(rs.getInt("noofcourse"))];
+                    teacherid = new String [(rs.getInt("noofcourse"))];
                 }
                 rs = stmt.executeQuery("select  teacherName from Teacher,Course where fkcourseIdTeacher=courseId and courseName='"+currentcourse+"'");
                 int i=0;
                 while(rs.next()) {
                     teachernames[i++] =(rs.getString("teacherName"));
+                }
+
+                rs = stmt.executeQuery("select teacherId from Teacher,Course where fkcourseIdTeacher=courseId and courseName='"+currentcourse+"'");
+                int j=0;
+                while(rs.next()) {
+                    teacherid[j++] =(rs.getString("teacherId"));
                 }
 
 
@@ -97,6 +106,7 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_teacher_show_all_names);
 
         teachernamelistview= (ListView)findViewById(R.id.TEacherNameListView);
+
         EditText searchnametextview =(EditText) findViewById(R.id.SearchNameTextView);
         sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
 
@@ -161,14 +171,17 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = getLayoutInflater().inflate(R.layout.customlayoutadminsteachershowallname,null);
             final TextView teachernametextview =(TextView)(view).findViewById(R.id.TeacherNameTextView);
+           final TextView teacheridlistview= (TextView) (view).findViewById(R.id.TeacherIdTextView);
             teachernametextview.setText(teachernames[i]);
+           teacheridlistview.setText(teacherid[i]);
+
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Log.i("clicked","aaaaaaa"+teachernametextview.getText().toString());
                     Intent adminTeacherViewEditAddDetailsActivity = new Intent(getApplicationContext(), AdminTeacherViewEditAddDetailsActivity.class);
-                    adminTeacherViewEditAddDetailsActivity.putExtra("teachername",teachernametextview.getText().toString());
+                    adminTeacherViewEditAddDetailsActivity.putExtra("teacherid",teacheridlistview.getText().toString());
 
                     startActivity(adminTeacherViewEditAddDetailsActivity);
 

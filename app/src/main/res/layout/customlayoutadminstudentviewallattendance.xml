@@ -9,6 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,14 +23,14 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="18dp"
             android:text="3001"
             android:textAlignment="center"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/sName"
+            android:id="@+id/studentRollNo"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/sCode"
@@ -44,16 +46,16 @@
             android:id="@+id/sPercentage"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/sName"
-            android:layout_alignBottom="@+id/sName"
-            android:layout_toEndOf="@+id/sName"
+            android:layout_alignBaseline="@+id/studentRollNo"
+            android:layout_alignBottom="@+id/studentRollNo"
+            android:layout_toEndOf="@+id/studentRollNo"
             android:text="100%"
             android:textAlignment="center"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/editTeacher"
+            android:id="@+id/editAttendance"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_alignParentBottom="true"

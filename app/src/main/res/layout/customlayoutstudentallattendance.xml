@@ -28,7 +28,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/sName"
+            android:id="@+id/studentRollNo"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/sCode"
@@ -43,9 +43,9 @@
             android:id="@+id/sPercentage"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/sName"
+            android:layout_alignTop="@+id/studentRollNo"
             android:layout_marginStart="16dp"
-            android:layout_toEndOf="@+id/sName"
+            android:layout_toEndOf="@+id/studentRollNo"
             android:text="100%"
             android:textAlignment="center"
             android:textSize="18sp"

@@ -119,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     break;
                     case "Student": {
-                        String sql = "SELECT studentName as currentUserName FROM Student where studentErpNo= '" + Integer.parseInt(userName) + "' and studentPassword= '" + password+"' ";
+                        String sql = "SELECT studentName as currentUserName FROM Student where studentErpNo= '" + userName + "' and studentPassword= '" + password+"' ";
                         if(connectToDB.execute(sql).get()&&user.equals("Student")){
                             Toast.makeText(this, "Welcome "+(String)sharedPreferences.getString("currentUserName","no  name"), Toast.LENGTH_LONG).show();
                             Intent studentViewAllAttendance = new Intent(getApplicationContext(), StudentViewAllAttendance.class);

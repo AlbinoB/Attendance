@@ -7,7 +7,7 @@
     tools:context="com.example.bino.attendance.AdminStudentViewAllAttendance">
 
     <TextView
-        android:id="@+id/currentUser"
+        android:id="@+id/studentName"
         android:layout_width="218dp"
         android:layout_height="50dp"
         android:layout_marginEnd="22dp"
@@ -31,7 +31,7 @@
         android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/sName"
+        app:layout_constraintEnd_toStartOf="@+id/studentRollNo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/semYear" />
 
@@ -51,7 +51,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/sName"
+        android:id="@+id/studentRollNo"
         android:layout_width="54dp"
         android:layout_height="26dp"
         android:layout_marginEnd="16dp"
@@ -74,32 +74,36 @@
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/semName"
-        app:layout_constraintEnd_toStartOf="@+id/sName"
+        app:layout_constraintEnd_toStartOf="@+id/studentRollNo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/currentUser" />
-
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="367dp"
-        android:layout_height="414dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView18" />
+        app:layout_constraintTop_toBottomOf="@+id/studentName" />
 
     <TextView
         android:id="@+id/textView18"
         android:layout_width="371dp"
         android:layout_height="24dp"
-        android:layout_marginStart="5dp"
-        android:text="    S-Code            S-Name             Perc        Edit "
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="   S-Code         S-Name             Perc        Edit "
         android:textAlignment="textStart"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/listView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/semName" />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="367dp"
+        android:layout_height="358dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
 </android.support.constraint.ConstraintLayout>

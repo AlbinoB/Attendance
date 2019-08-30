@@ -1,11 +1,16 @@
 package com.example.bino.attendance;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,14 +26,269 @@ import java.sql.Statement;
 
 public class AdminStudentSearchBy extends AppCompatActivity {
 
-    static Spinner SearchcourseSpiner, SearchyearSpiner, SearchsemesterSpiner;
-     static String[] coursenames, yearNos ,semesterNos ;
-    static ArrayAdapter<String> courseAdapter,yearAdapter,semesterAdapter;
+    Intent teacherNextActivity;
+    int currentTeacherTextView;
+    String particularcoursename;
+    String particularyear;
+    String particularsemester;
+    String particularsubject;
+    SharedPreferences sharedPreferences;
+    ConnectToDB connectToDB;
 
-    public void  SearchStudent(View view){
-        Button searchbutton = (Button)findViewById(R.id.search);
-        Intent adminstudentsearchresultactivity = new Intent(getApplicationContext(), AdminStudentSeachResultActivity.class);
-        startActivity(adminstudentsearchresultactivity);
+    Handler handler =new Handler();
+    Handler handler1 =new Handler();
+
+    public Spinner admincourseSpiner,yearSpiner,semesterSpiner;
+    String[] course ;
+    String[] yearNo ;
+    String[] semesterNo ;
+    int noOfYears=0,noOfSemesters=0;
+
+    public class ConnectToDB extends AsyncTask<String,Void,Boolean>{
+        Connection connection = null;
+        String url = null;
+        Statement stmt;
+        ResultSet rs = null;
+        String sql = "";
+
+
+        @Override
+        protected Boolean doInBackground(String... sqlarr) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            try {
+                Class.forName("net.sourceforge.jtds.jdbc.Driver");
+                url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+                connection = DriverManager.getConnection(url);
+                stmt = connection.createStatement();
+
+                getAndSetCourseName();
+                getYear();
+                setYears();
+                getSemesters();
+                setSemester();
+
+                admincourseSpiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                        Log.i("course name", "" + admincourseSpiner.getSelectedItem());
+                        Log.i("clicked", "on item selected");
+                        // setYears();
+                        Thread thread = new Thread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                getYear();
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        setYears();
+                                        Log.i("set year", "on item selected");
+                                    }
+                                });
+                            }
+                        });
+
+                        thread.start();
+                        // setYears();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+                    }
+                });
+
+
+                yearSpiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+                        Log.i("year no", "" + yearSpiner.getSelectedItem());
+                        //  getSemesters();
+                        Thread thread = new Thread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                getSemesters();
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        setSemester();
+                                    }
+                                });
+                            }
+                        });
+
+                        thread.start();
+                        // setYears();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+                    }
+                });
+
+
+
+
+
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+
+
+
+        }//doInBackground;
+
+        public void getAndSetCourseName(){
+
+            try{
+                rs = stmt.executeQuery("select  count(*) as noofcourse  from Course");
+
+                while(rs.next()) {
+                    course = new String[(rs.getInt("noofcourse")) + 1];
+                }
+                int i=1;
+
+                course[0]="Select Course";
+                rs= stmt.executeQuery("select courseName from Course");
+                while(rs.next()){
+                    course[i]=rs.getString("courseName");
+                    i++;
+                }
+                ArrayAdapter<String> courseAdapter1 = new ArrayAdapter<String>(AdminStudentSearchBy.this,android.R.layout.simple_spinner_dropdown_item,course);
+                courseAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                admincourseSpiner.setAdapter(courseAdapter1);
+            }catch (Exception e){
+                e.printStackTrace();
+            }        }//getAndSetCourseName
+
+        public void getYear(){
+
+            try {
+                Log.i("Years:","year called");
+                int i = 1;
+                noOfYears = 0;
+
+                rs = stmt.executeQuery("select count(*) as noOfYears from CourseYears where fkcourseIdCourseYears=(select courseId from Course where courseName='"+admincourseSpiner.getSelectedItem()+"')");
+                if (rs.next()) {
+                    noOfYears = (rs.getInt("noOfYears"));
+
+                }
+                Log.i("noOfYears:",noOfYears+"");
+                yearNo=new String[noOfYears+1];
+                yearNo[0]="Select Year";
+                rs = stmt.executeQuery("select courseYears from CourseYears where fkcourseIdCourseYears=(select courseId from Course where courseName='"+admincourseSpiner.getSelectedItem()+"')");
+                while (rs.next()) {
+                    Log.i("courseYears:",rs.getString("courseYears"));
+                    yearNo[i++] = rs.getString("courseYears");
+
+                }
+
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }//getYear
+
+        public void setYears(){
+
+            ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(AdminStudentSearchBy.this,android.R.layout.simple_spinner_dropdown_item,yearNo);
+            yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            yearSpiner.setAdapter(yearAdapter);
+        }//setYears
+
+
+
+        public void getSemesters(){
+            try {
+                Class.forName("net.sourceforge.jtds.jdbc.Driver");
+                url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+                connection = DriverManager.getConnection(url);
+                stmt = connection.createStatement();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                int i = 1;
+                noOfSemesters = 0;
+
+                rs = stmt.executeQuery("select Count(*) as noOfSemesters from Semester where semYear='"+yearSpiner.getSelectedItem()+"'");
+                if (rs.next()) {
+                    noOfSemesters = (rs.getInt("noOfSemesters"));
+
+                }
+                Log.i("noOfsemester:",noOfSemesters+"");
+                semesterNo=new String[noOfSemesters+1];
+                semesterNo[0]="Select Semester";
+                rs = stmt.executeQuery("select semName from Semester where semYear='"+yearSpiner.getSelectedItem()+"'");
+                while (rs.next()) {
+                    Log.i("semName:",rs.getString("semName"));
+                    semesterNo[i++] = rs.getString("semName");
+                }
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }//getSemesters
+
+        public void setSemester(){
+            ArrayAdapter<String> semesterAdapter = new ArrayAdapter<String>(AdminStudentSearchBy.this,android.R.layout.simple_spinner_dropdown_item,semesterNo);
+            semesterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            semesterSpiner.setAdapter(semesterAdapter);
+        }//setSemester
+
+
+
+
+    }//AsyncTask
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater=getMenuInflater();
+        menuInflater.inflate(R.menu.teacher_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        switch (item.getItemId()){
+            case R.id.teacherHome:{
+                teacherNextActivity=new Intent(getApplicationContext(),TeacherHomeActivity.class);
+                startActivity(teacherNextActivity);
+                return true;
+            }
+            case R.id.teacherTakeAttendance:{
+                teacherNextActivity=new Intent(getApplicationContext(), TakeAttendanceActivity.class);
+                startActivity(teacherNextActivity);
+                return true;
+            }
+            case R.id.teacherViewAttendance:{
+                teacherNextActivity=new Intent(getApplicationContext(), TeacherSearchByActivity.class);
+                startActivity(teacherNextActivity);
+
+                return true;
+
+            }
+            case R.id.teacherEditProfile:{
+
+                teacherNextActivity=new Intent(getApplicationContext(), TeacherHomeActivity.class);
+                startActivity(teacherNextActivity);
+
+                return true;
+
+            }
+
+            default:{
+                return false;
+            }
+        }
     }
 
     @Override
@@ -36,190 +296,66 @@ public class AdminStudentSearchBy extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_student_search_by);
 
+        Bundle bundle=new Bundle();
+        sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
 
+        admincourseSpiner = (Spinner)findViewById(R.id.spinnerCourse);
+        yearSpiner = (Spinner)findViewById(R.id.spinnerYear);
+        semesterSpiner=(Spinner)findViewById(R.id.spinnerSem);
 
-        ConnectToDB connectToDB=new ConnectToDB();
-        String[] sql={""};
-        connectToDB.execute(sql);
+        connectToDB = new ConnectToDB();
+        String[] sql={
+
+        };
+        try {
+            if(connectToDB.execute(sql).get()){
+                {
+                    Log.i("updated:mmmmm","doneee");
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void Search(View view){
+        Log.i("inside ","nothing ");
+        if(checkEmptyFields()) {
+            sharedPreferences.edit().putString("currentCourseName",particularcoursename).apply();
+            sharedPreferences.edit().putString("currentYearNo",particularyear).apply();
+            sharedPreferences.edit().putString("currentSemester",particularsemester).apply();
+            Intent takeAttendanceActivity = new Intent(getApplicationContext(), com.example.bino.attendance.AdminStudentSeachResultActivity.class);
+            startActivity(takeAttendanceActivity);
+
+        }
+
+    }
+    public boolean checkEmptyFields(){
+        String error="";
+        particularcoursename =admincourseSpiner.getSelectedItem().toString();
+        particularyear = yearSpiner.getSelectedItem().toString();
+        particularsemester = semesterSpiner.getSelectedItem().toString();
+        Log.i("course selected ",particularcoursename);
+        if( particularcoursename.equals("Select Course")){
+            error="Please Select Course!!!";
+
+        }else if( particularyear.equals("Select Year")){
+            error="Please Select Year!!!";
+        }else if( particularyear.equals("Select Semester")){
+            error="Please Select Semester!!!";
+        }
+
+        if(error!="")
+        {
+            Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else
+        {
+            return true;
+        }
 
     }
 
-
-
-    public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
-
-        Connection connection=null;
-        String url=null;
-        Statement stmt=null;
-        ResultSet rs=null;
-        String sql="";
-
-
-        @Override
-        public Boolean doInBackground(String... sqlRecieved) {
-            StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-
-
-
-
-            SearchyearSpiner.setEnabled(false);
-            SearchsemesterSpiner.setEnabled(false);
-
-
-            try {
-                Class.forName("net.sourceforge.jtds.jdbc.Driver");
-                url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
-                connection= DriverManager.getConnection(url);
-                stmt = connection.createStatement();
-                rs=null;
-                sql=sqlRecieved[0];
-                getCourseCount();
-
-
-                return  true;
-
-            }
-            catch (Exception e){
-                e.printStackTrace();
-                return  false;
-            }
-
-
-        }
-
-        public void getCourseCount(){
-
-
-            int numberOfCourses=0;
-            sql="select count(*) as numberOfCourses from Course";
-            try {
-                rs = stmt.executeQuery(sql);
-                if(rs.next()){
-                    numberOfCourses=rs.getInt("numberOfCourses");
-                    coursenames=new String[numberOfCourses] ;
-                    courseAdapter = new ArrayAdapter<String>(AdminStudentSearchBy.this, android.R.layout.simple_spinner_dropdown_item, coursenames);
-                    courseAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                    getCourses();
-                }
-
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-
-        public  void getCourses(){
-            sql="select courseName from Course";
-            try {
-                rs = stmt.executeQuery(sql);
-                int i=0;
-                while(rs.next()){
-                    coursenames[i]=rs.getString("courseName");
-                    Log.i("ssss",coursenames[i]);
-                    i++;
-                }
-                getNumberOfYear();
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-
-        public void getNumberOfYear(){
-            int numberOfYears=0;
-            sql="select count(*) as numberOfYears from CourseYears where fkcourseIdCourseYears=(select courseId from Course where courseName='"+SearchcourseSpiner.getSelectedItem()+"')";
-            try {
-                rs = stmt.executeQuery(sql);
-                if(rs.next()){
-                    numberOfYears=rs.getInt("numberOfYears");
-                    yearNos=new String[numberOfYears] ;
-                    getYears();
-                }
-
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-
-        public  void getYears(){
-            sql="select courseYears from CourseYears where fkcourseIdCourseYears=(select courseId from Course where courseName='"+SearchcourseSpiner.getSelectedItem()+"')";
-            try {
-                rs = stmt.executeQuery(sql);
-                int i=0;
-                while(rs.next()){
-                    yearNos[i]=rs.getString("courseYears");
-                    i++;
-                }
-
-                yearAdapter = new ArrayAdapter<String>(AdminStudentSearchBy.this, android.R.layout.simple_spinner_dropdown_item, yearNos);
-                yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                SearchyearSpiner.setSelection(0);
-                getCountSemestersCount();
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-
-        }
-
-
-        public void getCountSemestersCount(){
-            int numberOfSemesters=0;
-            sql="select count(*) as numberOfSemesters from Semester where semName=('"+SearchyearSpiner.getSelectedItem()+"')";
-            Log.i("getCountSemestersCount",sql);
-            try {
-                rs = stmt.executeQuery(sql);
-                if(rs.next()){
-                    numberOfSemesters=rs.getInt("numberOfYears");
-                    yearNos=new String[numberOfSemesters] ;
-                    SearchyearSpiner.setSelection(0);
-                    getSemesters();
-                }
-
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-
-        public  void getSemesters(){
-            sql="select semName from Semester where semYear='("+SearchyearSpiner.getSelectedItem()+"')";
-            Log.i("getSemesters",sql);
-
-            try {
-                rs = stmt.executeQuery(sql);
-                int i=0;
-                while(rs.next()){
-                    yearNos[i]=rs.getString("courseYears");
-                    i++;
-                }
-                semesterAdapter = new ArrayAdapter<String>(AdminStudentSearchBy.this, android.R.layout.simple_spinner_dropdown_item, semesterNos);
-                semesterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                SearchsemesterSpiner.setEnabled(true);
-
-                SearchcourseSpiner.setAdapter(courseAdapter);
-                SearchyearSpiner.setAdapter(yearAdapter);
-                SearchsemesterSpiner.setAdapter(semesterAdapter);
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-
-        }
-
-
-
-
-
-    }
 }

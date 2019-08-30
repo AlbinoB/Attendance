@@ -13,7 +13,6 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -27,6 +26,7 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     TextView currentUser,courseName,passSname,sCode,semName,semYear;
 
+    String semStartDate=null,semEndDate=null;
     Intent previousIndent;
     String[][] studentsarr ;
 
@@ -133,6 +133,7 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
                 setSemNameAndYear();
                 setSubjectSName();
                 setSubjectScode();
+                getStartAndEndDate();
                 getNumberOfdays();
 
 
@@ -147,7 +148,7 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
 
 
         public void setcurrentUser(){
-            currentUser=(TextView)findViewById(R.id.currentUser);
+            currentUser=(TextView)findViewById(R.id.studentName);
 
             currentUser.setText((String)sharedPreferences.getString("currentUserName","no  name"));
 
@@ -165,7 +166,7 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
             semYear.setText(previousIndent.getStringExtra("semYear"));
         }
         public void setSubjectSName(){
-            passSname=(TextView)findViewById(R.id.sName);
+            passSname=(TextView)findViewById(R.id.studentRollNo);
             passSname.setText(previousIndent.getStringExtra("passSname"));
 
         }
@@ -175,8 +176,23 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
 
         }
 
+        public void getStartAndEndDate(){
+
+            sql="select semStartDate,semEndDate from Semester where semId=(select fksemIdStudent from Student where studentErpNo="+(Integer)sharedPreferences.getInt("currentUserErpNo",0)+")";
+            try {
+                rs = stmt.executeQuery(sql);
+                if (rs.next()) {
+                    semStartDate = rs.getString("semStartDate");
+                    semEndDate = rs.getString("semEndDate");
+                }
+            } catch (Exception e) {
+                Log.i("nothing", "nothing");
+                e.printStackTrace();
+            }
+        }
+
         public void getNumberOfdays(){
-            sql="select fksubjectId,count(*) as totalLectures from Attendance where takenDate between '2019-08-01' and '2019-08-28' and fkstudentErpNo=(select studentErpNo from Student where studentErpNo='"+(Integer)sharedPreferences.getInt("currentUserErpNo",0)+"') and fksubjectId=(select subjectId from Subject where subjectId='"+sCode.getText().toString()+"') group by fksubjectId";
+            sql="select fksubjectId,count(*) as totalLectures from Attendance where takenDate between '"+semStartDate+"' and '"+semEndDate+"' and fkstudentErpNo=(select studentErpNo from Student where studentErpNo='"+(Integer)sharedPreferences.getInt("currentUserErpNo",0)+"') and fksubjectId=(select subjectId from Subject where subjectId='"+sCode.getText().toString()+"') group by fksubjectId";
 
             Log.i("sqldays",sql);
             try {
@@ -199,7 +215,20 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
 
 
         public void getDatesPresentAbsent(){
-            sql="select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenTime from Attendance where takenDate between '2019-08-01' and '2019-08-28' and fkstudentErpNo=(select studentErpNo from Student where studentErpNo="+(Integer)sharedPreferences.getInt("currentUserErpNo",0)+") and fksubjectId=(select subjectId from Subject where subjectId="+Integer.parseInt(sCode.getText().toString())+" and fksemIdSubject=(select fksemIdStudent from Student where studentErpNo="+(Integer)sharedPreferences.getInt("currentUserErpNo",0)+"))";
+            String semStartDate=null,semEndDate=null;
+            sql="select semStartDate,semEndDate from Semester where semId=(select fksemIdStudent from Student where studentErpNo="+(Integer)sharedPreferences.getInt("currentUserErpNo",0)+")";
+           try {
+               rs = stmt.executeQuery(sql);
+               if (rs.next()) {
+                   semStartDate = rs.getString("semStartDate");
+                   semEndDate = rs.getString("semEndDate");
+               }
+           } catch (Exception e) {
+               Log.i("nothing", "nothing");
+               e.printStackTrace();
+           }
+
+            sql="select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenTime from Attendance where takenDate between '"+semStartDate+"' and '"+semEndDate+"' and fkstudentErpNo=(select studentErpNo from Student where studentErpNo="+(Integer)sharedPreferences.getInt("currentUserErpNo",0)+") and fksubjectId=(select subjectId from Subject where subjectId="+Integer.parseInt(sCode.getText().toString())+" and fksemIdSubject=(select fksemIdStudent from Student where studentErpNo="+(Integer)sharedPreferences.getInt("currentUserErpNo",0)+"))";
 
             Log.i("sqldatas",sql);
             listView=(ListView)findViewById(R.id.listView);

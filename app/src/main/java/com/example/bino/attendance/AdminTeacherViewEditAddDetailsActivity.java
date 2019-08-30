@@ -1,16 +1,139 @@
 package com.example.bino.attendance;
 
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
+
+    Intent intent;
+    String teacherid,check1;
+    EditText tname,tage,temail,tcontact,tcourseid,tgender,tadharno,tid,tsalary,tjoindate ;
+    Button savebutton;
+
+
+    public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
+
+        Connection connection = null;
+        String url = null;
+        Statement stmt;
+        ResultSet rs = null;
+        String sql = "";
+
+        @Override
+        protected Boolean doInBackground(String... sqlarr) {
+
+
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
+            try {
+                Class.forName("net.sourceforge.jtds.jdbc.Driver");
+                url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+                connection = DriverManager.getConnection(url);
+                stmt = connection.createStatement();
+
+                    getandsetTeacherdetails();
+
+
+
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }//doInBackground
+
+       public void  getandsetTeacherdetails(){
+            try {
+                rs = stmt.executeQuery("select * from Teacher where teacherId='" + teacherid + "'");
+                while(rs.next()){
+                    tname.setText( rs.getString("teacherName"));
+                    tage.setText( rs.getString("teacherAge"));
+                    temail.setText( rs.getString("teacherEmailId"));
+                    tcontact.setText( rs.getString("teacherContactNo"));
+                    tcourseid.setText( rs.getString("fkcourseIdTeacher"));
+                    tgender.setText( rs.getString("teacherGender"));
+                    tadharno.setText( rs.getString("teacheradharno"));
+                    tid.setText( rs.getString("teacherId"));
+
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }//AsyncTask
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_teacher_view_edit_add_details);
+         tname = (EditText) findViewById(R.id.TeacherNameShowAddEditText);
+         tage = (EditText) findViewById(R.id.TeacherAgeShowAddEditText);
+         temail = (EditText) findViewById(R.id.TeacherEmailShowAddEditText);
+         tcontact = (EditText) findViewById(R.id.TeacherContactShowAddEditText);
+         tcourseid = (EditText) findViewById(R.id.TeacherCourseIdShowAddEditText);
+         tgender = (EditText) findViewById(R.id.TeacherGenderShowAddEditText);
+         tadharno = (EditText) findViewById(R.id.TeacherAdharNoShowAddEditText1);
+         tid = (EditText) findViewById(R.id.TeacherIdShowAddEditTex2t);
+        tsalary = (EditText) findViewById(R.id.TeacherSalaryShowAddEdi2tText);
+         tjoindate = (EditText) findViewById(R.id.TeacherJoinDateSho2wAddEditText);
+         savebutton =(Button)findViewById(R.id.save) ;
+
+
+            intent = getIntent();
+             teacherid=intent.getStringExtra("teacherid");
+        check1=intent.getStringExtra("check1");
+
+        Log.i("check 1 value",""+check1);
+        Log.i("teacher id",""+teacherid);
+
+
+        AdminTeacherViewEditAddDetailsActivity.ConnectToDB connectToDB=new ConnectToDB();//obj of async class
+
+        String[] sql={
+
+        };
+
+        try {
+            if(connectToDB.execute(sql).get()){
+                {
+                    Log.i("updated:mmmmm","doneee");
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(check1!=null && check1.equals("show")){
+            tname.setEnabled(false);
+            tage.setEnabled(false);
+            temail.setEnabled(false);
+            tcontact.setEnabled(false);
+            tcourseid.setEnabled(false);
+            tgender.setEnabled(false);
+            tadharno.setEnabled(false);
+            tid.setEnabled(false);
+            tsalary.setEnabled(false);
+            tjoindate.setEnabled(false);
+            savebutton.setVisibility(View.INVISIBLE);
+
+            Log.i("clicked","aaaaaaa"+check1);
+        }
+
 
     }
 

@@ -32,34 +32,7 @@ public class EditAttendanceActivity extends AppCompatActivity {
     String[][] studentNameRollno;
     CustomAdapter customAdapter;
     View viewnew;
-            /*
-            {       {"01","Albino","P",""},
-                    {"01","amit","","A"},
-                    {"01","Ronak","P",""},
-                    {"01","Ravi","P",""},
-                    {"01","ramesh","P",""},
-                    {"01","Albino","P",""},
-                    {"01","amit","","A"},
-                    {"01","Ronak","P",""},
-                    {"01","Ravi","P",""},
-                    {"01","ramesh","P",""},
-                    {"01","Albino","P",""},
-                    {"01","amit","","A"},
-                    {"01","Ronak","P",""},
-                    {"01","Ravi","P",""},
-                    {"01","ramesh","P",""},
-                    {"01","Albino","P",""},
-                    {"01","amit","","A"},
-                    {"01","Ronak","P",""},
-                    {"01","Ravi","P",""},
-                    {"01","ramesh","P",""},
-                    {"01","Albino","P",""},
-                    {"01","amit","","A"},
-                    {"01","Ronak","P",""},
-                    {"01","Ravi","P",""},
-                    {"01","ramesh","P",""}
-            };
-            */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

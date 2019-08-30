@@ -20,8 +20,11 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
 
     Intent intent;
     String teacherid,check1;
-    EditText tname,tage,temail,tcontact,tcourseid,tgender,tadharno,tid,tsalary,tjoindate ;
+    EditText tname,tdob,temail,tcontact,tcourseid,tgender,tadharno,tid,tsalary,tjoindate,tpassword,taddress ;
     Button savebutton;
+    int countid;
+    AdminTeacherViewEditAddDetailsActivity.ConnectToDB connectToDB;
+
 
 
     public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
@@ -31,6 +34,70 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
         Statement stmt;
         ResultSet rs = null;
         String sql = "";
+
+        public  void insertnewteacherdetails(){
+
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.i("button clicked","inside thread");
+                    try{
+                        rs=stmt.executeQuery("select top 1 teacherId from Teacher order by teacherId desc ");
+                        if(rs.next()){
+                            countid = rs.getInt(teacherid);
+                        }
+                        countid=countid+1;
+                        stmt.executeQuery(" insert into Teacher values("+countid+",'"+tname.getText().toString()+"', " +
+                                " '"+tpassword.getText().toString()+"', "+0+",  " +
+                                " '"+temail.getText().toString()+"',  " +
+                                "  '"+tgender.getText().toString()+"',  " +
+                                "  '"+taddress.getText().toString()+"',  " +
+                                "   "+tadharno.getText().toString()+" ,  " +
+                                "  '"+null+"' ,  " +
+                                "  "+tcourseid.getText().toString()+" ,   " +
+                                "   "+tcontact.getText().toString()+" ,   " +
+                                "   '"+tdob.getText().toString()+"'  )");
+
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                    Intent adminTeacherShowAllNamesActivity = new Intent(getApplicationContext(), AdminTeacherShowAllNamesActivity.class);
+                    startActivity(adminTeacherShowAllNamesActivity);
+                }
+
+            });
+                thread.start();
+
+    }
+
+        public  void updateteacherdetails(){
+
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.i("button clicked","inside thread"+savebutton.getTag().toString());
+                   try{
+                       stmt.executeUpdate("update Teacher set teachername='"+tname.getText().toString()+"', " +
+                               " teacherPassword='"+tpassword.getText().toString()+"', " +
+                               " teacherEmailId='"+temail.getText().toString()+"', " +
+                               " teacherGender='"+tgender.getText().toString()+"' ," +
+                               " teacherAddress='"+taddress.getText().toString()+"', " +
+                               " teacheradharno="+tadharno.getText().toString()+", " +
+                               " fkcourseIdTeacher="+tcourseid.getText().toString()+", " +
+                               " teacherContactNo="+tcontact.getText().toString()+",  " +
+                               "teacherDateOfBirth= '"+tdob.getText().toString()+"' where teacherId="+tid.getText().toString()+" ");
+                   }catch(Exception e){
+                       e.printStackTrace();
+                   }
+                    Intent adminTeacherShowAllNamesActivity = new Intent(getApplicationContext(), AdminTeacherShowAllNamesActivity.class);
+                    startActivity(adminTeacherShowAllNamesActivity);
+                }
+
+            });
+            thread.start();
+
+        }
+
 
         @Override
         protected Boolean doInBackground(String... sqlarr) {
@@ -44,10 +111,10 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
                 url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
                 connection = DriverManager.getConnection(url);
                 stmt = connection.createStatement();
+                    if(check1!=null) {
+                        getandsetTeacherdetails();
 
-                    getandsetTeacherdetails();
-
-
+                    }
 
                 return true;
             } catch (Exception e) {
@@ -61,13 +128,15 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
                 rs = stmt.executeQuery("select * from Teacher where teacherId='" + teacherid + "'");
                 while(rs.next()){
                     tname.setText( rs.getString("teacherName"));
-                    tage.setText( rs.getString("teacherAge"));
+                    tdob.setText( rs.getString("teacherDateOfBirth"));
                     temail.setText( rs.getString("teacherEmailId"));
                     tcontact.setText( rs.getString("teacherContactNo"));
                     tcourseid.setText( rs.getString("fkcourseIdTeacher"));
                     tgender.setText( rs.getString("teacherGender"));
                     tadharno.setText( rs.getString("teacheradharno"));
                     tid.setText( rs.getString("teacherId"));
+                    tpassword.setText(rs.getString("teacherPassword"));
+                    taddress.setText(rs.getString(("teacherAddress")));
 
                 }
             }catch (Exception e){
@@ -81,7 +150,7 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_teacher_view_edit_add_details);
          tname = (EditText) findViewById(R.id.TeacherNameShowAddEditText);
-         tage = (EditText) findViewById(R.id.TeacherAgeShowAddEditText);
+         tdob = (EditText) findViewById(R.id.TeacherAgeShowAddEditText);
          temail = (EditText) findViewById(R.id.TeacherEmailShowAddEditText);
          tcontact = (EditText) findViewById(R.id.TeacherContactShowAddEditText);
          tcourseid = (EditText) findViewById(R.id.TeacherCourseIdShowAddEditText);
@@ -90,6 +159,8 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
          tid = (EditText) findViewById(R.id.TeacherIdShowAddEditTex2t);
         tsalary = (EditText) findViewById(R.id.TeacherSalaryShowAddEdi2tText);
          tjoindate = (EditText) findViewById(R.id.TeacherJoinDateSho2wAddEditText);
+         tpassword =(EditText) findViewById(R.id.TeacherPasswordSho2wAddEditText);
+        taddress =(EditText) findViewById(R.id.TeacherAddressSho2wAddEditText);
          savebutton =(Button)findViewById(R.id.save) ;
 
 
@@ -101,7 +172,7 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
         Log.i("teacher id",""+teacherid);
 
 
-        AdminTeacherViewEditAddDetailsActivity.ConnectToDB connectToDB=new ConnectToDB();//obj of async class
+     connectToDB=new ConnectToDB();//obj of async class
 
         String[] sql={
 
@@ -120,7 +191,7 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
 
         if(check1!=null && check1.equals("show")){
             tname.setEnabled(false);
-            tage.setEnabled(false);
+            tdob.setEnabled(false);
             temail.setEnabled(false);
             tcontact.setEnabled(false);
             tcourseid.setEnabled(false);
@@ -129,19 +200,35 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
             tid.setEnabled(false);
             tsalary.setEnabled(false);
             tjoindate.setEnabled(false);
+            tpassword.setEnabled(false);
+            taddress.setEnabled(false);
             savebutton.setVisibility(View.INVISIBLE);
 
             Log.i("clicked","aaaaaaa"+check1);
         }
+        if(check1!=null && check1.equals("edit")){
+            tid.setEnabled(false);
+            savebutton.setTag("update");
+        }
 
+        savebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(savebutton.getTag().toString().equals("update")){
+                    connectToDB.updateteacherdetails();
+                }else{
+                    connectToDB.insertnewteacherdetails();
+                }
+            }
+        });
 
     }
 
-    public  void saveTeacherDetails(View view){
+    /*public  void saveTeacherDetails(View view){
 
         Intent adminTeacherShowAllNamesActivity = new Intent(getApplicationContext(), AdminTeacherShowAllNamesActivity.class);
         startActivity(adminTeacherShowAllNamesActivity);
-    }
+    }*/
 
     public void editTeacherDetails(View view){
 

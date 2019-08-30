@@ -194,6 +194,7 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
                     Log.i("clicked","bbbbbb"+teacheridlistview.getText().toString());
                     Intent adminTeacherViewEditAddDetailsActivity = new Intent(getApplicationContext(), AdminTeacherViewEditAddDetailsActivity.class);
                     adminTeacherViewEditAddDetailsActivity.putExtra("teacherid",teacheridlistview.getText().toString());
+                    adminTeacherViewEditAddDetailsActivity.putExtra("check1","edit");
 
                     startActivity(adminTeacherViewEditAddDetailsActivity);
                 }

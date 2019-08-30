@@ -22,8 +22,8 @@
             android:layout_width="200dp"
             android:layout_height="30dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="17dp"
-            android:layout_toStartOf="@+id/editTeacher"
+            android:layout_marginEnd="15dp"
+            android:layout_toStartOf="@+id/editAttendance"
             android:text="TextView" />
 
         <Button

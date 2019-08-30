@@ -180,8 +180,9 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
                     Log.i("clicked","aaaaaaa"+teachernametextview.getText().toString());
                     Intent adminTeacherViewEditAddDetailsActivity = new Intent(getApplicationContext(), AdminTeacherViewEditAddDetailsActivity.class);
                     adminTeacherViewEditAddDetailsActivity.putExtra("teacherid",teacheridlistview.getText().toString());
+                    adminTeacherViewEditAddDetailsActivity.putExtra("check1","show");
 
-                    startActivity(adminTeacherViewEditAddDetailsActivity);
+                  startActivity(adminTeacherViewEditAddDetailsActivity);
 
                 }
             });
@@ -189,9 +190,10 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.i("clicked","bbbbbb"+teachernametextview.getText().toString());
+                   // Log.i("clicked","bbbbbb"+teachernametextview.getText().toString());
+                    Log.i("clicked","bbbbbb"+teacheridlistview.getText().toString());
                     Intent adminTeacherViewEditAddDetailsActivity = new Intent(getApplicationContext(), AdminTeacherViewEditAddDetailsActivity.class);
-                    adminTeacherViewEditAddDetailsActivity.putExtra("editteachername",teachernametextview.getText().toString());
+                    adminTeacherViewEditAddDetailsActivity.putExtra("teacherid",teacheridlistview.getText().toString());
 
                     startActivity(adminTeacherViewEditAddDetailsActivity);
                 }

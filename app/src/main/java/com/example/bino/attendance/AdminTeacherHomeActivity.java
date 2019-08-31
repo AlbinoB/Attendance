@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -114,8 +115,13 @@ public class AdminTeacherHomeActivity extends AppCompatActivity {
    }
 
    public  void showAllTeachers(View view){
-       sharedPreferences.edit().putString("coursename",admincourseSpiner.getSelectedItem().toString()).apply();
-       Intent adminShowTeacherNamenActivity = new Intent(getApplicationContext(), AdminTeacherShowAllNamesActivity.class);
-       startActivity(adminShowTeacherNamenActivity);
+
+       if(admincourseSpiner.getSelectedItem().equals( "Select Course")){
+           Toast.makeText(this, "Please Select Course!!!", Toast.LENGTH_SHORT).show();
+       }else {
+           sharedPreferences.edit().putString("coursename",admincourseSpiner.getSelectedItem().toString()).apply();
+           Intent adminShowTeacherNamenActivity = new Intent(getApplicationContext(), AdminTeacherShowAllNamesActivity.class);
+           startActivity(adminShowTeacherNamenActivity);
+       }
    }
 }

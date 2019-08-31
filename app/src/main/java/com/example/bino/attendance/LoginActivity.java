@@ -1,8 +1,13 @@
 package com.example.bino.attendance;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
@@ -23,6 +28,7 @@ import android.widget.Toast;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -45,10 +51,17 @@ public class LoginActivity extends AppCompatActivity {
 
         public class ConnectToDB extends AsyncTask<String,Void,Boolean>{
 
+            public boolean isOnline() {
+                ConnectivityManager connMgr = (ConnectivityManager)
+                        getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+                return (networkInfo != null && networkInfo.isConnected());
+            }
 
 
             @Override
             protected void onPreExecute() {
+
 
             }
             @Override
@@ -58,6 +71,8 @@ public class LoginActivity extends AppCompatActivity {
                 StrictMode.setThreadPolicy(policy);
                 Connection connection=null;
                 String url=null;
+
+
                 try {
                     Class.forName("net.sourceforge.jtds.jdbc.Driver");
                     url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
@@ -78,6 +93,28 @@ public class LoginActivity extends AppCompatActivity {
 
                         return false;
                     }
+
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                    if(!isOnline()){
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                new AlertDialog.Builder(LoginActivity.this).
+                                        setTitle("No Internet!").
+                                        setMessage("Please check your Internet Connection.").
+                                        setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                // User clicked OK button
+                                            }
+                                        })
+                                        .show();
+                            }
+                        });
+
+                        }
+                    return  false;
 
                 }
                 catch (Exception e){

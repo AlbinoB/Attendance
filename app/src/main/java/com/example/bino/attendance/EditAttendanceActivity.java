@@ -3,6 +3,7 @@ package com.example.bino.attendance;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -44,7 +45,7 @@ public class EditAttendanceActivity extends AppCompatActivity {
         int noOfStudent = sharedPreferences.getInt("noOfStudent", 0);
         studentNameRollno=new String[noOfStudent][9];
 
-        studentNameRollno = to2dim(stringFullArray, ";", " ");
+        studentNameRollno = to2dim(stringFullArray, ";", ",");
 
 
             //markedAttendanceTable=(TableLayout)findViewById(R.id.markedAttendanceTableLayout);
@@ -59,7 +60,6 @@ public class EditAttendanceActivity extends AppCompatActivity {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Toast.makeText(EditAttendanceActivity.this, ""+i, Toast.LENGTH_SHORT).show();
                     updateAttendance(i);
                 }
             });
@@ -140,16 +140,18 @@ public class EditAttendanceActivity extends AppCompatActivity {
              textViewAbsent=(TextView)view.findViewById(R.id.absent);
 
 
-            textViewRoll.setText(studentNameRollno[i][7]);
-            textViewName.setText(studentNameRollno[i][8]);
+            textViewRoll.setText(studentNameRollno[i][8]);
+            textViewName.setText(studentNameRollno[i][7]);
 
 
             if (studentNameRollno[i][6].equals("P")) {
                 textViewPresent.setText(studentNameRollno[i][6]);
+                textViewPresent.setTextColor(Color.GREEN);
                 textViewAbsent.setText("");
 
             } else {
                 textViewPresent.setText("");
+                textViewAbsent.setTextColor(Color.RED);
                 textViewAbsent.setText(studentNameRollno[i][6]);
 
             }
@@ -182,7 +184,7 @@ public class EditAttendanceActivity extends AppCompatActivity {
 
 
                             Log.i("details", " " + studentNameRollno[f][0] + " " + studentNameRollno[f][1] + " " + studentNameRollno[f][2] + " " + studentNameRollno[f][3] + " " + studentNameRollno[f][4] + " " + studentNameRollno[f][5] + " " + studentNameRollno[f][6] + " " + studentNameRollno[f][7] + " " + studentNameRollno[f][8]);
-                            stringFullArrayUpdated=stringFullArrayUpdated+studentNameRollno[f][0] + " " + studentNameRollno[f][1] + " " + studentNameRollno[f][2] + " " + studentNameRollno[f][3] + " " + studentNameRollno[f][4] + " " + studentNameRollno[f][5] + " " + studentNameRollno[f][6] + " " + studentNameRollno[f][7] + " " + studentNameRollno[f][8]+";";
+                            stringFullArrayUpdated=stringFullArrayUpdated+studentNameRollno[f][0] + "," + studentNameRollno[f][1] + "," + studentNameRollno[f][2] + "," + studentNameRollno[f][3] + "," + studentNameRollno[f][4] + "," + studentNameRollno[f][5] + "," + studentNameRollno[f][6] + "," + studentNameRollno[f][7] + "," + studentNameRollno[f][8]+";";
 
 
                         }

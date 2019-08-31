@@ -175,6 +175,7 @@ public class TakeAttendanceActivity extends AppCompatActivity {
     }
 
     public void mark(View view) {
+
         Log.i("current attd", "" + countfornoofstudent);
         if (countfornoofstudent == lengthofstudentarray) {
             studentNameRollno[countfornoofstudent - 1][6] = view.getTag().toString();
@@ -185,7 +186,7 @@ public class TakeAttendanceActivity extends AppCompatActivity {
 
 
                 Log.i("details", " " + studentNameRollno[f][0] + " " + studentNameRollno[f][1] + " " + studentNameRollno[f][2] + " " + studentNameRollno[f][3] + " " + studentNameRollno[f][4] + " " + studentNameRollno[f][5] + " " + studentNameRollno[f][6] + " " + studentNameRollno[f][7] + " " + studentNameRollno[f][8]);
-                stringFullArray=stringFullArray+studentNameRollno[f][0] + " " + studentNameRollno[f][1] + " " + studentNameRollno[f][2] + " " + studentNameRollno[f][3] + " " + studentNameRollno[f][4] + " " + studentNameRollno[f][5] + " " + studentNameRollno[f][6] + " " + studentNameRollno[f][7] + " " + studentNameRollno[f][8]+";";
+                stringFullArray=stringFullArray+studentNameRollno[f][0] + "," + studentNameRollno[f][1] + "," + studentNameRollno[f][2] + "," + studentNameRollno[f][3] + "," + studentNameRollno[f][4] + "," + studentNameRollno[f][5] + "," + studentNameRollno[f][6] + "," + studentNameRollno[f][7] + "," + studentNameRollno[f][8]+";";
 
 
             }

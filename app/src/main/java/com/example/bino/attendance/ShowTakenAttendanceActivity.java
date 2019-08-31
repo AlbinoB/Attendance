@@ -42,7 +42,7 @@ public class ShowTakenAttendanceActivity extends AppCompatActivity {
         int noOfStudent=sharedPreferences.getInt("noOfStudent",0);
         studentNameRollno=new String[noOfStudent][9];
 
-        studentNameRollno=to2dim(stringFullArray,";"," ");
+        studentNameRollno=to2dim(stringFullArray,";",",");
         int presentCount=0,absentCount=0;
         for (int f = 0; f < studentNameRollno.length; f++) {
 
@@ -92,7 +92,8 @@ public class ShowTakenAttendanceActivity extends AppCompatActivity {
 
     public  void SaveAttendance(View view){
         progressdialog = new ProgressDialog(ShowTakenAttendanceActivity.this);
-        progressdialog.setMessage("Saving....");
+        progressdialog.setMessage("Saving To Database....");
+        progressdialog.setCancelable(false);
         progressdialog.show();
         Thread savingDetailsThread=new Thread(new Runnable() {
             @Override
@@ -105,7 +106,7 @@ public class ShowTakenAttendanceActivity extends AppCompatActivity {
         savingDetailsThread.start();
 
         Intent teacherhomeactivity = new Intent(getApplicationContext(), TeacherHomeActivity.class);
-        /*finish();*/
+        finish();
         startActivity(teacherhomeactivity);
     }
 

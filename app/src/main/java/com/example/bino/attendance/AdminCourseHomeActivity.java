@@ -282,7 +282,9 @@ public class AdminCourseHomeActivity extends AppCompatActivity {
     }
 
     public void sumbitButtonClicked(View view){
-
+        sharedPreferences.edit().putString("adminCourseName",admincourseSpiner.getSelectedItem().toString()).apply();
+        sharedPreferences.edit().putString("adminYearNo",adminyearSpiner.getSelectedItem().toString()).apply();
+        sharedPreferences.edit().putString("adminSemNo",adminsemesterSpiner.getSelectedItem().toString()).apply();
         Intent adminCourseShowAllSubjectActivity = new Intent(getApplicationContext(), AdminCourseShowAllSubjectActivity.class);
         startActivity(adminCourseShowAllSubjectActivity);
     }

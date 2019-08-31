@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="76dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.009">
 
         <Button
             android:id="@+id/SubjectEditButton"
@@ -20,42 +21,44 @@
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:layout_marginEnd="11dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginEnd="24dp"
             android:background="@drawable/editicon"
             android:onClick="editCourseButton" />
 
         <TextView
             android:id="@+id/SubjectNameTextView"
-            android:layout_width="90dp"
+            android:layout_width="190dp"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/TeacherNamesTextView"
-            android:layout_alignBottom="@+id/TeacherNamesTextView"
-            android:layout_marginStart="13dp"
-            android:layout_toEndOf="@+id/SubjectCodeTextView"
+            android:layout_alignBaseline="@+id/SubjectCodeTextView"
+            android:layout_alignBottom="@+id/SubjectCodeTextView"
+            android:layout_centerHorizontal="true"
             android:text="Java"
             android:textSize="18sp" />
 
         <TextView
             android:id="@+id/SubjectCodeTextView"
-            android:layout_width="90dp"
+            android:layout_width="55dp"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/SubjectNameTextView"
-            android:layout_alignBottom="@+id/SubjectNameTextView"
+            android:layout_alignBottom="@+id/SubjectEditButton"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="15dp"
-            android:text="1001"
-            android:textSize="18sp" />
+            android:layout_marginStart="19dp"
+            android:text="10001"
+            android:textSize="18sp"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="629dp" />
+
 
         <TextView
             android:id="@+id/TeacherNamesTextView"
-            android:layout_width="90dp"
+            android:layout_width="258dp"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/SubjectEditButton"
-            android:layout_marginEnd="14dp"
-            android:layout_toStartOf="@+id/SubjectEditButton"
+            android:layout_alignEnd="@+id/SubjectNameTextView"
+            android:layout_alignParentBottom="true"
             android:text="Smita"
-            android:textSize="18sp" />
+            android:textSize="22sp"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="42dp" />
 
     </RelativeLayout>
+
 </android.support.constraint.ConstraintLayout>

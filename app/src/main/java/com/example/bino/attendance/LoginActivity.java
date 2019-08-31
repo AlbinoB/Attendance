@@ -148,6 +148,7 @@ public class LoginActivity extends AppCompatActivity {
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
+                                        progressdialog.dismiss();
                                         Toast.makeText(LoginActivity.this, "Please select Type of User!!!", Toast.LENGTH_LONG).show();
 
                                     }
@@ -163,6 +164,7 @@ public class LoginActivity extends AppCompatActivity {
                                     handler.post(new Runnable() {
                                         @Override
                                         public void run() {
+                                            progressdialog.dismiss();
                                             Toast.makeText(LoginActivity.this, "Welcome " + (String) sharedPreferences.getString("currentUserName", "no  name"), Toast.LENGTH_LONG).show();
                                         }
                                     });
@@ -192,6 +194,7 @@ public class LoginActivity extends AppCompatActivity {
                                     handler.post(new Runnable() {
                                         @Override
                                         public void run() {
+                                            progressdialog.dismiss();
                                             Toast.makeText(LoginActivity.this, "Welcome "+(String)sharedPreferences.getString("currentUserName","no  name"), Toast.LENGTH_LONG).show();
 
                                         }
@@ -222,6 +225,7 @@ public class LoginActivity extends AppCompatActivity {
                                     handler.post(new Runnable() {
                                         @Override
                                         public void run() {
+                                            progressdialog.dismiss();
                                             Toast.makeText(LoginActivity.this, "Welcome "+userName, Toast.LENGTH_LONG).show();
 
                                         }
@@ -266,41 +270,65 @@ public class LoginActivity extends AppCompatActivity {
 
         }
 
-        public boolean checkEmptyFields(){
-            String error="";
-            if(userName.equals("")&&userName.equals("")){
-                error="Please enter User Name and Password!!!";
-                passwordtext.setText("");
+        public boolean checkEmptyFields() {
+            int flag1 = 0;
+            if (userName.equals("") && userName.equals("")) {
+
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(LoginActivity.this, "Please enter User Name and Password!!!", Toast.LENGTH_SHORT).show();
+                        progressdialog.dismiss();
+                        passwordtext.setText("");
+                    }
+                });
+                flag1 = 0;
+            } else {
+                if (userName.equals("")) {
+
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressdialog.dismiss();
+                            Toast.makeText(LoginActivity.this, "Please enter User Name!!!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    flag1 = 0;
+
+
+                } else {
+                    flag1 = 1;
+                }
+                if (password.equals("")) {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressdialog.dismiss();
+                            Toast.makeText(LoginActivity.this, "Please enter Password!!!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    flag1 = 0;
+
+
+                } else {
+                    flag1 = 1;
+                }
+            }
+            if(flag1==1)
+            {
+            return true;
             }else
             {
-                if(userName.equals("")){
-                    error="Please enter User Name!!!";
-
-                }
-                else {
-                    if(password.equals("")){
-                        error="Please enter Password!!!";
-                    }
-                }
-            }
-
-            if(error!="")
-            {
-                Toast.makeText(this, error, Toast.LENGTH_LONG).show();
-
-                return false;
-            }
-            else
-            {
-
-                return true;
-            }
+            return false;}
+        }
 
         }
 
 
 
-    }
+
+
 
 
 

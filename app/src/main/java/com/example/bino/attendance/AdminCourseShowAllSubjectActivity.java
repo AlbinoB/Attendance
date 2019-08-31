@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -172,6 +173,20 @@ public class AdminCourseShowAllSubjectActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         Intent adminCourseEditAddSubject = new Intent(getApplicationContext(), AdminCourseViewEditAddCourseDetails.class);
+                        adminCourseEditAddSubject.putExtra("subjectid",subjectcode.getText().toString());
+                        adminCourseEditAddSubject.putExtra("check","show");
+                        startActivity(adminCourseEditAddSubject);
+                    }
+                });
+                Button button =(Button)view.findViewById(R.id.editAttendance);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Intent adminCourseEditAddSubject = new Intent(getApplicationContext(), AdminCourseViewEditAddCourseDetails.class);
+                        adminCourseEditAddSubject.putExtra("subjectid",subjectcode.getText().toString());
+                        adminCourseEditAddSubject.putExtra("check","edit");
+
                         startActivity(adminCourseEditAddSubject);
                     }
                 });

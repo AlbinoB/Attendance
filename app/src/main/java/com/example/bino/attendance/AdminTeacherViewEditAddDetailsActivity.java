@@ -98,7 +98,7 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
 
         }
 
-    
+
         @Override
         protected Boolean doInBackground(String... sqlarr) {
 

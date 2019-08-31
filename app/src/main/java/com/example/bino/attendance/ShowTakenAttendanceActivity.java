@@ -1,8 +1,10 @@
 package com.example.bino.attendance;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +22,8 @@ public class ShowTakenAttendanceActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     String[][] studentNameRollno;
+    ProgressDialog progressdialog;
+    Handler handler =new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,13 +91,21 @@ public class ShowTakenAttendanceActivity extends AppCompatActivity {
     }
 
     public  void SaveAttendance(View view){
+        progressdialog = new ProgressDialog(ShowTakenAttendanceActivity.this);
+        progressdialog.setMessage("Saving....");
+        progressdialog.show();
+        Thread savingDetailsThread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String[] sql={""};
+                ConnectToDB connectToDB=new ConnectToDB();
+                connectToDB.execute(sql);
+            }
+        });
+        savingDetailsThread.start();
 
-        String[] sql={""};
-         ConnectToDB connectToDB=new ConnectToDB();
-
-         connectToDB.execute(sql);
         Intent teacherhomeactivity = new Intent(getApplicationContext(), TeacherHomeActivity.class);
-        finish();
+        /*finish();*/
         startActivity(teacherhomeactivity);
     }
 

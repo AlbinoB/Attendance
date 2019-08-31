@@ -334,7 +334,7 @@ public class TeacherSearchResult extends AppCompatActivity {
                             l1 = new Label(totallecture + 2, 1+2, "Percentage");
                             sheet1.addCell(l1);
 
-
+                            int countForDefaulterSheetIndex=4;//first four rows for blank
                             for (int i = 0; i < totalstudent; i++) {
 
                                 l1 = new Label(0, i + 2+2, studentsarr[i][1]);//rollno
@@ -347,15 +347,15 @@ public class TeacherSearchResult extends AppCompatActivity {
                                     cell.setSize(3000);
                                     sheet1.setColumnView(j, cell);
 
-                                    Log.i("second for j", "" + j);
+
                                     if (i == 0) {
-                                        Log.i("second for if i==0", "" + i);
+
                                         l1 = new Label(j + 2, 1+2, attendancarray[0][j]);
                                         sheet1.addCell(l1);
-                                        Log.i("secattendancarray[0][j]", "" + attendancarray[0][j]);
+
                                         l1 = new Label(j + 2, 0+2, attendancarray[1][j]);
                                         sheet1.addCell(l1);
-                                        Log.i("secattendancarray[0][j]", "" + attendancarray[0][j]);
+
                                     }
                                     l1 = new Label(j + 2, i + 2+2, attendancarray[i + 2][j]);
                                     sheet1.addCell(l1);
@@ -364,24 +364,26 @@ public class TeacherSearchResult extends AppCompatActivity {
 
                                     sheet1.addCell(l1);
 
-                                    if(Float.parseFloat(attendancarray[i+2][totallecture])<75.0) {
-                                        l1 = new Label(0, i + 2+2, studentsarr[i][1]);//rollno
-                                        defaulters.addCell(l1);
-                                        l1 = new Label(1, i + 2+2, studentsarr[i][2]);//name
-                                        defaulters.addCell(l1);
-                                        l1 = new Label(2, i + 2+2, attendancarray[i + 2][totallecture]);//name
-                                        defaulters.addCell(l1);
 
-                                        makeCellRed = sheet1.getWritableCell(totallecture+2, i + 2+2);//colour bug perc column
 
-                                        newFormat = new WritableCellFormat();
+                                }
+                                if(Float.parseFloat(attendancarray[i+2][totallecture])<75.0) {
+                                    l1 = new Label(0, countForDefaulterSheetIndex, studentsarr[i][1]);//rollno
+                                    defaulters.addCell(l1);
+                                    l1 = new Label(1, countForDefaulterSheetIndex , studentsarr[i][2]);//name
+                                    defaulters.addCell(l1);
+                                    l1 = new Label(2, countForDefaulterSheetIndex , attendancarray[i + 2][totallecture]);//name
+                                    defaulters.addCell(l1);
 
-                                        newFormat.setBackground(Colour.RED);
+                                    makeCellRed = sheet1.getWritableCell(totallecture+2, i+2+2);//colour bug perc column
 
-                                        makeCellRed.setCellFormat(newFormat);
-                                    }
-                                    Log.i("secattendancarray[i][j]", "" + attendancarray[i + 2][j]);
+                                    newFormat = new WritableCellFormat();
 
+                                    newFormat.setBackground(Colour.RED);
+
+                                    makeCellRed.setCellFormat(newFormat);
+
+                                    countForDefaulterSheetIndex++;
                                 }
 
 

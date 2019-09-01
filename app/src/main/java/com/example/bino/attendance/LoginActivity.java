@@ -125,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
                 ConnectivityManager connMgr = (ConnectivityManager)
                         getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-                return (networkInfo != null && networkInfo.isConnected());
+                return (networkInfo != null && networkInfo.isConnected() && networkInfo.isAvailable());
             }
 
             @Override

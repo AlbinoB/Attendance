@@ -171,9 +171,6 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
 
 
 
-        CustomAdapter customAdapter=new CustomAdapter();
-        listView.setAdapter(customAdapter);
-
     }
 
     public class CustomAdapter extends BaseAdapter {
@@ -248,11 +245,7 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
                 presentabsent.setTag("false");
                 presentabsent.setChecked(false);
             }
-
-
-
             return  view;
-
         }
     }
 
@@ -290,10 +283,6 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
             }
         }//doInBackground
 
-
-
-
-
         public void getStartAndEndDate(){
 
             sql="select semStartDate,semEndDate from Semester where semId=(select fksemIdStudent from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"'))";
@@ -322,7 +311,7 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
                 }
                 else {
 
-                    Log.i("nothing", "nothing");
+                    Log.i("nothing", "nothing.....");
                 }
 
             } catch (Exception e) {
@@ -330,11 +319,11 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
             }
         }
 
-
         public void getDatesPresentAbsent(){
 
 
-            sql="select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenDateFormatted from Attendance where takenDate between '"+semStartDate+"' and '"+semEndDate+"' and fkstudentErpNo=(select studentErpNo from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"'))  and fksubjectId=(select subjectId from Subject where subjectId="+passScode+" and fksemIdSubject=(select fksemIdStudent from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"')))" ;
+            //sql="select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenDateFormatted from Attendance where takenDate between '"+semStartDate+"' and '"+semEndDate+"' and fkstudentErpNo=(select studentErpNo from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"'))  and fksubjectId=(select subjectId from Subject where subjectId="+passScode+" and fksemIdSubject=(select fksemIdStudent from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"')))" ;
+            sql="select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenDateFormatted  from Attendance where fksubjectId="+passScode+" and fkstudentErpNo=(select studentErpNo from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"')) and takenDate between '"+semStartDate+"' and '"+semEndDate+"'";
 
             Log.i("sqldatas",sql);
             listView=(ListView)findViewById(R.id.listView);
@@ -360,7 +349,6 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
             }
         }
 
-
         public  void updateAttendance(final String updateTakenDate, final String updateTakenTime, final String absentOrPresent){
             Thread updateAttendaceThread=new Thread(new Runnable() {
                 @Override
@@ -377,12 +365,6 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
 
         }
 
-
     }
-
-   /* public void endableEditAttendance{
-        presentabsent.setEnabled(false);
-
-    }*/
 
 }

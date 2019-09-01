@@ -45,18 +45,14 @@ public class LoginActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences;
         ProgressDialog progressdialog;
+
         Handler handler =new Handler();
 
 
 
         public class ConnectToDB extends AsyncTask<String,Void,Boolean>{
 
-            public boolean isOnline() {
-                ConnectivityManager connMgr = (ConnectivityManager)
-                        getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-                return (networkInfo != null && networkInfo.isConnected());
-            }
+
 
 
             @Override
@@ -109,6 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 // User clicked OK button
                                             }
                                         })
+                                        .setCancelable(false)
                                         .show();
                             }
                         });
@@ -123,6 +120,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
             }
+
+            public boolean isOnline() {
+                ConnectivityManager connMgr = (ConnectivityManager)
+                        getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+                return (networkInfo != null && networkInfo.isConnected());
+            }
+
             @Override
             protected void onPostExecute(Boolean result) {
                 // do UI work here
@@ -167,7 +172,8 @@ public class LoginActivity extends AppCompatActivity {
             user = typeOfUser.getSelectedItem().toString();
 
 
-            progressdialog.setMessage("Please Wait....");
+            progressdialog.setMessage("Autenticating....");
+            progressdialog.setCancelable(false);
             progressdialog.show();
 
             Thread validationThread=new Thread(new Runnable() {

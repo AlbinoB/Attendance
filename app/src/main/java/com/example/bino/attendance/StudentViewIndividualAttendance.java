@@ -1,8 +1,14 @@
 package com.example.bino.attendance;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +23,7 @@ import android.widget.TextView;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class StudentViewIndividualAttendance extends AppCompatActivity {
@@ -29,6 +36,7 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
     String semStartDate=null,semEndDate=null;
     Intent previousIndent;
     String[][] studentsarr ;
+    Handler handler =new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,40 +147,101 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
 
 
                 return true;
-            } catch (Exception e) {
+            }catch (SQLException e) {
                 e.printStackTrace();
-                return false;
+                if(!isOnline()){
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            new AlertDialog.Builder(StudentViewIndividualAttendance.this)
+                                    .setTitle("No Internet!")
+                                    .setMessage("Please check your Internet Connection.")
+                                    .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            // User clicked OK button
+                                           finish();
+                                        }
+                                    })
+                                    .setCancelable(false)
+                                    .show();
+                        }
+                    });
+
+                }
+                return  false;
+
             }
+            catch (Exception e){
+                e.printStackTrace();
+                return  false;
+            }
+
+
+
+
+
         }//doInBackground
 
 
 
         public void setcurrentUser(){
             currentUser=(TextView)findViewById(R.id.studentName);
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    currentUser.setText((String)sharedPreferences.getString("currentUserName","no  name"));
+                }
+            });
 
-            currentUser.setText((String)sharedPreferences.getString("currentUserName","no  name"));
 
         }
 
         public void setCourseName(){
-            courseName=(TextView)findViewById(R.id.courseName);
-            courseName.setText(previousIndent.getStringExtra("courseName"));
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    courseName=(TextView)findViewById(R.id.courseName);
+                    courseName.setText(previousIndent.getStringExtra("courseName"));
+
+                }
+            });
+
         }
 
         public void setSemNameAndYear(){
-            semName=(TextView)findViewById(R.id.semName);
-            semYear=(TextView)findViewById(R.id.semYear);
-            semName.setText(previousIndent.getStringExtra("semName"));
-            semYear.setText(previousIndent.getStringExtra("semYear"));
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    semName=(TextView)findViewById(R.id.semName);
+                    semYear=(TextView)findViewById(R.id.semYear);
+                    semName.setText(previousIndent.getStringExtra("semName"));
+                    semYear.setText(previousIndent.getStringExtra("semYear"));
+                }
+            });
+
         }
         public void setSubjectSName(){
-            passSname=(TextView)findViewById(R.id.studentRollNo);
-            passSname.setText(previousIndent.getStringExtra("passSname"));
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    passSname=(TextView)findViewById(R.id.studentRollNo);
+                    passSname.setText(previousIndent.getStringExtra("passSname"));
+
+                }
+            });
+
 
         }
         public void setSubjectScode(){
-            sCode=(TextView)findViewById(R.id.sCode);
-            sCode.setText(previousIndent.getStringExtra("passScode"));
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    sCode=(TextView)findViewById(R.id.sCode);
+                    sCode.setText(previousIndent.getStringExtra("passScode"));
+                }
+            });
+
+
 
         }
 
@@ -192,7 +261,7 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
         }
 
         public void getNumberOfdays(){
-            sql="select fksubjectId,count(*) as totalLectures from Attendance where takenDate between '"+semStartDate+"' and '"+semEndDate+"' and fkstudentErpNo=(select studentErpNo from Student where studentErpNo='"+(Integer)sharedPreferences.getInt("currentUserErpNo",0)+"') and fksubjectId=(select subjectId from Subject where subjectId='"+sCode.getText().toString()+"') group by fksubjectId";
+            sql="select fksubjectId,count(*) as totalLectures from Attendance where takenDate between '"+semStartDate+"' and '"+semEndDate+"' and fkstudentErpNo=(select studentErpNo from Student where studentErpNo='"+(Integer)sharedPreferences.getInt("currentUserErpNo",0)+"') and fksubjectId=(select subjectId from Subject where subjectId="+previousIndent.getStringExtra("passScode")+") group by fksubjectId";
 
             Log.i("sqldays",sql);
             try {
@@ -228,7 +297,7 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
                e.printStackTrace();
            }
 
-            sql="select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenTime from Attendance where takenDate between '"+semStartDate+"' and '"+semEndDate+"' and fkstudentErpNo=(select studentErpNo from Student where studentErpNo="+(Integer)sharedPreferences.getInt("currentUserErpNo",0)+") and fksubjectId=(select subjectId from Subject where subjectId="+Integer.parseInt(sCode.getText().toString())+" and fksemIdSubject=(select fksemIdStudent from Student where studentErpNo="+(Integer)sharedPreferences.getInt("currentUserErpNo",0)+"))";
+            sql="select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenTime from Attendance where takenDate between '"+semStartDate+"' and '"+semEndDate+"' and fkstudentErpNo=(select studentErpNo from Student where studentErpNo="+(Integer)sharedPreferences.getInt("currentUserErpNo",0)+") and fksubjectId=(select subjectId from Subject where subjectId="+previousIndent.getStringExtra("passScode")+" and fksemIdSubject=(select fksemIdStudent from Student where studentErpNo="+(Integer)sharedPreferences.getInt("currentUserErpNo",0)+"))";
 
             Log.i("sqldatas",sql);
             listView=(ListView)findViewById(R.id.listView);
@@ -246,10 +315,38 @@ public class StudentViewIndividualAttendance extends AppCompatActivity {
                 }
 
 
-            } catch (Exception e) {
-                Log.i("nothing", "nothing");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                if(!isOnline()){
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            new AlertDialog.Builder(StudentViewIndividualAttendance.this).
+                                    setTitle("No Internet!").
+                                    setMessage("Please check your Internet Connection.").
+                                    setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            // User clicked OK button
+                                        }
+                                    })
+                                    .show();
+                        }
+                    });
+
+                }
+
+            }
+            catch (Exception e){
                 e.printStackTrace();
             }
+
+        }
+
+        public boolean isOnline() {
+            ConnectivityManager connMgr = (ConnectivityManager)
+                    getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+            return (networkInfo != null && networkInfo.isConnected());
         }
 
 

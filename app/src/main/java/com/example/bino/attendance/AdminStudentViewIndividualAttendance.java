@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -46,6 +48,7 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
     String semStartDate=null,semEndDate=null;
     static String[][] studentsarr ;
     ConnectToDB connectToDB;
+    Handler handler=new Handler();
 
     EditText startDate;
     EditText endDate;
@@ -58,9 +61,22 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
     }
 
     public void SaveDetailsofStudent(View view){
-        Button savestudentdetails =(Button) findViewById(R.id.SaveIndividualStudentDetail);
         Intent adminstudenviewallattendance = new Intent(getApplicationContext(), AdminStudentViewAllAttendance.class);
+        finish();
         startActivity(adminstudenviewallattendance);
+    }
+
+    public void applyFilter(View view){
+
+
+        semStartDate=startDate.getText().toString();
+        semEndDate=endDate.getText().toString();
+
+        if(!semStartDate.equals("") &&!semEndDate.equals(""))
+        connectToDB.getNumberOfdays();
+        else {
+            Toast.makeText(this, "Please select Start and End dates", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -94,7 +110,7 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                                startDate.setText((day+"/"+month+"/"+year));
+                                startDate.setText((year+"-"+(month+1)+"-"+day));
                             }
                         },year,month,day);
                 datePickerDialogStartDate.show();
@@ -115,7 +131,7 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                                endDate.setText((day+"/"+month+"/"+year));
+                                endDate.setText((year+"-"+(month+1)+"-"+day));
                             }
                         },year,month,day);
                 datePickerDialogEndDate.show();
@@ -299,24 +315,42 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
         }
 
         public void getNumberOfdays(){
-            sql="select fksubjectId,count(*) as totalLectures from Attendance where takenDate between '"+semStartDate+"' and '"+semEndDate+"' and fkstudentErpNo=(select studentErpNo from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"')) and fksubjectId=(select subjectId from Subject where subjectId='"+passScode+"') group by fksubjectId";
 
-            Log.i("sqldays",sql);
-            try {
-                rs = stmt.executeQuery(sql);
-                if (rs.next()) {
-                    int numberOfdays = (rs.getInt("totalLectures"));
-                    studentsarr=new String[numberOfdays][3];
-                    getDatesPresentAbsent();//if days are fetched then call else
+            Thread threadGetNumberOfdays=new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Looper.prepare();
+                    sql="select fksubjectId,count(*) as totalLectures from Attendance where takenDate between '"+semStartDate+"' and '"+semEndDate+"' and fkstudentErpNo=(select studentErpNo from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"')) and fksubjectId=(select subjectId from Subject where subjectId='"+passScode+"') group by fksubjectId";
+
+                    Log.i("sqldays",sql);
+                    try {
+                        rs = stmt.executeQuery(sql);
+                        if (rs.next()) {
+                            int numberOfdays = (rs.getInt("totalLectures"));
+                            studentsarr=new String[numberOfdays][3];
+                            getDatesPresentAbsent();//if days are fetched then call else
+                        }
+                        else {
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(AdminStudentViewIndividualAttendance.this, "No record found", Toast.LENGTH_SHORT).show();
+                                           studentsarr=new String[0][3];
+                                            listView=(ListView)findViewById(R.id.listView);
+                                            CustomAdapter customAdapter=new CustomAdapter();
+                                            listView.setAdapter(customAdapter);
+
+                                }
+                            });
+                            Log.i("nothing", "nothing.....");
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-                else {
-
-                    Log.i("nothing", "nothing.....");
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            });
+            threadGetNumberOfdays.start();
         }
 
         public void getDatesPresentAbsent(){
@@ -326,9 +360,7 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
             sql="select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenDateFormatted  from Attendance where fksubjectId="+passScode+" and fkstudentErpNo=(select studentErpNo from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"')) and takenDate between '"+semStartDate+"' and '"+semEndDate+"'";
 
             Log.i("sqldatas",sql);
-            listView=(ListView)findViewById(R.id.listView);
-            CustomAdapter customAdapter=new CustomAdapter();
-            listView.setAdapter(customAdapter);
+
 
             try {
                 rs = stmt.executeQuery(sql);
@@ -341,6 +373,14 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
 
                     i++;
                 }
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        listView=(ListView)findViewById(R.id.listView);
+                        CustomAdapter customAdapter=new CustomAdapter();
+                        listView.setAdapter(customAdapter);
+                    }
+                });
 
 
             } catch (Exception e) {

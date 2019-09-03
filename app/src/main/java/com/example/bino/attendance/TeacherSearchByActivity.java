@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.icu.util.Calendar;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -37,12 +39,13 @@ public class TeacherSearchByActivity extends AppCompatActivity {
     String particularsubject;
     String particularstartdate;
     String particularenddate;
-
-    private Spinner SearchcourseSpiner, SearchyearSpiner, SearchsemesterSpiner, SearchsubjectSpiner;
-    String[] coursenames;
-    private static final String[] yearNos = {"Select Year","FY","SY","TY"};
-    private static final String[] semesterNos = {"Select Semester","SEM 1","SEM 2","SEM 3","SEM 4","SEM 5","SEM 6","SEM 7","SEM 8","SEM 9"};
-     String[] subjectNames;
+    Handler handler =new Handler();
+    private Spinner courseSpiner,yearSpiner,semesterSpiner,subjectSpiner;
+    String[] coursename ;
+    String[] yearNo ;
+    String[] semesterNo ;
+    String[] subjectName ;
+    int noOfSubject,noOfSemesters,noOfYears,noOfCourse=0;
     //kk
 
     public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
@@ -62,10 +65,113 @@ public class TeacherSearchByActivity extends AppCompatActivity {
                 connection = DriverManager.getConnection(url);
                 stmt = connection.createStatement();
 
-                Log.i("sadasd","asdfaf");
+
                 getTeacherName();
                 getAndSetCourseName();
-                getAndSetSubjectName();
+                getYear();
+                setYears();
+                getSemesters();
+                setSemester();
+                getSubjectName();
+                setSubjectName();
+
+                courseSpiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                        Log.i("course name", "" + courseSpiner.getSelectedItem());
+                        Log.i("clicked", "on item selected");
+                        // setYears();
+                        Thread thread = new Thread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                getYear();
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        setYears();
+                                        Log.i("set year", "on item selected");
+                                    }
+                                });
+                            }
+                        });
+
+                        thread.start();
+                        // setYears();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+                    }
+                });
+
+
+
+
+                yearSpiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+                        Log.i("year no", "" + yearSpiner.getSelectedItem());
+                        //  getSemesters();
+                        Thread thread = new Thread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                getSemesters();
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        setSemester();
+                                    }
+                                });
+                            }
+                        });
+
+                        thread.start();
+                        // setYears();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+                    }
+                });
+
+
+
+
+
+                semesterSpiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                        Log.i("course name", "" + semesterSpiner.getSelectedItem());
+                        Log.i("clicked", "on item selected");
+                        //   setYears();
+                        Thread thread = new Thread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                getSubjectName();
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        setSubjectName();
+                                    }
+                                });
+                            }
+                        });
+
+                        thread.start();
+                        // setYears();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+                    }
+                });
 
                 return true;
             } catch (Exception e) {
@@ -77,67 +183,171 @@ public class TeacherSearchByActivity extends AppCompatActivity {
         }//doInBackground;
         public void getTeacherName(){
             currentTeacherTextView =((Integer)sharedPreferences.getInt("currentUserId",0));
-
-            Log.i("sadascurrentTead",currentTeacherTextView+"");
-
         }
 
         public void getAndSetCourseName(){
+            try {
+                Class.forName("net.sourceforge.jtds.jdbc.Driver");
+                url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+                connection = DriverManager.getConnection(url);
+                stmt = connection.createStatement();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-            Log.i("sadasd","aspublic void getAndSetCourseName(){dfaf");
             try{
                 int i=1;
-                int noOfCourse=0;
-                rs = stmt.executeQuery("select count(*) as countOfCourse from Course where courseId IN (select fkcourseIdTeacher from Teacher where teacherId  = '"+currentTeacherTextView+"') ");
+                noOfCourse=0;
+                rs = stmt.executeQuery("select count(courseName) as countOfCourse from Course where courseId in (select fkcourseIdSubject from Subject where fkteacherIdSubject=(select teacherId from Teacher where teacherId='"+(Integer)sharedPreferences.getInt("currentUserId",0)+"'))");
+
                 if(rs.next()){
                     noOfCourse  = (rs.getInt("countOfCourse"));
-
                 }
-                coursenames =new String[noOfCourse+1];
-                coursenames[0] ="Select Course" ;
-                rs = stmt.executeQuery("select courseName from Course where courseId IN (select fkcourseIdTeacher from Teacher where teacherId = '"+currentTeacherTextView+"') ");
-                while(rs.next()){
 
-                    coursenames[i++] = rs.getString("courseName");
+                coursename =new String[noOfCourse+1];
+                coursename[0]="Select Course";
+                rs = stmt.executeQuery("select courseName from Course where courseId in (select fkcourseIdSubject from Subject where fkteacherIdSubject=(select teacherId from Teacher where teacherId='"+(Integer)sharedPreferences.getInt("currentUserId",0)+"'))");
 
+                while(rs.next()) {
+                    coursename[i++] = rs.getString("courseName");
                 }
-                ArrayAdapter<String> searchcourseAdapter = new ArrayAdapter<String>(TeacherSearchByActivity.this,android.R.layout.simple_spinner_dropdown_item,coursenames);
-                searchcourseAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                SearchcourseSpiner.setAdapter(searchcourseAdapter);
+
+                ArrayAdapter<String> courseAdapter = new ArrayAdapter<String>(TeacherSearchByActivity.this,android.R.layout.simple_spinner_dropdown_item,coursename);
+                courseAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                courseSpiner.setAdapter(courseAdapter);
+
+
 
             }catch(Exception e){
                 e.printStackTrace();
             }
         }//getAndSetCourseName
 
-        public void getAndSetSubjectName(){
+        public void getYear(){
+            try {
+                Class.forName("net.sourceforge.jtds.jdbc.Driver");
+                url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+                connection = DriverManager.getConnection(url);
+                stmt = connection.createStatement();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                Log.i("Years:","year called");
+                int i = 1;
+                noOfYears = 0;
+
+                rs = stmt.executeQuery("select count(*) as noOfYears from CourseYears where fkcourseIdCourseYears=(select courseId from Course where courseName='"+courseSpiner.getSelectedItem()+"')");
+                if (rs.next()) {
+                    noOfYears = (rs.getInt("noOfYears"));
+
+                }
+                Log.i("noOfYears:",noOfYears+"");
+                yearNo=new String[noOfYears+1];
+                yearNo[0]="Select Year";
+                rs = stmt.executeQuery("select courseYears from CourseYears where fkcourseIdCourseYears=(select courseId from Course where courseName='"+courseSpiner.getSelectedItem()+"')");
+                while (rs.next()) {
+                    Log.i("courseYears:",rs.getString("courseYears"));
+                    yearNo[i++] = rs.getString("courseYears");
+
+                }
+
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }//getYear
+
+        public void setYears(){
+
+            ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(TeacherSearchByActivity.this,android.R.layout.simple_spinner_dropdown_item,yearNo);
+            yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            yearSpiner.setAdapter(yearAdapter);
+        }//setYears
+
+
+        public void getSemesters(){
+            try {
+                Class.forName("net.sourceforge.jtds.jdbc.Driver");
+                url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+                connection = DriverManager.getConnection(url);
+                stmt = connection.createStatement();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                int i = 1;
+                noOfSemesters = 0;
+
+                rs = stmt.executeQuery("select Count(*) as noOfSemesters from Semester where semYear='"+yearSpiner.getSelectedItem()+"'");
+                if (rs.next()) {
+                    noOfSemesters = (rs.getInt("noOfSemesters"));
+
+                }
+                Log.i("noOfsemester:",noOfSemesters+"");
+                semesterNo=new String[noOfSemesters+1];
+                semesterNo[0]="Select Semester";
+                rs = stmt.executeQuery("select semName from Semester where semYear='"+yearSpiner.getSelectedItem()+"'");
+                while (rs.next()) {
+                    Log.i("semName:",rs.getString("semName"));
+                    semesterNo[i++] = rs.getString("semName");
+                }
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }//getSemesters
+
+        public void setSemester(){
+            ArrayAdapter<String> semesterAdapter = new ArrayAdapter<String>(TeacherSearchByActivity.this,android.R.layout.simple_spinner_dropdown_item,semesterNo);
+            semesterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            semesterSpiner.setAdapter(semesterAdapter);
+        }//setSemester
+
+
+        public void getSubjectName(){
+            try {
+                Class.forName("net.sourceforge.jtds.jdbc.Driver");
+                url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+                connection = DriverManager.getConnection(url);
+                stmt = connection.createStatement();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             try{
                 int i=1;
-                int noOfSubject=0;
-                rs = stmt.executeQuery("select count(*) as countOfSubject from Subject where fkcourseIdSubject IN (select fkcourseIdTeacher from Teacher where teacherId = '"+currentTeacherTextView+"') ");
+                noOfSubject=0;
+                rs = stmt.executeQuery("select count(subjectName) as countOfSubject from Subject where fkteacherIdSubject="+(Integer)sharedPreferences.getInt("currentUserId",0)+" and fkcourseIdSubject=(select courseId from Course where courseName='"+courseSpiner.getSelectedItem()+"') and  fksemIdSubject=(select semId from Semester where semName='"+semesterSpiner.getSelectedItem()+"')");
+
                 if(rs.next()){
                     noOfSubject  = (rs.getInt("countOfSubject"));
                     Log.i("no of subject",""+rs.getInt("countOfSubject"));
 
                 }
-                subjectNames =new String[noOfSubject+1];
-                subjectNames[0] ="Select Subject" ;
-                rs = stmt.executeQuery( "select subjectName from Subject  where fkcourseIdSubject IN (select fkcourseIdTeacher from Teacher where teacherId = '"+currentTeacherTextView+"') ");
+                subjectName =new String[noOfSubject+1];
+                subjectName[0]="Select Subject";
+                rs = stmt.executeQuery( "select subjectName from Subject where fkteacherIdSubject="+(Integer)sharedPreferences.getInt("currentUserId",0)+" and fkcourseIdSubject=(select courseId from Course where courseName='"+courseSpiner.getSelectedItem()+"') and  fksemIdSubject=(select semId from Semester where semName='"+semesterSpiner.getSelectedItem()+"')");
 
                 while(rs.next()){
                     Log.i(" subject name",""+rs.getString("subjectName"));
 
-                    subjectNames[i++] = (rs.getString("subjectName"));
+                    subjectName[i++] = (rs.getString("subjectName"));
 
                 }
-                ArrayAdapter<String> searchsubjectAdapter = new ArrayAdapter<String>(TeacherSearchByActivity.this,android.R.layout.simple_spinner_dropdown_item,subjectNames);
-                searchsubjectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                SearchsubjectSpiner.setAdapter(searchsubjectAdapter);
+
 
             }catch(Exception e){
                 e.printStackTrace();
             }
+
         }//getAndSetSubjectName
+
+        public void setSubjectName(){
+            ArrayAdapter<String> subjectAdapter = new ArrayAdapter<String>(TeacherSearchByActivity.this,android.R.layout.simple_spinner_dropdown_item,subjectName);
+            subjectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            subjectSpiner.setAdapter(subjectAdapter);
+        }//setSubjectName
+
     }//AsyncTask
 
         public void SearchAttendance(View view){
@@ -173,10 +383,10 @@ public class TeacherSearchByActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_search_by);
 
-        SearchcourseSpiner = (Spinner)findViewById(R.id.SearchcourseSpinner);
-        SearchyearSpiner = (Spinner)findViewById(R.id.SearchyearSpinner);
-        SearchsemesterSpiner = (Spinner)findViewById(R.id.SearchsemesterSpinner);
-        SearchsubjectSpiner = (Spinner)findViewById(R.id.SearchsubjectSpinner);
+        courseSpiner = (Spinner)findViewById(R.id.SearchcourseSpinner);
+        yearSpiner = (Spinner)findViewById(R.id.SearchyearSpinner);
+        semesterSpiner = (Spinner)findViewById(R.id.SearchsemesterSpinner);
+        subjectSpiner = (Spinner)findViewById(R.id.SearchsubjectSpinner);
         startDate=(EditText)findViewById(R.id.StartDate);
         endDate=(EditText)findViewById(R.id.EndDate);
         //startDate.setText(getDateTime());
@@ -245,24 +455,18 @@ public class TeacherSearchByActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    
 
 
-        ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(TeacherSearchByActivity.this,android.R.layout.simple_spinner_dropdown_item,yearNos);
-        yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        SearchyearSpiner.setAdapter(yearAdapter);
-
-        ArrayAdapter<String> semesterAdapter = new ArrayAdapter<String>(TeacherSearchByActivity.this,android.R.layout.simple_spinner_dropdown_item,semesterNos);
-        semesterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        SearchsemesterSpiner.setAdapter(semesterAdapter);
 
     }
 
     public boolean checkEmptyFields(){
         String error="";
-        particularcoursename =SearchcourseSpiner.getSelectedItem().toString();
-        particularyear = SearchyearSpiner.getSelectedItem().toString();
-        particularsemester = SearchsemesterSpiner.getSelectedItem().toString();
-        particularsubject = SearchsubjectSpiner.getSelectedItem().toString();
+        particularcoursename =courseSpiner.getSelectedItem().toString();
+        particularyear = yearSpiner.getSelectedItem().toString();
+        particularsemester = semesterSpiner.getSelectedItem().toString();
+        particularsubject = subjectSpiner.getSelectedItem().toString();
         particularstartdate=startDate.getText().toString();
         particularenddate=endDate.getText().toString();
 

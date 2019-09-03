@@ -135,11 +135,14 @@ public class AdminCourseShowAllSubjectActivity extends AppCompatActivity {
 
 
     }
+    public void AddNewSubject(View view){
 
-    public void editCourseButton(View view){
-        Intent adminCourseEditAddSubject = new Intent(getApplicationContext(), AdminCourseViewEditAddCourseDetails.class);
-        startActivity(adminCourseEditAddSubject);
+        Intent adminCourseSubjectEditDetailsActivity = new Intent(getApplicationContext(), AdminCourseSubjectEditDetailsActivity.class);
+        adminCourseSubjectEditDetailsActivity.putExtra("check","addnew");
+        startActivity(adminCourseSubjectEditDetailsActivity);
     }
+
+
 
         class CustomAdapter extends BaseAdapter{
 
@@ -161,9 +164,9 @@ public class AdminCourseShowAllSubjectActivity extends AppCompatActivity {
             @Override
             public View getView(int i, View view, ViewGroup viewGroup) {
                 view = getLayoutInflater().inflate(R.layout.customlayoutadmincourseshowallsubject,null);
-                subjectcode = (TextView) (view).findViewById(R.id.SubjectCodeTextView);
-                 subjectname = (TextView)  (view).findViewById(R.id.SubjectNameTextView);
-                 teachername = (TextView) (view). findViewById(R.id.TeacherNamesTextView);
+              final   TextView subjectcode = (TextView) (view).findViewById(R.id.SubjectCodeTextView);
+                final  TextView  subjectname = (TextView)  (view).findViewById(R.id.SubjectNameTextView);
+                final   TextView teachername = (TextView) (view). findViewById(R.id.TeacherNamesTextView);
 
                     subjectcode.setText(subjectdetails[i][0]);
                     subjectname.setText(subjectdetails[i][1]);
@@ -172,22 +175,27 @@ public class AdminCourseShowAllSubjectActivity extends AppCompatActivity {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent adminCourseEditAddSubject = new Intent(getApplicationContext(), AdminCourseViewEditAddCourseDetails.class);
-                        adminCourseEditAddSubject.putExtra("subjectid",subjectcode.getText().toString());
-                        adminCourseEditAddSubject.putExtra("check","show");
-                        startActivity(adminCourseEditAddSubject);
+                        Intent adminCourseSubjectEditDetailsActivity = new Intent(getApplicationContext(), AdminCourseSubjectEditDetailsActivity.class);
+                        adminCourseSubjectEditDetailsActivity.putExtra("subjectid",subjectcode.getText().toString());
+                        adminCourseSubjectEditDetailsActivity.putExtra("subjectname",subjectname.getText().toString());
+                        adminCourseSubjectEditDetailsActivity.putExtra("subjectteachername",teachername.getText().toString());
+
+                        adminCourseSubjectEditDetailsActivity.putExtra("check","show");
+                        startActivity(adminCourseSubjectEditDetailsActivity);
                     }
                 });
-                Button button =(Button)view.findViewById(R.id.editAttendance);
+                Button button =(Button)view.findViewById(R.id.SubjectEditButton);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
-                        Intent adminCourseEditAddSubject = new Intent(getApplicationContext(), AdminCourseViewEditAddCourseDetails.class);
-                        adminCourseEditAddSubject.putExtra("subjectid",subjectcode.getText().toString());
-                        adminCourseEditAddSubject.putExtra("check","edit");
+                        Intent adminCourseSubjectEditDetailsActivity = new Intent(getApplicationContext(), AdminCourseSubjectEditDetailsActivity.class);
+                        adminCourseSubjectEditDetailsActivity.putExtra("subjectid",subjectcode.getText().toString());
+                        adminCourseSubjectEditDetailsActivity.putExtra("subjectname",subjectname.getText().toString());
+                        adminCourseSubjectEditDetailsActivity.putExtra("subjectteachername",teachername.getText().toString());
+                        adminCourseSubjectEditDetailsActivity.putExtra("check","edit");
 
-                        startActivity(adminCourseEditAddSubject);
+                        startActivity(adminCourseSubjectEditDetailsActivity);
                     }
                 });
                 return view;

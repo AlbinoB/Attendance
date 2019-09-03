@@ -241,7 +241,10 @@ public class AdminCourseHomeActivity extends AppCompatActivity {
 
     }//AsyncTask
 
-
+            public void AddNewCourse(View view){
+                Intent adminCourseViewEditAddCourseDetails = new Intent(getApplicationContext(), AdminCourseViewEditAddCourseDetails.class);
+                startActivity(adminCourseViewEditAddCourseDetails);
+            }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -119,7 +119,6 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
         try {
             if(connectToDB.execute(sql).get()){
                 {
-                    Log.i("updated:mmmmm","doneee");
 
                 }
             }
@@ -135,7 +134,7 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
         teachernamelistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i1, long l) {
-                Log.i("clicked index",i1+"");
+
             }
         });
 
@@ -143,6 +142,7 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
 
     public void goToEditTeacher(View view){
         Intent loginActivity = new Intent(getApplicationContext(),AdminTeacherViewEditAddDetailsActivity.class);
+        loginActivity.putExtra("check1","addnew");
         startActivity(loginActivity);
     }
 
@@ -177,7 +177,6 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.i("clicked","aaaaaaa"+teachernametextview.getText().toString());
                     Intent adminTeacherViewEditAddDetailsActivity = new Intent(getApplicationContext(), AdminTeacherViewEditAddDetailsActivity.class);
                     adminTeacherViewEditAddDetailsActivity.putExtra("teacherid",teacheridlistview.getText().toString());
                     adminTeacherViewEditAddDetailsActivity.putExtra("check1","show");
@@ -190,8 +189,6 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                   // Log.i("clicked","bbbbbb"+teachernametextview.getText().toString());
-                    Log.i("clicked","bbbbbb"+teacheridlistview.getText().toString());
                     Intent adminTeacherViewEditAddDetailsActivity = new Intent(getApplicationContext(), AdminTeacherViewEditAddDetailsActivity.class);
                     adminTeacherViewEditAddDetailsActivity.putExtra("teacherid",teacheridlistview.getText().toString());
                     adminTeacherViewEditAddDetailsActivity.putExtra("check1","edit");

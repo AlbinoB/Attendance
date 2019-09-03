@@ -44,7 +44,7 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
                     try{
                         rs=stmt.executeQuery("select top 1 teacherId from Teacher order by teacherId desc ");
                         if(rs.next()){
-                            countid = rs.getInt(teacherid);
+                            countid = rs.getInt("teacherId");
                         }
                         countid=countid+1;
                         stmt.executeQuery(" insert into Teacher values("+countid+",'"+tname.getText().toString()+"', " +
@@ -168,9 +168,6 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
              teacherid=intent.getStringExtra("teacherid");
         check1=intent.getStringExtra("check1");
 
-        Log.i("check 1 value",""+check1);
-        Log.i("teacher id",""+teacherid);
-
 
      connectToDB=new ConnectToDB();//obj of async class
 
@@ -204,7 +201,6 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
             taddress.setEnabled(false);
             savebutton.setVisibility(View.INVISIBLE);
 
-            Log.i("clicked","aaaaaaa"+check1);
         }
         if(check1!=null && check1.equals("edit")){
             tid.setEnabled(false);
@@ -216,7 +212,8 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(savebutton.getTag().toString().equals("update")){
                     connectToDB.updateteacherdetails();
-                }else{
+                }
+                if(savebutton.getTag().toString().equals("addnew")){
                     connectToDB.insertnewteacherdetails();
                 }
             }
@@ -224,14 +221,7 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
 
     }
 
-    /*public  void saveTeacherDetails(View view){
 
-        Intent adminTeacherShowAllNamesActivity = new Intent(getApplicationContext(), AdminTeacherShowAllNamesActivity.class);
-        startActivity(adminTeacherShowAllNamesActivity);
-    }*/
 
-    public void editTeacherDetails(View view){
 
-    }
 }
-//

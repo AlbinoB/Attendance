@@ -53,5 +53,19 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/AdminYearTextView"
             android:layout_marginTop="18dp" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/AddnewSubject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="50dp"
+            android:layout_marginLeft="320dp"
+            android:clickable="true"
+            android:onClick="AddNewSubject"
+            app:srcCompat="@drawable/floatingactionbutton"
+            tools:layout_editor_absoluteX="328dp"
+            tools:layout_editor_absoluteY="394dp" />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

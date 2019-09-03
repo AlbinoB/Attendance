@@ -3,7 +3,11 @@ package com.example.bino.attendance;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +27,7 @@ import android.widget.Toast;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -42,6 +47,8 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
     String passSname;
     String semStartDate=null,semEndDate=null;
     static String[][] studentsarr ;
+    ConnectToDB connectToDB;
+    Handler handler=new Handler();
 
     EditText startDate;
     EditText endDate;
@@ -54,9 +61,22 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
     }
 
     public void SaveDetailsofStudent(View view){
-        Button savestudentdetails =(Button) findViewById(R.id.SaveIndividualStudentDetail);
         Intent adminstudenviewallattendance = new Intent(getApplicationContext(), AdminStudentViewAllAttendance.class);
+        finish();
         startActivity(adminstudenviewallattendance);
+    }
+
+    public void applyFilter(View view){
+
+
+        semStartDate=startDate.getText().toString();
+        semEndDate=endDate.getText().toString();
+
+        if(!semStartDate.equals("") &&!semEndDate.equals(""))
+        connectToDB.getNumberOfdays();
+        else {
+            Toast.makeText(this, "Please select Start and End dates", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -90,7 +110,7 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                                startDate.setText((day+"/"+month+"/"+year));
+                                startDate.setText((year+"-"+(month+1)+"-"+day));
                             }
                         },year,month,day);
                 datePickerDialogStartDate.show();
@@ -111,7 +131,7 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                                endDate.setText((day+"/"+month+"/"+year));
+                                endDate.setText((year+"-"+(month+1)+"-"+day));
                             }
                         },year,month,day);
                 datePickerDialogEndDate.show();
@@ -148,7 +168,7 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
 
 
 
-        ConnectToDB connectToDB=new ConnectToDB();//obj of async class
+        connectToDB=new ConnectToDB();//obj of async class
 
         String[] sql={
 
@@ -166,9 +186,6 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
         }
 
 
-
-        CustomAdapter customAdapter=new CustomAdapter();
-        listView.setAdapter(customAdapter);
 
     }
 
@@ -192,31 +209,59 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = getLayoutInflater().inflate(R.layout.customlayoutadminstudentviewindividualattendance, null);
-            TextView dateTextView=(TextView)view.findViewById(R.id.dateTextView);
+            final TextView dateTextView=(TextView)view.findViewById(R.id.dateTextView);
+            final TextView timeTextView=(TextView)view.findViewById(R.id.timeTextView);
             final CheckBox presentabsent=(CheckBox)view.findViewById(R.id.presentabsentcheckBox);
-            Button editAttendanceButton=(Button)view.findViewById(R.id.editAttendance);
+            final Button editAttendanceButton=(Button)view.findViewById(R.id.editAttendance);
+            editAttendanceButton.setTag(""+i);
             editAttendanceButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view1) {
-                    Toast.makeText(AdminStudentViewIndividualAttendance.this, ""+presentabsent.getTag(), Toast.LENGTH_SHORT).show();
                     presentabsent.setEnabled(true);
+                    if(presentabsent.isEnabled()){
+                        editAttendanceButton.setBackground(null);
+                        editAttendanceButton.setBackgroundColor(Color.GREEN);
+                        editAttendanceButton.setText("Save");
+                        if(!presentabsent.getTag().toString().equals(""+presentabsent.isChecked())){
+                            presentabsent.setTag(""+presentabsent.isChecked());
+                            presentabsent.setChecked(presentabsent.isChecked());
+                            int attendanceToBeChangedAtindex=Integer.parseInt(editAttendanceButton.getTag().toString());
+                            if(presentabsent.isChecked()){
+                                studentsarr[attendanceToBeChangedAtindex][1]="P";
+                            }
+                            else{
+                                studentsarr[attendanceToBeChangedAtindex][1]="A";
+                            }
+                            Toast.makeText(AdminStudentViewIndividualAttendance.this, "Saved to database", Toast.LENGTH_SHORT).show();
+                            presentabsent.setEnabled(false);
+                            editAttendanceButton.setBackgroundColor(Color.rgb(105,105,105));
+                            editAttendanceButton.setBackground(getResources().getDrawable(R.drawable.editicon));
+                            editAttendanceButton.setText("");
+                            connectToDB.updateAttendance(dateTextView.getText().toString(),timeTextView.getText().toString(),studentsarr[attendanceToBeChangedAtindex][1]);
+                        }
+
+
+
+                    }
+
+
+
                 }
             });
+
             dateTextView.setText(studentsarr[i][0]);
+            timeTextView.setText(studentsarr[i][2]);
 
             if(studentsarr[i][1].equalsIgnoreCase("P")){
-                presentabsent.setTag(""+i);
                 presentabsent.setChecked(true);
+                presentabsent.setTag("true");
                 presentabsent.setEnabled(false);
             }else{
-                presentabsent.setTag(""+i);
                 presentabsent.setEnabled(false);
+                presentabsent.setTag("false");
                 presentabsent.setChecked(false);
             }
-
-
             return  view;
-
         }
     }
 
@@ -254,10 +299,6 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
             }
         }//doInBackground
 
-
-
-
-
         public void getStartAndEndDate(){
 
             sql="select semStartDate,semEndDate from Semester where semId=(select fksemIdStudent from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"'))";
@@ -274,36 +315,52 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
         }
 
         public void getNumberOfdays(){
-            sql="select fksubjectId,count(*) as totalLectures from Attendance where takenDate between '"+semStartDate+"' and '"+semEndDate+"' and fkstudentErpNo=(select studentErpNo from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"')) and fksubjectId=(select subjectId from Subject where subjectId='"+passScode+"') group by fksubjectId";
 
-            Log.i("sqldays",sql);
-            try {
-                rs = stmt.executeQuery(sql);
-                if (rs.next()) {
-                    int numberOfdays = (rs.getInt("totalLectures"));
-                    studentsarr=new String[numberOfdays][3];
-                    getDatesPresentAbsent();//if days are fetched then call else
+            Thread threadGetNumberOfdays=new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Looper.prepare();
+                    sql="select fksubjectId,count(*) as totalLectures from Attendance where takenDate between '"+semStartDate+"' and '"+semEndDate+"' and fkstudentErpNo=(select studentErpNo from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"')) and fksubjectId=(select subjectId from Subject where subjectId='"+passScode+"') group by fksubjectId";
+
+                    Log.i("sqldays",sql);
+                    try {
+                        rs = stmt.executeQuery(sql);
+                        if (rs.next()) {
+                            int numberOfdays = (rs.getInt("totalLectures"));
+                            studentsarr=new String[numberOfdays][3];
+                            getDatesPresentAbsent();//if days are fetched then call else
+                        }
+                        else {
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(AdminStudentViewIndividualAttendance.this, "No record found", Toast.LENGTH_SHORT).show();
+                                           studentsarr=new String[0][3];
+                                            listView=(ListView)findViewById(R.id.listView);
+                                            CustomAdapter customAdapter=new CustomAdapter();
+                                            listView.setAdapter(customAdapter);
+
+                                }
+                            });
+                            Log.i("nothing", "nothing.....");
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-                else {
-
-                    Log.i("nothing", "nothing");
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            });
+            threadGetNumberOfdays.start();
         }
-
 
         public void getDatesPresentAbsent(){
 
 
-            sql="select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenTime from Attendance where takenDate between '"+semStartDate+"' and '"+semEndDate+"' and fkstudentErpNo=(select studentErpNo from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"'))  and fksubjectId=(select subjectId from Subject where subjectId="+passScode+" and fksemIdSubject=(select fksemIdStudent from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"')))" ;
+            //sql="select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenDateFormatted from Attendance where takenDate between '"+semStartDate+"' and '"+semEndDate+"' and fkstudentErpNo=(select studentErpNo from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"'))  and fksubjectId=(select subjectId from Subject where subjectId="+passScode+" and fksemIdSubject=(select fksemIdStudent from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"')))" ;
+            sql="select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenDateFormatted  from Attendance where fksubjectId="+passScode+" and fkstudentErpNo=(select studentErpNo from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"')) and takenDate between '"+semStartDate+"' and '"+semEndDate+"'";
 
             Log.i("sqldatas",sql);
-            listView=(ListView)findViewById(R.id.listView);
-            CustomAdapter customAdapter=new CustomAdapter();
-            listView.setAdapter(customAdapter);
+
 
             try {
                 rs = stmt.executeQuery(sql);
@@ -311,10 +368,19 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
                 while(rs.next()) {
                     studentsarr[i][0]=rs.getDate("takenDate")+"";
                     studentsarr[i][1]=rs.getString("presentabsent");
-                    studentsarr[i][2]=rs.getString("takenTime");
+                    studentsarr[i][2]=rs.getString("takenDateFormatted");
+
 
                     i++;
                 }
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        listView=(ListView)findViewById(R.id.listView);
+                        CustomAdapter customAdapter=new CustomAdapter();
+                        listView.setAdapter(customAdapter);
+                    }
+                });
 
 
             } catch (Exception e) {
@@ -323,12 +389,22 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
             }
         }
 
+        public  void updateAttendance(final String updateTakenDate, final String updateTakenTime, final String absentOrPresent){
+            Thread updateAttendaceThread=new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    sql="update Attendance set presentabsent='"+absentOrPresent+"' where fksubjectId="+passScode+" and fkstudentErpNo=(select studentErpNo from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"')) and takenDate='"+updateTakenDate+"' and takenTime='"+updateTakenTime+"'";
+                    try {
+                        stmt.executeQuery(sql);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            updateAttendaceThread.start();
+
+        }
 
     }
-
-   /* public void endableEditAttendance{
-        presentabsent.setEnabled(false);
-
-    }*/
 
 }

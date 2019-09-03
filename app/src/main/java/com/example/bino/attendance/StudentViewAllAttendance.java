@@ -1,8 +1,14 @@
 package com.example.bino.attendance;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +23,7 @@ import android.widget.TextView;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class StudentViewAllAttendance extends AppCompatActivity {
@@ -33,6 +40,8 @@ public class StudentViewAllAttendance extends AppCompatActivity {
     CustomAdapter customAdapter;
 
     int numberOfSubjects=0;
+
+    Handler handler =new Handler();
 
 
         public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
@@ -79,9 +88,33 @@ public class StudentViewAllAttendance extends AppCompatActivity {
 
 
                     return true;
-                } catch (Exception e) {
+                }catch (SQLException e) {
                     e.printStackTrace();
-                    return false;
+                    if(!isOnline()){
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                new AlertDialog.Builder(StudentViewAllAttendance.this)
+                                        .setTitle("No Internet!")
+                                        .setMessage("Please check your Internet Connection.")
+                                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                // User clicked OK button
+                                                finish();
+                                            }
+                                        })
+                                        .setCancelable(false)
+                                        .show();
+                            }
+                        });
+
+                    }
+                    return  false;
+
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                    return  false;
                 }
             }//doInBackground
 
@@ -245,12 +278,42 @@ public class StudentViewAllAttendance extends AppCompatActivity {
                     }
                 });
 
-            } catch (Exception e) {
+            } catch (SQLException e) {
+                e.printStackTrace();
+                if(!isOnline()){
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            new AlertDialog.Builder(StudentViewAllAttendance.this).
+                                    setTitle("No Internet!").
+                                    setMessage("Please check your Internet Connection.").
+                                    setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            // User clicked OK button
+                                        }
+                                    })
+                                    .show();
+                        }
+                    });
+
+                }
+
+            }
+            catch (Exception e){
                 e.printStackTrace();
             }
 
-
         }//getSubjectCodeAndNamesOfPaticularCourse
+
+            public boolean isOnline() {
+                ConnectivityManager connMgr = (ConnectivityManager)
+                        getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+                return (networkInfo != null && networkInfo.isConnected());
+            }
+
+
+
 
 
         public void getStudentRoll() {

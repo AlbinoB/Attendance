@@ -83,26 +83,12 @@
     <ListView
         android:id="@+id/listView"
         android:layout_width="356dp"
-        android:layout_height="279dp"
-        android:layout_marginBottom="1dp"
+        android:layout_height="294dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/StartDate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
-
-    <Button
-        android:id="@+id/downloadStudent"
-        android:layout_width="175dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="6dp"
-        android:layout_marginEnd="19dp"
-        android:layout_marginStart="7dp"
-        android:text="Download"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/SaveIndividualStudentDetail"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView16"
@@ -136,14 +122,11 @@
         android:id="@+id/StartDate"
         android:layout_width="97dp"
         android:layout_height="43dp"
-        android:layout_marginBottom="6dp"
         android:layout_marginEnd="18dp"
         android:layout_marginStart="26dp"
-        android:layout_marginTop="1dp"
         android:ems="10"
         android:hint="Start"
         android:inputType="date"
-        app:layout_constraintBottom_toTopOf="@+id/downloadStudent"
         app:layout_constraintEnd_toStartOf="@+id/EndDate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listView" />
@@ -152,47 +135,43 @@
         android:id="@+id/EndDate"
         android:layout_width="102dp"
         android:layout_height="43dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="19dp"
         android:layout_marginStart="18dp"
-        android:layout_marginTop="1dp"
         android:ems="10"
         android:hint="End"
         android:inputType="date"
-        app:layout_constraintBottom_toTopOf="@+id/downloadStudent"
+        app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toStartOf="@+id/buttonFilter"
         app:layout_constraintStart_toEndOf="@+id/StartDate"
         app:layout_constraintTop_toBottomOf="@+id/listView" />
 
     <Button
-        android:id="@+id/SaveIndividualStudentDetail"
-        android:layout_width="175dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="6dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="19dp"
+        android:id="@+id/buttonFilter"
+        android:layout_width="88dp"
+        android:layout_height="43dp"
+        android:layout_marginBottom="40dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginStart="16dp"
+        android:onClick="applyFilter"
+        android:text="Filter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/EndDate" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="310dp"
+        android:layout_height="44dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="8dp"
         android:onClick="SaveDetailsofStudent"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/downloadStudent"
-        app:layout_constraintTop_toBottomOf="@+id/EndDate"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <Button
-        android:id="@+id/buttonFilter"
-        android:layout_width="88dp"
-        android:layout_height="43dp"
-        android:layout_marginBottom="6dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="1dp"
-        android:text="Filter"
-        app:layout_constraintBottom_toTopOf="@+id/SaveIndividualStudentDetail"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/EndDate"
-        app:layout_constraintTop_toBottomOf="@+id/listView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/StartDate" />
 
 
 </android.support.constraint.ConstraintLayout>

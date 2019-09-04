@@ -41,7 +41,6 @@ public class AdminCourseShowAllSubjectActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(String... sqlarr) {
 
-
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
@@ -51,10 +50,8 @@ public class AdminCourseShowAllSubjectActivity extends AppCompatActivity {
                 connection = DriverManager.getConnection(url);
                 stmt = connection.createStatement();
 
-
-              getCourseYearAndSem();
-              getandsetsubject();
-
+                    getCourseYearAndSem();
+                    getandsetsubject();
 
                 return true;
             } catch (Exception e) {
@@ -77,10 +74,8 @@ public class AdminCourseShowAllSubjectActivity extends AppCompatActivity {
             try{
                 rs = stmt.executeQuery("select  count(*) as noofsubject from Subject,Course,Teacher,Semester where semId=fksemIdSubject and fkcourseIdSubject=courseId and fkcourseIdTeacher=courseId and fkteacherIdSubject=teacherId  and semName='"+sem+"' and  courseName='"+course+"'");
                 if(rs.next()){
-                    Log.i("no of subject",""+rs.getInt("noofsubject"));
                     subjectdetails = new String[rs.getInt("noofsubject")][3];
                 }
-
                 rs = stmt.executeQuery("select  subjectId ,subjectName,teacherName from Subject,Course,Teacher,Semester where semId=fksemIdSubject and fkcourseIdSubject=courseId and fkcourseIdTeacher=courseId and fkteacherIdSubject=teacherId  and semName='"+sem+"' and  courseName='"+course+"'  ");
                 while(rs.next()){
                     subjectdetails[j][0] =Integer.toString( rs.getInt("subjectId"));
@@ -103,48 +98,36 @@ public class AdminCourseShowAllSubjectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_course_show_all_subject);
 
-        subjectnamelistview= (ListView)findViewById(R.id.AllSubjectListView);
-        coursename =(TextView) findViewById(R.id.AdminCourseNameTextView);
-         courseyear =(TextView) findViewById(R.id.AdminYearTextView);
-         coursesem =(TextView) findViewById(R.id.AdminSemTextView);
+          subjectnamelistview= (ListView)findViewById(R.id.AllSubjectListView);
+          coursename =(TextView) findViewById(R.id.AdminCourseNameTextView);
+          courseyear =(TextView) findViewById(R.id.AdminYearTextView);
+          coursesem =(TextView) findViewById(R.id.AdminSemTextView);
 
-
-        sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
-
-
-
-
+         sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
 
         AdminCourseShowAllSubjectActivity.ConnectToDB connectToDB=new ConnectToDB();//obj of async class
 
         String[] sql={
-
         };
 
         try {
             if(connectToDB.execute(sql).get()){
                 {
-                    Log.i("updated:mmmmm","doneee");
 
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
     }
-    public void AddNewSubject(View view){
+                 public void AddNewSubject(View view){
 
-        Intent adminCourseSubjectEditDetailsActivity = new Intent(getApplicationContext(), AdminCourseSubjectEditDetailsActivity.class);
-        adminCourseSubjectEditDetailsActivity.putExtra("check","addnew");
-        startActivity(adminCourseSubjectEditDetailsActivity);
-    }
+                      Intent adminCourseSubjectEditDetailsActivity = new Intent(getApplicationContext(), AdminCourseSubjectEditDetailsActivity.class);
+                      adminCourseSubjectEditDetailsActivity.putExtra("check","addnew");
+                      startActivity(adminCourseSubjectEditDetailsActivity);
+                 }
 
-
-
-        class CustomAdapter extends BaseAdapter{
+            class CustomAdapter extends BaseAdapter{
 
             @Override
             public int getCount() {

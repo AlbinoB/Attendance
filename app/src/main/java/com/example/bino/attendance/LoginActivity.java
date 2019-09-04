@@ -36,7 +36,6 @@ import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity {
 
-
         private static final String[] users ={"Select User","Teacher","Student","Admin"};
         Spinner typeOfUser;
         EditText usernametext,passwordtext;
@@ -48,18 +47,13 @@ public class LoginActivity extends AppCompatActivity {
 
         Handler handler =new Handler();
 
+         public class ConnectToDB extends AsyncTask<String,Void,Boolean>{
 
-
-        public class ConnectToDB extends AsyncTask<String,Void,Boolean>{
-
-
-
-
-            @Override
+             @Override
             protected void onPreExecute() {
 
+             }
 
-            }
             @Override
             protected Boolean doInBackground(String... sqlarr) {
 
@@ -68,7 +62,6 @@ public class LoginActivity extends AppCompatActivity {
                 Connection connection=null;
                 String url=null;
 
-
                 try {
                     Class.forName("net.sourceforge.jtds.jdbc.Driver");
                     url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
@@ -76,9 +69,6 @@ public class LoginActivity extends AppCompatActivity {
                     Statement stmt = connection.createStatement();
                     ResultSet rs=null;
                     rs = stmt.executeQuery(sqlarr[0]);
-                    //Log.i("data:::::::::::::",Integer.toString(rs.getInt(1)));
-
-                    Log.i("data:::::::::::::",sqlarr[0]);
 
                     if(rs.next()){
                         sharedPreferences.edit().putString("currentUserName",rs.getString("currentUserName")).apply();
@@ -86,10 +76,8 @@ public class LoginActivity extends AppCompatActivity {
                         return true;
                     }else
                     {
-
                         return false;
                     }
-
                 }
                 catch (SQLException e) {
                     e.printStackTrace();
@@ -109,16 +97,13 @@ public class LoginActivity extends AppCompatActivity {
                                         .show();
                             }
                         });
-
-                        }
-                    return  false;
-
+                    }
+                      return  false;
                 }
                 catch (Exception e){
                     e.printStackTrace();
                     return  false;
                 }
-
             }
 
             public boolean isOnline() {
@@ -131,13 +116,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(Boolean result) {
                 // do UI work here
-
-
             }
         }
 
-
-        @Override
+         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -146,9 +128,7 @@ public class LoginActivity extends AppCompatActivity {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//full screen login activity
             setContentView(R.layout.activity_login);
 
-
-
-            typeOfUser=(Spinner)findViewById(R.id.typeOfUser);
+             typeOfUser=(Spinner)findViewById(R.id.typeOfUser);
             usernametext=(EditText) findViewById(R.id.userNameEditText);
             passwordtext=(EditText) findViewById(R.id.passwordEditText);
             progressdialog = new ProgressDialog(LoginActivity.this);
@@ -165,13 +145,9 @@ public class LoginActivity extends AppCompatActivity {
         }
         public void Login(View view) throws Exception{
 
-
             userName = usernametext.getText().toString();
             password = passwordtext.getText().toString();
-            Log.i("llllllllllllllllllll",userName +" "+password);
             user = typeOfUser.getSelectedItem().toString();
-
-
             progressdialog.setMessage("Autenticating....");
             progressdialog.setCancelable(false);
             progressdialog.show();
@@ -186,22 +162,18 @@ public class LoginActivity extends AppCompatActivity {
                         try{
                         switch (user) {
 
-
                             case "Select User": {
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
                                         progressdialog.dismiss();
                                         Toast.makeText(LoginActivity.this, "Please select Type of User!!!", Toast.LENGTH_LONG).show();
-
                                     }
                                 });
-
                             }
                             break;
                             case "Teacher": {
                                 String[] sql = {"SELECT teacherName as currentUserName FROM Teacher where teacherId= '" + userName + "' and teacherPassword='" + password + "' "};
-
 
                                 if (connectToDB.execute(sql).get() && user.equals("Teacher")) {
                                     handler.post(new Runnable() {
@@ -222,13 +194,9 @@ public class LoginActivity extends AppCompatActivity {
                                         public void run() {
                                             progressdialog.dismiss();
                                             Toast.makeText(LoginActivity.this, "Wrong Credentials!!!", Toast.LENGTH_LONG).show();
-
                                         }
                                     });
-
-
                                 }
-
                             }
                             break;
                             case "Student": {
@@ -239,7 +207,6 @@ public class LoginActivity extends AppCompatActivity {
                                         public void run() {
                                             progressdialog.dismiss();
                                             Toast.makeText(LoginActivity.this, "Welcome "+(String)sharedPreferences.getString("currentUserName","no  name"), Toast.LENGTH_LONG).show();
-
                                         }
                                     });
 
@@ -254,13 +221,9 @@ public class LoginActivity extends AppCompatActivity {
                                         public void run() {
                                             progressdialog.dismiss();
                                             Toast.makeText(LoginActivity.this, "Wrong Credentials!!!", Toast.LENGTH_LONG).show();
-
                                         }
                                     });
-
-
                                 }
-
                             }
                             break;
                             case "Admin": {
@@ -270,7 +233,6 @@ public class LoginActivity extends AppCompatActivity {
                                         public void run() {
                                             progressdialog.dismiss();
                                             Toast.makeText(LoginActivity.this, "Welcome "+userName, Toast.LENGTH_LONG).show();
-
                                         }
                                     });
 
@@ -285,16 +247,11 @@ public class LoginActivity extends AppCompatActivity {
                                         public void run() {
                                             progressdialog.dismiss();
                                             Toast.makeText(LoginActivity.this, "Wrong Credentials!!! ", Toast.LENGTH_LONG).show();
-
                                         }
                                     });
-
-
                                 }
                                 break;
-
                             }
-
                         }
 
                     } catch (InterruptedException e) {
@@ -307,66 +264,59 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
 
-
-
             validationThread.start();
-
         }
 
         public boolean checkEmptyFields() {
-            int flag1 = 0;
-            if (userName.equals("") && userName.equals("")) {
+                int flag1 = 0;
+                if (userName.equals("") && userName.equals("")) {
 
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(LoginActivity.this, "Please enter User Name and Password!!!", Toast.LENGTH_SHORT).show();
+                            progressdialog.dismiss();
+                            passwordtext.setText("");
+                        }
+                    });
+                    flag1 = 0;
+                } else {
+                    if (userName.equals("")) {
 
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(LoginActivity.this, "Please enter User Name and Password!!!", Toast.LENGTH_SHORT).show();
-                        progressdialog.dismiss();
-                        passwordtext.setText("");
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressdialog.dismiss();
+                                Toast.makeText(LoginActivity.this, "Please enter User Name!!!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        flag1 = 0;
+                    } else {
+                        flag1 = 1;
                     }
-                });
-                flag1 = 0;
-            } else {
-                if (userName.equals("")) {
+                    if (password.equals("")) {
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressdialog.dismiss();
+                                Toast.makeText(LoginActivity.this, "Please enter Password!!!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        flag1 = 0;
 
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressdialog.dismiss();
-                            Toast.makeText(LoginActivity.this, "Please enter User Name!!!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    flag1 = 0;
-
-
-                } else {
-                    flag1 = 1;
+                    } else {
+                        flag1 = 1;
+                    }
                 }
-                if (password.equals("")) {
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressdialog.dismiss();
-                            Toast.makeText(LoginActivity.this, "Please enter Password!!!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    flag1 = 0;
-
-
-                } else {
-                    flag1 = 1;
-                }
-            }
-            if(flag1==1)
-            {
-            return true;
-            }else
-            {
-            return false;}
+                    if(flag1==1)
+                    {
+                    return true;
+                    }else
+                    {
+                    return false;
+                    }
         }
-
-        }
+    }
 
 
 

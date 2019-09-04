@@ -29,10 +29,7 @@ public class TeacherSearchResultIndividual extends AppCompatActivity {
     Intent previousIndent;
     CustomAdapter customAdapter;
 
-
     public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
-
-
 
         Connection connection = null;
         String url = null;
@@ -44,9 +41,6 @@ public class TeacherSearchResultIndividual extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(String... sqlarr) {
 
-
-
-            Log.i("len",""+previousIndent.getIntExtra("totallecture",0));
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
@@ -58,7 +52,6 @@ public class TeacherSearchResultIndividual extends AppCompatActivity {
 
                 getDatesPresentAbsent();
 
-
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -66,15 +59,13 @@ public class TeacherSearchResultIndividual extends AppCompatActivity {
             }
         }//doInBackground
 
-
-
-
         public void getDatesPresentAbsent(){
             sql="select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenTime from Attendance where takenDate between '"+(String)sharedPreferences.getString("currentstartdate","no subject")+"' and '"+(String)sharedPreferences.getString("currentenddate","no subject")+"' and fkstudentErpNo=(select studentErpNo from Student where studentRollNo="+previousIndent.getStringExtra("passStudentRoll")+") and fksubjectId=(select subjectId from Subject where subjectName='"+(String)sharedPreferences.getString("currentsubjectname","no subject")+"' and fksemIdSubject=(select fksemIdStudent from Student where studentErpNo=(select studentErpNo from Student where studentRollNo="+previousIndent.getStringExtra("passStudentRoll")+")))";
 
             try {
-                rs = stmt.executeQuery(sql);
                 int i=0;
+
+                rs = stmt.executeQuery(sql);
                 while(rs.next()) {
                     studentsarr[i][0]=rs.getDate("takenDate")+"";
                     studentsarr[i][1]=rs.getString("presentabsent");
@@ -84,28 +75,24 @@ public class TeacherSearchResultIndividual extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
-
-
     }//AsyncTask
 
-
-        @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_search_result_individual);
+
         download = (Button) findViewById(R.id.download);
             previousIndent=getIntent();
             int numOfRows=previousIndent.getIntExtra("totallecture",0);
             studentsarr=new String[numOfRows][3];
             listView=(ListView)findViewById(R.id.listView);
             customAdapter=new CustomAdapter();
+
             ConnectToDB connectToDB = new ConnectToDB();
             String[] sql={
-
             };
-
 
             try {
                 if(connectToDB.execute(sql).get()){
@@ -114,9 +101,6 @@ public class TeacherSearchResultIndividual extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-
-
         }
 
     public class CustomAdapter extends BaseAdapter {
@@ -138,6 +122,7 @@ public class TeacherSearchResultIndividual extends AppCompatActivity {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
+
             view = getLayoutInflater().inflate(R.layout.customlayoutstudentindividualattendance, null);
             TextView dateTextView=(TextView)view.findViewById(R.id.dateTextView);
             CheckBox presentabsent=(CheckBox)view.findViewById(R.id.presentabsentcheckBox);
@@ -149,14 +134,10 @@ public class TeacherSearchResultIndividual extends AppCompatActivity {
                 presentabsent.setChecked(true);
                 presentabsent.setEnabled(false);
             }else{
-
                 presentabsent.setChecked(false);
                 presentabsent.setEnabled(false);
             }
-
-
             return  view;
-
         }
     }
 }

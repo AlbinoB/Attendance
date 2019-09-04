@@ -11,13 +11,12 @@ import android.widget.Toast;
 
 public class AdminHomeActivity extends AppCompatActivity {
 
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.activity_admin_home);
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_home);
-
-    }
+            }
     public void goToNextActivity(View view){
 
         String nextActivity=view.getTag().toString();
@@ -40,20 +39,4 @@ public class AdminHomeActivity extends AppCompatActivity {
 
         }
     }
-
-
-
-
-/*    public void adminCourseSearchBy(View view){
-        Button adminStudentSearchByButton=(Button)findViewById(R.id.viewStudent);
-        Intent nextActivity = new Intent(getApplicationContext(), AdminCourseSearchBy.class);
-        startActivity(nextActivity);
-    }
-
-    public void adminViewAttendanceSearchBy(View view){
-        Button adminStudentSearchByButton=(Button)findViewById(R.id.viewStudent);
-        Intent nextActivity = new Intent(getApplicationContext(), AdminViewAttendanceSearchBy.class);
-        startActivity(nextActivity);
-    }
-    */
 }

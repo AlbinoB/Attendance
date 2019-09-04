@@ -20,7 +20,7 @@ public class AdminCourseSubjectEditDetailsActivity extends AppCompatActivity {
 
     Intent intent;
     int countid;
-    String subjectcode,check,subjectnames,subjectTeachername,subjectids;
+    String subjectcode,check,subjectnames,subjectTeachername;
     EditText subjectname,subjectid,subjectteachername,subjectcoursename,subjectsemname;
     Button savesubjectdetails;
     AdminCourseSubjectEditDetailsActivity.ConnectToDB connectToDB;
@@ -39,7 +39,6 @@ public class AdminCourseSubjectEditDetailsActivity extends AppCompatActivity {
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-
                     try{
                         int coursecode=0,teachercode=0,semcode=0;
                         rs=stmt.executeQuery("select courseId from Course where courseName='"+subjectcoursename.getText().toString()+"'   ");
@@ -81,7 +80,6 @@ public class AdminCourseSubjectEditDetailsActivity extends AppCompatActivity {
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-
                     try{
                         stmt.executeUpdate(" update Subject set fkcourseIdSubject=(select courseId from Course where courseName='"+subjectcoursename.getText().toString()+"'," +
                                 "fkteacherIdSubject=(select teacherId from Teacher where teacherName='"+subjectteachername.getText().toString()+"')," +
@@ -96,27 +94,22 @@ public class AdminCourseSubjectEditDetailsActivity extends AppCompatActivity {
 
             });
             thread.start();
-
         }
-
 
         @Override
         protected Boolean doInBackground(String... sqlarr) {
 
-
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
-
             try {
                 Class.forName("net.sourceforge.jtds.jdbc.Driver");
                 url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
                 connection = DriverManager.getConnection(url);
                 stmt = connection.createStatement();
 
-                setSubjectDetails();
+                    setSubjectDetails();
 
-
-                return true;
+                    return true;
             } catch (Exception e) {
                 e.printStackTrace();
                 return false;
@@ -138,79 +131,75 @@ public class AdminCourseSubjectEditDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_course_subject_edit_details);
-        subjectname =findViewById(R.id.SubjectNameShowAddEditText);
-        subjectid =findViewById(R.id.SubjectIdShowAddEditText);
-        subjectteachername =findViewById(R.id.SubjectTeacherNameShowAddEditText);
-        subjectcoursename =findViewById(R.id.CourseNameShowAddEditText);
-        subjectsemname =findViewById(R.id.SemNameShowAddEditText);
-        savesubjectdetails=findViewById(R.id.savesubjectdetails);
 
-            sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
+            subjectname =findViewById(R.id.SubjectNameShowAddEditText);
+            subjectid =findViewById(R.id.SubjectIdShowAddEditText);
+            subjectteachername =findViewById(R.id.SubjectTeacherNameShowAddEditText);
+            subjectcoursename =findViewById(R.id.CourseNameShowAddEditText);
+            subjectsemname =findViewById(R.id.SemNameShowAddEditText);
+            savesubjectdetails=findViewById(R.id.savesubjectdetails);
 
-            intent = getIntent();
-            subjectcode=intent.getStringExtra("subjectid");
-            subjectnames=intent.getStringExtra("subjectname");
-            subjectTeachername=intent.getStringExtra("subjectteachername");
-            check=intent.getStringExtra("check");
+                sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
 
-        connectToDB=new ConnectToDB();//obj of async class
+                intent = getIntent();
+                subjectcode=intent.getStringExtra("subjectid");
+                subjectnames=intent.getStringExtra("subjectname");
+                subjectTeachername=intent.getStringExtra("subjectteachername");
+                check=intent.getStringExtra("check");
 
-        String[] sql={
+            connectToDB=new ConnectToDB();//obj of async class
 
-        };
+            String[] sql={
 
-        try {
-            if(connectToDB.execute(sql).get()){
-                {
-                    Log.i("updated:mmmmm","doneee");
+            };
 
+            try {
+                if(connectToDB.execute(sql).get()){
+                    {
+                        Log.i("updated:mmmmm","doneee");
+
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
+            if(check!=null && check.equals("show")){
+                subjectname.setEnabled(false);
+                subjectid.setEnabled(false);
+                subjectteachername.setEnabled(false);
+                subjectcoursename.setEnabled(false);
+                subjectsemname.setEnabled(false);
+                savesubjectdetails.setVisibility(View.INVISIBLE);
 
-
-
-        if(check!=null && check.equals("show")){
-            subjectname.setEnabled(false);
-            subjectid.setEnabled(false);
-            subjectteachername.setEnabled(false);
-            subjectcoursename.setEnabled(false);
-            subjectsemname.setEnabled(false);
-            savesubjectdetails.setVisibility(View.INVISIBLE);
-
-        }
-
+            }
             if(check!=null && check.equals("edit")){
                 subjectname.setEnabled(false);
                 subjectid.setEnabled(false);
                 savesubjectdetails.setTag("updatesubject");
             }
 
-        if(check!=null && check.equals("addnew")){
-            subjectcoursename.setEnabled(false);
-            subjectsemname.setEnabled(false);
-            savesubjectdetails.setTag("insertsubject");
-        }
+            if(check!=null && check.equals("addnew")){
+                subjectcoursename.setEnabled(false);
+                subjectsemname.setEnabled(false);
+                savesubjectdetails.setTag("insertsubject");
+            }
 
             savesubjectdetails.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(savesubjectdetails.getTag().toString().equals("updatesubject")){
-                        connectToDB.updateSubjectdetails();
-                    }else{
-                        connectToDB.insertnewSubjectdetails();
+                    @Override
+                    public void onClick(View view) {
+                        if(savesubjectdetails.getTag().toString().equals("updatesubject")){
+                            connectToDB.updateSubjectdetails();
+                        }else{
+                            connectToDB.insertnewSubjectdetails();
+                        }
                     }
-                }
-            });
+                });
+        }
 
+        public void saveSubjectDetails(View view){
+           Button button=(Button) findViewById(R.id.savesubjectdetails);
+           Intent adminCourseShowAllSubjectActivity = new Intent(getApplicationContext(), AdminCourseShowAllSubjectActivity.class);
+           startActivity(adminCourseShowAllSubjectActivity);
+        }
     }
-
-    public void saveSubjectDetails(View view){
-        Button button=(Button) findViewById(R.id.savesubjectdetails);
-        Intent adminCourseShowAllSubjectActivity = new Intent(getApplicationContext(), AdminCourseShowAllSubjectActivity.class);
-        startActivity(adminCourseShowAllSubjectActivity);
-    }
-}

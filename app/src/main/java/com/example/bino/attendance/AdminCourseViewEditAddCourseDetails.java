@@ -20,8 +20,7 @@ public class AdminCourseViewEditAddCourseDetails extends AppCompatActivity {
             EditText newcoursename,newcourseid,sdate;
             int countid;
 
-
-        public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
+            public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
 
             Connection connection = null;
             String url = null;
@@ -35,7 +34,6 @@ public class AdminCourseViewEditAddCourseDetails extends AppCompatActivity {
 
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
-
                 try {
                     Class.forName("net.sourceforge.jtds.jdbc.Driver");
                     url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
@@ -56,44 +54,42 @@ public class AdminCourseViewEditAddCourseDetails extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                     return false;
-                }
+                    }
             }//doInBackground
         }//AsyncTask
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_course_view_edit_add_course_details);
+         @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_admin_course_view_edit_add_course_details);
 
-        newcoursename = (EditText)findViewById(R.id.CourseNameShowAddEditText) ;
-        newcourseid = (EditText)findViewById(R.id.CourseCourseIdAddEditView) ;
-        sdate = (EditText)findViewById(R.id.CourseJoinDateShowAddEditText) ;
+            newcoursename = (EditText)findViewById(R.id.CourseNameShowAddEditText) ;
+            newcourseid = (EditText)findViewById(R.id.CourseCourseIdAddEditView) ;
+            sdate = (EditText)findViewById(R.id.CourseJoinDateShowAddEditText) ;
 
-        AdminCourseViewEditAddCourseDetails.ConnectToDB connectToDB=new ConnectToDB();//obj of async class
+            AdminCourseViewEditAddCourseDetails.ConnectToDB connectToDB=new ConnectToDB();//obj of async class
 
-        String[] sql={
+            String[] sql={
 
-        };
+            };
 
-        try {
-            if(connectToDB.execute(sql).get()){
-                {
+            try {
+                    if(connectToDB.execute(sql).get()){
+                      {
 
+                      }
+                    }
+                 } catch (Exception e) {
+                e.printStackTrace();
+                 }
 
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
-    }
+            public void editCourseDetails(View view){
 
-    public void editCourseDetails(View view){
-
+                 }
+            public void saveCourseDetails(View view){
+              Intent adminCourseHomeActivity = new Intent(getApplicationContext(), AdminCourseHomeActivity.class);
+              startActivity(adminCourseHomeActivity);
+            }
     }
-
-    public void saveCourseDetails(View view){
-        Intent adminCourseHomeActivity = new Intent(getApplicationContext(), AdminCourseHomeActivity.class);
-        startActivity(adminCourseHomeActivity);
-    }
-}

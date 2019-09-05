@@ -83,8 +83,8 @@ public class AdminStudentSeachResultActivity extends AppCompatActivity {
             public View getView(int i, View view, ViewGroup viewGroup) {
                 view = getLayoutInflater().inflate(R.layout.customlayoutadminstudentsearchresultdisplaystudents, null);
                 TextView textViewSsrno = (TextView) view.findViewById(R.id.srno);
-                TextView textViewSrollno = (TextView) view.findViewById(R.id.rollno);
-                TextView textViewSname = (TextView) view.findViewById(R.id.name);
+                final TextView textViewSrollno = (TextView) view.findViewById(R.id.rollno);
+                final TextView textViewSname = (TextView) view.findViewById(R.id.name);
                 TextView textViewSpercentage= (TextView) view.findViewById(R.id.percentage);
                 Button admineditstudent = (Button) view.findViewById(R.id.editAttendance1);
 
@@ -111,6 +111,11 @@ public class AdminStudentSeachResultActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         Intent adminstudenteditadddetails = new Intent(getApplicationContext(), AdminStudentEditAddDetails.class);
+                        adminstudenteditadddetails.putExtra("flag","edit student");
+                        adminstudenteditadddetails.putExtra("currentCourse",currentcourse);
+                        adminstudenteditadddetails.putExtra("currentSem",currentsem);
+                        adminstudenteditadddetails.putExtra("currentStudentName",textViewSname.getText().toString());
+                        adminstudenteditadddetails.putExtra("currentRollNo",textViewSrollno.getText().toString());
                         startActivity(adminstudenteditadddetails);
                     }
                 });

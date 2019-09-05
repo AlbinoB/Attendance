@@ -209,7 +209,7 @@
                         android:id="@+id/StudentCourseNameAddTextView"
                         android:layout_width="90dp"
                         android:layout_height="wrap_content"
-                        android:text="CourseID"
+                        android:text="Course"
                         android:textSize="20sp" />
 
                     <EditText

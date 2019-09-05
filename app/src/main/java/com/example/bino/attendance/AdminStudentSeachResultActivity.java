@@ -59,6 +59,9 @@ public class AdminStudentSeachResultActivity extends AppCompatActivity {
 
         public void addStudent(View view){
             Intent adminStudentEditAddDetails = new Intent(getApplicationContext(), AdminStudentEditAddDetails.class);
+            adminStudentEditAddDetails.putExtra("flag","new student");
+            adminStudentEditAddDetails.putExtra("currentCourse",currentcourse);
+            adminStudentEditAddDetails.putExtra("currentSem",currentsem);
             startActivity(adminStudentEditAddDetails);
         }
 

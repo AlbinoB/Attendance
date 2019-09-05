@@ -24,13 +24,11 @@ import java.sql.Statement;
 public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
 
     ListView teachernamelistview;
-    ListView teacheridlistview;
     SharedPreferences sharedPreferences;
     String currentcourse;
     CustomAdapter customAdapter;
-
-     String[] teachernames;
-     String[] teacherid;
+    String[] teachernames;
+    String[] teacherid;
 
     public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
 
@@ -43,7 +41,6 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(String... sqlarr) {
 
-
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
@@ -53,11 +50,8 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
                 connection = DriverManager.getConnection(url);
                 stmt = connection.createStatement();
 
-
                 getcoursename();
                 getandSetTeachers();
-
-
 
                 return true;
             } catch (Exception e) {
@@ -73,11 +67,11 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
         void getandSetTeachers(){
             try {
                 rs = stmt.executeQuery("select  count(*) as noofcourse from Teacher,Course where fkcourseIdTeacher=courseId and courseName='"+currentcourse+"'");
-
                 if(rs.next()) {
                     teachernames = new String[(rs.getInt("noofcourse"))];
                     teacherid = new String [(rs.getInt("noofcourse"))];
                 }
+
                 rs = stmt.executeQuery("select  teacherName from Teacher,Course where fkcourseIdTeacher=courseId and courseName='"+currentcourse+"'");
                 int i=0;
                 while(rs.next()) {
@@ -89,7 +83,6 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
                 while(rs.next()) {
                     teacherid[j++] =(rs.getString("teacherId"));
                 }
-
 
             }catch(Exception e){
                 e.printStackTrace();
@@ -108,19 +101,14 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
         EditText searchnametextview =(EditText) findViewById(R.id.SearchNameTextView);
         sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
 
-
-
         AdminTeacherShowAllNamesActivity.ConnectToDB connectToDB=new ConnectToDB();//obj of async class
 
         String[] sql={
-
         };
 
         try {
             if(connectToDB.execute(sql).get()){
                 {
-                    Log.i("updated:mmmmm","doneee");
-
                 }
             }
         } catch (Exception e) {
@@ -129,13 +117,11 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
 
         customAdapter =new CustomAdapter();
 
-
-
         teachernamelistview.setAdapter(customAdapter);
         teachernamelistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i1, long l) {
-                Log.i("clicked index",i1+"");
+
             }
         });
 
@@ -143,9 +129,9 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
 
     public void goToEditTeacher(View view){
         Intent loginActivity = new Intent(getApplicationContext(),AdminTeacherViewEditAddDetailsActivity.class);
+        loginActivity.putExtra("check1","addnew");
         startActivity(loginActivity);
     }
-
 
     class CustomAdapter extends BaseAdapter{
 
@@ -164,7 +150,6 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
             return 0;
         }
 
-
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = getLayoutInflater().inflate(R.layout.customlayoutadminsteachershowallname,null);
@@ -173,11 +158,9 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
             teachernametextview.setText(teachernames[i]);
            teacheridlistview.setText(teacherid[i]);
 
-
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.i("clicked","aaaaaaa"+teachernametextview.getText().toString());
                     Intent adminTeacherViewEditAddDetailsActivity = new Intent(getApplicationContext(), AdminTeacherViewEditAddDetailsActivity.class);
                     adminTeacherViewEditAddDetailsActivity.putExtra("teacherid",teacheridlistview.getText().toString());
                     adminTeacherViewEditAddDetailsActivity.putExtra("check1","show");
@@ -190,8 +173,6 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                   // Log.i("clicked","bbbbbb"+teachernametextview.getText().toString());
-                    Log.i("clicked","bbbbbb"+teacheridlistview.getText().toString());
                     Intent adminTeacherViewEditAddDetailsActivity = new Intent(getApplicationContext(), AdminTeacherViewEditAddDetailsActivity.class);
                     adminTeacherViewEditAddDetailsActivity.putExtra("teacherid",teacheridlistview.getText().toString());
                     adminTeacherViewEditAddDetailsActivity.putExtra("check1","edit");

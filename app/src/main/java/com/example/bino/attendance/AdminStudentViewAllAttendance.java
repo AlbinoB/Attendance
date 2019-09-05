@@ -20,7 +20,6 @@ import java.sql.Statement;
 
 public class AdminStudentViewAllAttendance extends AppCompatActivity {
 
-
     static String[][] studentsarr ;
     ListView listView;
     Intent previousIntent;
@@ -30,7 +29,6 @@ public class AdminStudentViewAllAttendance extends AppCompatActivity {
     String currentcourse;
     String studentNameText;
     String studentRollnoText;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +45,7 @@ public class AdminStudentViewAllAttendance extends AppCompatActivity {
         semName=(TextView)findViewById(R.id.semName);
         currentYear=(TextView)findViewById(R.id.semYear);
         courseName=(TextView)findViewById(R.id.courseName);
+
         previousIntent=getIntent();
 
         currentyear =((String)sharedPreferences.getString("currentYearNo","no date"));
@@ -55,24 +54,19 @@ public class AdminStudentViewAllAttendance extends AppCompatActivity {
         studentNameText=((String)sharedPreferences.getString("passStudentName","no date"));
         studentRollnoText=((String)sharedPreferences.getString("passStudentRoll","no date"));
 
-
         studentName.setText(studentNameText);
         studentRollNo.setText(studentRollnoText);
         semName.setText(currentsem);
         currentYear.setText(currentyear);
         courseName.setText(currentcourse);
 
-
         ConnectToDB connectToDB=new ConnectToDB();//obj of async class
 
         String[] sql={
-
         };
-
         try {
             if(connectToDB.execute(sql).get()){
                 {
-                    Log.i("updated:mmmmm","doneee");
 
                 }
             }
@@ -80,16 +74,9 @@ public class AdminStudentViewAllAttendance extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
-
         CustomAdapter customAdapter=new CustomAdapter();
         listView.setAdapter(customAdapter);
-
-
-
     }
-
-
 
     public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
 
@@ -114,17 +101,8 @@ public class AdminStudentViewAllAttendance extends AppCompatActivity {
                 stmt = connection.createStatement();
                 stmt2 = connection.createStatement();
 
-
-
-
                 getSubjectCount();
-
-
                 getSubjectCodeAndNamesOfPaticularCourse();
-
-
-                //percentage
-
 
                 return true;
             } catch (Exception e) {
@@ -132,8 +110,6 @@ public class AdminStudentViewAllAttendance extends AppCompatActivity {
                 return false;
             }
         }//doInBackground
-
-
 
         public void getSubjectCount() {
             sql="select count(*) as countOfSubjects from Subject where fkcourseIdSubject in (select courseId from Course where courseName='"+currentcourse+"')and fksemIdSubject=(select fksemIdStudent from Student where studentName='"+studentNameText+"')";
@@ -143,24 +119,11 @@ public class AdminStudentViewAllAttendance extends AppCompatActivity {
                     numberOfSubjects = (rs.getInt("countOfSubjects"));
                     studentsarr =new String[numberOfSubjects][3];
                 }
-                else {
-                    Log.i("nothing", "nothing");
-                }
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-
-
         }//getSubjectCount
-
-
-
-
-
-
-
 
         public void getSubjectCodeAndNamesOfPaticularCourse() {
 
@@ -176,20 +139,14 @@ public class AdminStudentViewAllAttendance extends AppCompatActivity {
                     semEndDate=rs.getString("semEndDate");
                 }
 
-
                 sql = "select subjectId,subjectName from Subject,Course where fkcourseIdSubject =courseId and  courseName='" + currentcourse + "' and fksemIdSubject=(select fksemIdStudent from Student where studentName='"+studentNameText+"')";
-
-                Log.i("data:::::::cccc::::::", sql);
 
                 rs = null;
                 rs = stmt.executeQuery(sql);
                 int indexOfstudentarr = 0;
 
                 while (rs.next()) {
-                    Log.i("values from db:", Integer.toString(rs.getInt("subjectId")) + rs.getString("subjectName"));
 
-
-                    // studentsarr= Arrays.copyOf(studentsarr, studentsarr.length + 1);
                     studentsarr[indexOfstudentarr][0] = Integer.toString(rs.getInt("subjectId"));
                     studentsarr[indexOfstudentarr][1] = rs.getString("subjectName");
 
@@ -201,15 +158,12 @@ public class AdminStudentViewAllAttendance extends AppCompatActivity {
 
                     int totalpresent=0;
                     sql="select count(*) as totalpresent from Attendance where( (takenDate between '"+semStartDate+"' and '"+semEndDate+"') and( fkstudentErpNo=(select studentErpNo from Student where studentRollNo='"+studentRollnoText+"'))and( presentabsent='P') and (fksubjectId=(select subjectId from Subject where subjectName='"+rs.getString("subjectName")+"')))";
-                    Log.i("totalpre",sql);
                     rs2 = stmt2.executeQuery(sql);
                     if(rs2.next()){
                         totalpresent =(Integer)rs2.getInt("totalpresent");
-
                     }
+
                     float percent=0;
-                    Log.i("total lecture ",""+totallecture);
-                    Log.i("total present ",""+totalpresent);
                     if(totallecture!=0){
                         percent =(100*totalpresent)/totallecture;
                         studentsarr[indexOfstudentarr][2]=Float.toString(percent);
@@ -217,28 +171,16 @@ public class AdminStudentViewAllAttendance extends AppCompatActivity {
                         indexOfstudentarr++;
                     }else
                     {
-
                         studentsarr[indexOfstudentarr][2]="N/A";
                         indexOfstudentarr++;
-
                     }
                 }
-
-
-
-
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-
         }//getSubjectCodeAndNamesOfPaticularCourse
 
-
     }//AsyncTask
-
-
 
     public class CustomAdapter extends BaseAdapter {
 
@@ -278,12 +220,10 @@ public class AdminStudentViewAllAttendance extends AppCompatActivity {
                     adminstudentviewindividualattendance.putExtra("passSname",textViewSname.getText().toString());
 
                     startActivity(adminstudentviewindividualattendance);
-
                 }
             });
 
             return view;
-
         }
     }
 }

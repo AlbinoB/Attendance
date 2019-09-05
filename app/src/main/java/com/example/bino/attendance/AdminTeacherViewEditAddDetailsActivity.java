@@ -25,8 +25,6 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
     int countid;
     AdminTeacherViewEditAddDetailsActivity.ConnectToDB connectToDB;
 
-
-
     public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
 
         Connection connection = null;
@@ -40,12 +38,13 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.i("button clicked","inside thread");
+
                     try{
                         rs=stmt.executeQuery("select top 1 teacherId from Teacher order by teacherId desc ");
                         if(rs.next()){
-                            countid = rs.getInt(teacherid);
+                            countid = rs.getInt("teacherId");
                         }
+
                         countid=countid+1;
                         stmt.executeQuery(" insert into Teacher values("+countid+",'"+tname.getText().toString()+"', " +
                                 " '"+tpassword.getText().toString()+"', "+0+",  " +
@@ -61,6 +60,7 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
                     }catch(Exception e){
                         e.printStackTrace();
                     }
+
                     Intent adminTeacherShowAllNamesActivity = new Intent(getApplicationContext(), AdminTeacherShowAllNamesActivity.class);
                     startActivity(adminTeacherShowAllNamesActivity);
                 }
@@ -75,7 +75,7 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.i("button clicked","inside thread"+savebutton.getTag().toString());
+
                    try{
                        stmt.executeUpdate("update Teacher set teachername='"+tname.getText().toString()+"', " +
                                " teacherPassword='"+tpassword.getText().toString()+"', " +
@@ -89,19 +89,17 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
                    }catch(Exception e){
                        e.printStackTrace();
                    }
+
                     Intent adminTeacherShowAllNamesActivity = new Intent(getApplicationContext(), AdminTeacherShowAllNamesActivity.class);
                     startActivity(adminTeacherShowAllNamesActivity);
                 }
 
             });
             thread.start();
-
         }
-
 
         @Override
         protected Boolean doInBackground(String... sqlarr) {
-
 
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -112,8 +110,8 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
                 connection = DriverManager.getConnection(url);
                 stmt = connection.createStatement();
                     if(check1!=null) {
-                        getandsetTeacherdetails();
 
+                        getandsetTeacherdetails();
                     }
 
                 return true;
@@ -137,7 +135,6 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
                     tid.setText( rs.getString("teacherId"));
                     tpassword.setText(rs.getString("teacherPassword"));
                     taddress.setText(rs.getString(("teacherAddress")));
-
                 }
             }catch (Exception e){
                 e.printStackTrace();
@@ -149,6 +146,7 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_teacher_view_edit_add_details);
+
          tname = (EditText) findViewById(R.id.TeacherNameShowAddEditText);
          tdob = (EditText) findViewById(R.id.TeacherAgeShowAddEditText);
          temail = (EditText) findViewById(R.id.TeacherEmailShowAddEditText);
@@ -157,32 +155,24 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
          tgender = (EditText) findViewById(R.id.TeacherGenderShowAddEditText);
          tadharno = (EditText) findViewById(R.id.TeacherAdharNoShowAddEditText1);
          tid = (EditText) findViewById(R.id.TeacherIdShowAddEditTex2t);
-        tsalary = (EditText) findViewById(R.id.TeacherSalaryShowAddEdi2tText);
+         tsalary = (EditText) findViewById(R.id.TeacherSalaryShowAddEdi2tText);
          tjoindate = (EditText) findViewById(R.id.TeacherJoinDateSho2wAddEditText);
          tpassword =(EditText) findViewById(R.id.TeacherPasswordSho2wAddEditText);
-        taddress =(EditText) findViewById(R.id.TeacherAddressSho2wAddEditText);
+         taddress =(EditText) findViewById(R.id.TeacherAddressSho2wAddEditText);
          savebutton =(Button)findViewById(R.id.save) ;
 
+         intent = getIntent();
+         teacherid=intent.getStringExtra("teacherid");
+         check1=intent.getStringExtra("check1");
 
-            intent = getIntent();
-             teacherid=intent.getStringExtra("teacherid");
-        check1=intent.getStringExtra("check1");
-
-        Log.i("check 1 value",""+check1);
-        Log.i("teacher id",""+teacherid);
-
-
-     connectToDB=new ConnectToDB();//obj of async class
+        connectToDB=new ConnectToDB();//obj of async class
 
         String[] sql={
-
         };
 
         try {
             if(connectToDB.execute(sql).get()){
                 {
-                    Log.i("updated:mmmmm","doneee");
-
                 }
             }
         } catch (Exception e) {
@@ -204,7 +194,6 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
             taddress.setEnabled(false);
             savebutton.setVisibility(View.INVISIBLE);
 
-            Log.i("clicked","aaaaaaa"+check1);
         }
         if(check1!=null && check1.equals("edit")){
             tid.setEnabled(false);
@@ -216,22 +205,11 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(savebutton.getTag().toString().equals("update")){
                     connectToDB.updateteacherdetails();
-                }else{
+                }
+                if(savebutton.getTag().toString().equals("addnew")){
                     connectToDB.insertnewteacherdetails();
                 }
             }
         });
-
-    }
-
-    /*public  void saveTeacherDetails(View view){
-
-        Intent adminTeacherShowAllNamesActivity = new Intent(getApplicationContext(), AdminTeacherShowAllNamesActivity.class);
-        startActivity(adminTeacherShowAllNamesActivity);
-    }*/
-
-    public void editTeacherDetails(View view){
-
     }
 }
-//

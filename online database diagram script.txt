@@ -1,0 +1,67 @@
+
+
+ 
+ TABLE Attendance{
+	fkteacherId int   [ref: > Teacher.teacherId]
+	fkcourseId int   [ref: > Course.courseId]
+	fksubjectId int [ref: > Subject.subjectId]
+	fkstudentErpNo int  [ref: > Student.studentErpNo]
+	takenDate date  
+	takenTime time  
+	presentabsent varchar[2]  
+}
+
+ TABLE Course{
+	courseId int [pk]
+	courseName varchar[20] 
+	startDate date 
+}
+ TABLE CourseYears{
+	fkcourseIdCourseYears int [ref: > Course.courseId]
+	courseYears varchar[50]  
+}
+
+ TABLE Semester{
+	semId int   [pk]
+	semName nvarchar[5]  
+	semYear varchar[2]  
+	semStartDate date 
+	semEndDate date 
+}
+
+ TABLE Student{
+	studentErpNo int   [pk]
+	studentRollNo int 
+	studentName varchar[20] 
+	studentPassword varchar[20] 
+	studentEmailId varchar[20] 
+	studentImage varchar[20] 
+	studentGender varchar[20] 
+	fkcourseIdStudent int   [ref: > Course.courseId]
+	studentrContactNo varchar[12] 
+	fksemIdStudent int  [ref: > Semester.semId]
+}
+
+ TABLE Subject{
+	subjectId int  [pk]
+	subjectName varchar[20] 
+	fkcourseIdSubject int   [ref: > Course.courseId]
+	fkteacherIdSubject int  [ref: > Teacher.teacherId]
+	fksemIdSubject int  [ref: > Semester.semId]
+}
+ TABLE Teacher{
+	fkcourseIdTeacher int   [ref: > Course.courseId]
+	teacherId int  [pk]
+	teacherName varchar[20] 
+	teacherPassword varchar[20] 
+	teacherAge int 
+	teacherEmailId varchar[20] 
+	teacherGender varchar[20] 
+	teacherAddress varchar[20] 
+	teacheradharno int 
+	teacherImage varchar[20] 
+	teacherContactNo varchar[12] 
+	teacherDateOfBirth varchar[12] 
+	teacherJoiningDate varchar[12] 
+
+}

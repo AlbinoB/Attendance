@@ -37,7 +37,6 @@ public class TeacherHomeActivity extends AppCompatActivity {
     ConnectToDB connectToDB;
 
     Handler handler =new Handler();
-    Handler handler1 =new Handler();
 
     private Spinner courseSpiner,yearSpiner,semesterSpiner,subjectSpiner;
     String[] coursename ;
@@ -52,7 +51,6 @@ public class TeacherHomeActivity extends AppCompatActivity {
         Statement stmt;
         ResultSet rs = null;
         String sql = "";
-
 
         @Override
         protected Boolean doInBackground(String... sqlarr) {
@@ -77,9 +75,6 @@ public class TeacherHomeActivity extends AppCompatActivity {
 
                         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                            Log.i("course name", "" + courseSpiner.getSelectedItem());
-                            Log.i("clicked", "on item selected");
-                           // setYears();
                             Thread thread = new Thread(new Runnable() {
 
                                 @Override
@@ -89,14 +84,12 @@ public class TeacherHomeActivity extends AppCompatActivity {
                                         @Override
                                         public void run() {
                                             setYears();
-                                            Log.i("set year", "on item selected");
                                         }
                                     });
                                 }
                             });
 
                             thread.start();
-                            // setYears();
                         }
 
                         @Override
@@ -104,16 +97,10 @@ public class TeacherHomeActivity extends AppCompatActivity {
                         }
                     });
 
-
-
-
-                     yearSpiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        yearSpiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
                             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-
-                                Log.i("year no", "" + yearSpiner.getSelectedItem());
-                              //  getSemesters();
                                 Thread thread = new Thread(new Runnable() {
 
                                     @Override
@@ -127,9 +114,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
                                         });
                                     }
                                 });
-
                                 thread.start();
-                                // setYears();
                             }
 
                             @Override
@@ -137,17 +122,10 @@ public class TeacherHomeActivity extends AppCompatActivity {
                             }
                         });
 
-
-
-
-
-                        semesterSpiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            semesterSpiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
                             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                                Log.i("course name", "" + semesterSpiner.getSelectedItem());
-                                Log.i("clicked", "on item selected");
-                             //   setYears();
                                 Thread thread = new Thread(new Runnable() {
 
                                     @Override
@@ -161,32 +139,27 @@ public class TeacherHomeActivity extends AppCompatActivity {
                                         });
                                     }
                                 });
-
                                 thread.start();
-                                // setYears();
                             }
 
                             @Override
                             public void onNothingSelected(AdapterView<?> adapterView) {
                             }
                         });
-
-
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
                 return false;
             }
-
-
-
-
         }//doInBackground;
+
             public void getTeacherName(){
+
                  currentTeacherTextView =((Integer)sharedPreferences.getInt("currentUserId",0));
             }
 
             public void getAndSetCourseName(){
+
                 try {
                     Class.forName("net.sourceforge.jtds.jdbc.Driver");
                     url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
@@ -199,16 +172,16 @@ public class TeacherHomeActivity extends AppCompatActivity {
                 try{
                     int i=1;
                     noOfCourse=0;
-                    rs = stmt.executeQuery("select count(courseName) as countOfCourse from Course where courseId in (select fkcourseIdSubject from Subject where fkteacherIdSubject=(select teacherId from Teacher where teacherId='"+(Integer)sharedPreferences.getInt("currentUserId",0)+"'))");
 
+                    rs = stmt.executeQuery("select count(courseName) as countOfCourse from Course where courseId in (select fkcourseIdSubject from Subject where fkteacherIdSubject=(select teacherId from Teacher where teacherId='"+(Integer)sharedPreferences.getInt("currentUserId",0)+"'))");
                     if(rs.next()){
                        noOfCourse  = (rs.getInt("countOfCourse"));
                     }
 
                     coursename =new String[noOfCourse+1];
                     coursename[0]="Select Course";
-                    rs = stmt.executeQuery("select courseName from Course where courseId in (select fkcourseIdSubject from Subject where fkteacherIdSubject=(select teacherId from Teacher where teacherId='"+(Integer)sharedPreferences.getInt("currentUserId",0)+"'))");
 
+                    rs = stmt.executeQuery("select courseName from Course where courseId in (select fkcourseIdSubject from Subject where fkteacherIdSubject=(select teacherId from Teacher where teacherId='"+(Integer)sharedPreferences.getInt("currentUserId",0)+"'))");
                     while(rs.next()) {
                        coursename[i++] = rs.getString("courseName");
                    }
@@ -217,14 +190,13 @@ public class TeacherHomeActivity extends AppCompatActivity {
                     courseAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     courseSpiner.setAdapter(courseAdapter);
 
-
-
                 }catch(Exception e){
                     e.printStackTrace();
                 }
             }//getAndSetCourseName
 
                 public void getYear(){
+
                     try {
                         Class.forName("net.sourceforge.jtds.jdbc.Driver");
                         url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
@@ -233,26 +205,23 @@ public class TeacherHomeActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+
                     try {
-                        Log.i("Years:","year called");
                         int i = 1;
                         noOfYears = 0;
 
                         rs = stmt.executeQuery("select count(*) as noOfYears from CourseYears where fkcourseIdCourseYears=(select courseId from Course where courseName='"+courseSpiner.getSelectedItem()+"')");
                         if (rs.next()) {
                             noOfYears = (rs.getInt("noOfYears"));
-
                         }
-                        Log.i("noOfYears:",noOfYears+"");
+
                         yearNo=new String[noOfYears+1];
                         yearNo[0]="Select Year";
+
                         rs = stmt.executeQuery("select courseYears from CourseYears where fkcourseIdCourseYears=(select courseId from Course where courseName='"+courseSpiner.getSelectedItem()+"')");
                         while (rs.next()) {
-                            Log.i("courseYears:",rs.getString("courseYears"));
                             yearNo[i++] = rs.getString("courseYears");
-
                         }
-
                     }
                     catch(Exception e){
                         e.printStackTrace();
@@ -268,6 +237,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
 
 
         public void getSemesters(){
+
             try {
                 Class.forName("net.sourceforge.jtds.jdbc.Driver");
                 url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
@@ -276,6 +246,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
             try {
                 int i = 1;
                 noOfSemesters = 0;
@@ -283,14 +254,13 @@ public class TeacherHomeActivity extends AppCompatActivity {
                 rs = stmt.executeQuery("select Count(*) as noOfSemesters from Semester where semYear='"+yearSpiner.getSelectedItem()+"'");
                 if (rs.next()) {
                     noOfSemesters = (rs.getInt("noOfSemesters"));
-
                 }
-                Log.i("noOfsemester:",noOfSemesters+"");
+
                 semesterNo=new String[noOfSemesters+1];
                 semesterNo[0]="Select Semester";
+
                 rs = stmt.executeQuery("select semName from Semester where semYear='"+yearSpiner.getSelectedItem()+"'");
                 while (rs.next()) {
-                    Log.i("semName:",rs.getString("semName"));
                     semesterNo[i++] = rs.getString("semName");
                 }
             }
@@ -300,6 +270,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
         }//getSemesters
 
         public void setSemester(){
+
             ArrayAdapter<String> semesterAdapter = new ArrayAdapter<String>(TeacherHomeActivity.this,android.R.layout.simple_spinner_dropdown_item,semesterNo);
             semesterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             semesterSpiner.setAdapter(semesterAdapter);
@@ -307,6 +278,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
 
 
         public void getSubjectName(){
+
             try {
                 Class.forName("net.sourceforge.jtds.jdbc.Driver");
                 url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
@@ -315,27 +287,23 @@ public class TeacherHomeActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
             try{
                 int i=1;
                 noOfSubject=0;
-                rs = stmt.executeQuery("select count(subjectName) as countOfSubject from Subject where fkteacherIdSubject="+(Integer)sharedPreferences.getInt("currentUserId",0)+" and fkcourseIdSubject=(select courseId from Course where courseName='"+courseSpiner.getSelectedItem()+"') and  fksemIdSubject=(select semId from Semester where semName='"+semesterSpiner.getSelectedItem()+"')");
 
+                rs = stmt.executeQuery("select count(subjectName) as countOfSubject from Subject where fkteacherIdSubject="+(Integer)sharedPreferences.getInt("currentUserId",0)+" and fkcourseIdSubject=(select courseId from Course where courseName='"+courseSpiner.getSelectedItem()+"') and  fksemIdSubject=(select semId from Semester where semName='"+semesterSpiner.getSelectedItem()+"')");
                 if(rs.next()){
                     noOfSubject  = (rs.getInt("countOfSubject"));
-                    Log.i("no of subject",""+rs.getInt("countOfSubject"));
-
                 }
+
                 subjectName =new String[noOfSubject+1];
                 subjectName[0]="Select Subject";
+
                 rs = stmt.executeQuery( "select subjectName from Subject where fkteacherIdSubject="+(Integer)sharedPreferences.getInt("currentUserId",0)+" and fkcourseIdSubject=(select courseId from Course where courseName='"+courseSpiner.getSelectedItem()+"') and  fksemIdSubject=(select semId from Semester where semName='"+semesterSpiner.getSelectedItem()+"')");
-
                 while(rs.next()){
-                    Log.i(" subject name",""+rs.getString("subjectName"));
-
                     subjectName[i++] = (rs.getString("subjectName"));
-
                 }
-
 
             }catch(Exception e){
                 e.printStackTrace();
@@ -344,6 +312,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
         }//getAndSetSubjectName
 
         public void setSubjectName(){
+
             ArrayAdapter<String> subjectAdapter = new ArrayAdapter<String>(TeacherHomeActivity.this,android.R.layout.simple_spinner_dropdown_item,subjectName);
             subjectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             subjectSpiner.setAdapter(subjectAdapter);
@@ -361,7 +330,6 @@ public class TeacherHomeActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-
         switch (item.getItemId()){
             case R.id.teacherHome:{
                 teacherNextActivity=new Intent(getApplicationContext(),TeacherHomeActivity.class);
@@ -376,20 +344,14 @@ public class TeacherHomeActivity extends AppCompatActivity {
             case R.id.teacherViewAttendance:{
                 teacherNextActivity=new Intent(getApplicationContext(), TeacherSearchByActivity.class);
                 startActivity(teacherNextActivity);
-
                 return true;
-
             }
             case R.id.teacherEditProfile:{
-
                 teacherNextActivity=new Intent(getApplicationContext(), TeacherHomeActivity.class);
                 startActivity(teacherNextActivity);
-
                 return true;
-
             }
-
-             default:{
+            default:{
                 return false;
             }
         }
@@ -415,8 +377,6 @@ public class TeacherHomeActivity extends AppCompatActivity {
         try {
             if(connectToDB.execute(sql).get()){
                 {
-                    Log.i("updated:mmmmm","doneee");
-
                 }
             }
         } catch (Exception e) {
@@ -425,29 +385,30 @@ public class TeacherHomeActivity extends AppCompatActivity {
     }
 
     public void takeAttendance(View view){
+
         Button teacherhomebutton = (Button) findViewById(R.id.teacherHomeSubmitButton);
-        Log.i("inside ","nothing ");
         if(checkEmptyFields()) {
+
             sharedPreferences.edit().putString("currentCourseName",particularcoursename).apply();
             sharedPreferences.edit().putString("currentYearNo",particularyear).apply();
             sharedPreferences.edit().putString("currentSemNo",particularsemester).apply();
             sharedPreferences.edit().putString("currentSubjectName",particularsubject).apply();
+
             Intent takeAttendanceActivity = new Intent(getApplicationContext(), com.example.bino.attendance.TakeAttendanceActivity.class);
             startActivity(takeAttendanceActivity);
-
         }
-
     }
+
     public boolean checkEmptyFields(){
+
         String error="";
         particularcoursename =courseSpiner.getSelectedItem().toString();
         particularyear = yearSpiner.getSelectedItem().toString();
         particularsemester = semesterSpiner.getSelectedItem().toString();
         particularsubject = subjectSpiner.getSelectedItem().toString();
-        Log.i("course selected ",particularcoursename);
+
         if( particularcoursename.equals("Select Course")){
             error="Please Select Course!!!";
-
         }else if( particularyear.equals("Select Year")){
             error="Please Select Year!!!";
         }else if( particularsemester.equals("Select Semester")){
@@ -465,7 +426,5 @@ public class TeacherHomeActivity extends AppCompatActivity {
         {
             return true;
         }
-
     }
-
-        }
+}

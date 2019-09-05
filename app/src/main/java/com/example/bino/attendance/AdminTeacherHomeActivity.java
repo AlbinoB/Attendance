@@ -36,7 +36,6 @@ public class AdminTeacherHomeActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(String... sqlarr) {
 
-
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
@@ -46,9 +45,7 @@ public class AdminTeacherHomeActivity extends AppCompatActivity {
                 connection = DriverManager.getConnection(url);
                 stmt = connection.createStatement();
 
-
                 getandsetcourse();
-
 
                 return true;
             } catch (Exception e) {
@@ -60,21 +57,22 @@ public class AdminTeacherHomeActivity extends AppCompatActivity {
         public void getandsetcourse(){
             try{
                 rs = stmt.executeQuery("select  count(*) as noofcourse  from Course");
-
                 while(rs.next()) {
                     course = new String[(rs.getInt("noofcourse")) + 1];
                 }
-            int i=1;
 
+                int i=1;
                 course[0]="Select Course";
                 rs= stmt.executeQuery("select courseName from Course");
                 while(rs.next()){
                     course[i]=rs.getString("courseName");
                     i++;
                 }
+
                 ArrayAdapter<String> courseAdapter = new ArrayAdapter<String>(AdminTeacherHomeActivity.this,android.R.layout.simple_spinner_dropdown_item,course);
                 courseAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 admincourseSpiner.setAdapter(courseAdapter);
+
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -82,8 +80,7 @@ public class AdminTeacherHomeActivity extends AppCompatActivity {
 
     }//AsyncTask
 
-
-   @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
        setContentView(R.layout.activity_admin_teacher_home);
@@ -91,28 +88,21 @@ public class AdminTeacherHomeActivity extends AppCompatActivity {
 
        admincourseSpiner = (Spinner)findViewById(R.id.AdmincourseSpinner);
 
-
-
        AdminTeacherHomeActivity.ConnectToDB connectToDB=new ConnectToDB();//obj of async class
 
        String[] sql={
-
        };
 
        try {
            if(connectToDB.execute(sql).get()){
                {
-                   Log.i("updated:mmmmm","doneee");
 
                }
            }
        } catch (Exception e) {
            e.printStackTrace();
        }
-
-
-
-   }
+    }
 
    public  void showAllTeachers(View view){
 

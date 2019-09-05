@@ -36,14 +36,15 @@ public class ShowTakenAttendanceActivity extends AppCompatActivity {
         ShowTotalTextView=(TextView)findViewById(R.id.ShowTotalTextView);
         ShowPresentTextView=(TextView)findViewById(R.id.ShowPresentTextView);
         ShowAbsentTextView=(TextView)findViewById(R.id.ShowAbsentTextView);
+
         sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
+
         String stringFullArray=(String)sharedPreferences.getString("stringFullArray","no value");
-        Log.i("nextfullarr",stringFullArray);
         int noOfStudent=sharedPreferences.getInt("noOfStudent",0);
         studentNameRollno=new String[noOfStudent][9];
-
         studentNameRollno=to2dim(stringFullArray,";",",");
         int presentCount=0,absentCount=0;
+
         for (int f = 0; f < studentNameRollno.length; f++) {
 
             if(studentNameRollno[f][6].equals("P")){
@@ -52,8 +53,6 @@ public class ShowTakenAttendanceActivity extends AppCompatActivity {
             {
                 absentCount++;
             }
-
-            Log.i("nextdetails", " " + studentNameRollno[f][0] + " " + studentNameRollno[f][1] + " " + studentNameRollno[f][2] + " " + studentNameRollno[f][3] + " " + studentNameRollno[f][4] + " " + studentNameRollno[f][5] + " " + studentNameRollno[f][6] + " " + studentNameRollno[f][7] + " " + studentNameRollno[f][8]);
         }
 
         ShowSubjectTextView.setText((String)sharedPreferences.getString("currentSubjectName","no subject"));
@@ -61,10 +60,7 @@ public class ShowTakenAttendanceActivity extends AppCompatActivity {
         ShowTotalTextView.setText(noOfStudent+"");
         ShowPresentTextView.setText(presentCount+"");
         ShowAbsentTextView.setText(absentCount+"");
-
-
-
-        }
+    }
 
     public static String [][] to2dim (String source, String outerdelim, String innerdelim) {
         // outerdelim may be a group of characters
@@ -80,8 +76,6 @@ public class ShowTakenAttendanceActivity extends AppCompatActivity {
         }
         return result;
     }
-
-
 
     public  void EditAttendance(View view){
 
@@ -110,9 +104,6 @@ public class ShowTakenAttendanceActivity extends AppCompatActivity {
         startActivity(teacherhomeactivity);
     }
 
-
-
-
     public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
         @Override
         protected Boolean doInBackground(String... sqlarr) {
@@ -130,13 +121,11 @@ public class ShowTakenAttendanceActivity extends AppCompatActivity {
                 String sql="";
                 for (int f = 0; f < studentNameRollno.length; f++) {
 
-
                     sql="insert into Attendance values("+Integer.parseInt(studentNameRollno[f][0]) + "," + Integer.parseInt(studentNameRollno[f][1]) + "," + Integer.parseInt(studentNameRollno[f][2]) + "," + Integer.parseInt(studentNameRollno[f][3]) + ",convert(varchar,'" + studentNameRollno[f][4] + "', 8),'" + studentNameRollno[f][5] + "','" + studentNameRollno[f][6]+"')";
                     stmt.executeUpdate(sql);
 
                 }
                     return true;
-
             }
             catch (Exception e){
                 e.printStackTrace();

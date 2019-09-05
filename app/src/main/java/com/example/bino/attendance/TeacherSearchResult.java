@@ -92,7 +92,6 @@ public class TeacherSearchResult extends AppCompatActivity {
                 stmt2 = connection.createStatement();
                 stmt3 = connection.createStatement();
 
-                Log.i("sadasd", "asdfaf");
                 getandsetcurrentdetails();
                 getandsetrollnonamepercent();
 
@@ -109,14 +108,12 @@ public class TeacherSearchResult extends AppCompatActivity {
     public void getandsetcurrentdetails(){
 
        currentteacherid =((Integer)sharedPreferences.getInt("currentUserId",0));
-       Log.i("teacher id ",""+currentteacherid);
         currentstartdate =((String)sharedPreferences.getString("currentstartdate","no date"));
         currentenddate =((String)sharedPreferences.getString("currentenddate","no date"));
         currentsubject =((String)sharedPreferences.getString("currentsubjectname","no date"));
         currentyear =((String)sharedPreferences.getString("currentyear","no date"));
         currentsem =((String)sharedPreferences.getString("currentsem","no date"));
         currentcourse =((String)sharedPreferences.getString("currentcoursename","no date"));
-
 
         try{
             rs = stmt.executeQuery("select teacherName from Teacher where teacherId='"+currentteacherid+"'");
@@ -142,100 +139,73 @@ public class TeacherSearchResult extends AppCompatActivity {
                         rs = stmt.executeQuery("select count(*) as totlastudent from Student where fksemIdStudent=(select semId from Semester where semName='"+currentsem+"')");
                         if(rs.next()){
                          totalstudent =rs.getInt("totlastudent");
-
-
                         }
-                        studentsarr = new String[totalstudent][4];//index:value->00:srno,01:rollno,02:name,03:perc
 
+                        studentsarr = new String[totalstudent][4];//index:value->00:srno,01:rollno,02:name,03:perc
 
                         rs = stmt.executeQuery("select count(*) as totallecture from Attendance where takenDate between '"+currentstartdate+"' and '"+currentenddate+"' and fksubjectId=(select subjectId from Subject where subjectName='"+currentsubject+"') and fkstudentErpNo=(select studentErpNo from Student where studentRollNo='"+16+"')");
                         if(rs.next()){
                             totallecture =(Integer)rs.getInt("totallecture");
-
                         }
 
                         attendancarray=new String[totalstudent+2][totallecture+1];//+2 for taken date and taken time ,+1 for perc
 
-
                         rs = stmt.executeQuery("select studentRollNo,studentName from Student where fksemIdStudent=(select semId from Semester where semName='"+currentsem+"') order by studentRollNo");
-
                         while(rs.next()){
-
-
-
-                          String studentRollNo =rs.getString("studentRollNo");
+                            String studentRollNo =rs.getString("studentRollNo");
                                     studentsarr[i][0]=Integer.toString(i+1);
                                     studentsarr[i][1]=rs.getString("studentRollNo");
                                     studentsarr[i][2]=rs.getString("studentName");
+
                           int totalpresent=0;
+
                          resultSet = stmt2.executeQuery("select count(*) as totalpresent from Attendance where( (takenDate between '"+currentstartdate+"' and '"+currentenddate+"') and( fkstudentErpNo=(select studentErpNo from Student where studentRollNo='"+studentRollNo+"'))and( presentabsent='P') and (fksubjectId=(select subjectId from Subject where subjectName='"+currentsubject+"')))");
                             if(resultSet.next()){
                                 totalpresent =(Integer)resultSet.getInt("totalpresent");
-
                             }
+
                             float percent=0;
-                            Log.i("total lecture ",""+totallecture);
-                            Log.i("total present ",""+totalpresent);
+
                             if(totallecture!=0){
                                 percent =(100*totalpresent)/totallecture;
                                 studentsarr[i][3]=Float.toString(percent);
                                 attendancarray[i+2][totallecture]=Float.toString(percent);
-
-
                             }else
                             {
-
                                 studentsarr[i][3]="No Lectures";
-
-
                             }
 
                             //get attendance of all lectures of particular student
                             int days=0;
+
                             ResultSet resultSetForAttendance=stmt3.executeQuery("select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenTime from Attendance where takenDate between '"+currentstartdate+"' and '"+currentenddate+"' and fkstudentErpNo=(select studentErpNo from Student where studentRollNo="+studentsarr[i][1]+") and fksubjectId=(select subjectId from Subject where subjectName='"+currentsubject+"' and fksemIdSubject=(select fksemIdStudent from Student where studentErpNo=(select studentErpNo from Student where studentRollNo="+studentsarr[i][1]+"))) order by takenDate asc");
                             while(resultSetForAttendance.next()){
                                 if(i==0)
                                 {
                                     attendancarray[0][days]=resultSetForAttendance.getString("takenTime");
                                     attendancarray[1][days]=resultSetForAttendance.getDate("takenDate")+"";
-                                    Log.i("datestaken",attendancarray[0][days]+" _"+attendancarray[1][days]);
                                 }
 
                                 attendancarray[i+2][days]=resultSetForAttendance.getString("presentabsent");//i+2=>index 0 and 1 stores the date and time of the lecture
-                                Log.i("days present",attendancarray[i+2][days]);
                                 days++;
-
                             }
-
-
-
-
-
-
                             i++;
+                        }
 
-
-                            }
-
-                        listView.setAdapter(customAdapter);
+                            listView.setAdapter(customAdapter);
                     }catch (Exception e){
-                        e.printStackTrace();
+                           e.printStackTrace();
                     }
-
-        }
-
-
+       }
     }//AsyncTask
 
-
-
     public class SaveFile extends AsyncTask<String,Void,Boolean> {
-
 
         @Override
         protected void onPreExecute() {
 
         }
+
         @Override
         protected Boolean doInBackground(String... args) {
 
@@ -248,11 +218,8 @@ public class TeacherSearchResult extends AppCompatActivity {
                         WritableCell makeCellRed;
                         WritableCellFormat newFormat;
 
-
                         if(download.getTag().equals("not downloaded")) {
-
-
-                        handler.post(new Runnable() {
+                            handler.post(new Runnable() {
                             @Override
                             public void run() {
                                 download.setTag("downloaded");
@@ -260,14 +227,11 @@ public class TeacherSearchResult extends AppCompatActivity {
                             }
                         });
 
-
-                        String filename = "/Download/" + currentsubject + ".xls";
-
-                        File f1 = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), filename);
-
-                        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-                        Date date = new Date();
-                        String todaysDate=dateFormat.format(date);
+                            String filename = "/Download/" + currentsubject + ".xls";
+                            File f1 = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), filename);
+                            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                            Date date = new Date();
+                            String todaysDate=dateFormat.format(date);
 
                         try {
                             WritableWorkbook myexcel = Workbook.createWorkbook(f1);
@@ -325,7 +289,6 @@ public class TeacherSearchResult extends AppCompatActivity {
                             l1 = new Label(9, 0, currentenddate);
                             defaulters.addCell(l1);
 
-
                             l1 = new Label(0, 1+2, "Date Taken");
                             sheet1.addCell(l1);
                             l1 = new Label(0, 0+2, "Time Taken");
@@ -347,7 +310,6 @@ public class TeacherSearchResult extends AppCompatActivity {
                                     cell.setSize(3000);
                                     sheet1.setColumnView(j, cell);
 
-
                                     if (i == 0) {
 
                                         l1 = new Label(j + 2, 1+2, attendancarray[0][j]);
@@ -357,16 +319,15 @@ public class TeacherSearchResult extends AppCompatActivity {
                                         sheet1.addCell(l1);
 
                                     }
+
                                     l1 = new Label(j + 2, i + 2+2, attendancarray[i + 2][j]);
                                     sheet1.addCell(l1);
 
                                     l1 = new Label(totallecture + 2, i + 2+2, attendancarray[i + 2][totallecture]);
 
                                     sheet1.addCell(l1);
-
-
-
                                 }
+
                                 if(Float.parseFloat(attendancarray[i+2][totallecture])<75.0) {
                                     l1 = new Label(0, countForDefaulterSheetIndex, studentsarr[i][1]);//rollno
                                     defaulters.addCell(l1);
@@ -385,7 +346,6 @@ public class TeacherSearchResult extends AppCompatActivity {
 
                                     countForDefaulterSheetIndex++;
                                 }
-
 
                                 CellView rollno = defaulters.getColumnView(0);
                                 rollno.setSize(3000);
@@ -408,9 +368,6 @@ public class TeacherSearchResult extends AppCompatActivity {
                                 CellView endDate = defaulters.getColumnView(9);
                                 endDate.setSize(3500);
                                 defaulters.setColumnView(9, endDate);
-
-
-
 
                                 CellView sheet1rollno = sheet1.getColumnView(0);
                                 sheet1rollno.setSize(3000);
@@ -444,7 +401,6 @@ public class TeacherSearchResult extends AppCompatActivity {
                                 sheet1.setColumnView(totallecture + 2, cellperc);
                             }
 
-
                             myexcel.write();
                             myexcel.close();
                             handler.post(new Runnable() {
@@ -467,7 +423,6 @@ public class TeacherSearchResult extends AppCompatActivity {
                                     Toast.makeText(TeacherSearchResult.this, "Give storage permissions", Toast.LENGTH_SHORT).show();
                                 }
                             });
-
                         }
                     }else
                     {
@@ -477,30 +432,23 @@ public class TeacherSearchResult extends AppCompatActivity {
                                 Toast.makeText(TeacherSearchResult.this, "Already downloaded", Toast.LENGTH_SHORT).show();
                             }
                         });
-
                     }
 
-                }
-                    });
+                    }
+                });
                 thread.start();
-
-
-
             return true;
         }
         @Override
         protected void onPostExecute(Boolean result) {
             // do UI work here
-
         }
-
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_search_result);
-        Log.i("new activity","teacher search result");
 
         sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
 
@@ -512,19 +460,14 @@ public class TeacherSearchResult extends AppCompatActivity {
         download=(Button)findViewById(R.id.download);
         customAdapter = new CustomAdapter();
 
-
-
         ConnectToDB connectToDB = new ConnectToDB();
 
         String[] sql={
-
         };
 
         try {
             if(connectToDB.execute(sql).get()){
                 {
-                    Log.i("updated:mmmmm","doneee");
-
                 }
             }
         } catch (Exception e) {
@@ -533,6 +476,7 @@ public class TeacherSearchResult extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
                 Intent teacherSearchResultIndividual = new Intent(getApplicationContext(), TeacherSearchResultIndividual.class);
                 teacherSearchResultIndividual.putExtra("passStudentRoll",studentsarr[i][1]);
                 teacherSearchResultIndividual.putExtra("passStudentName",studentsarr[i][2]);
@@ -541,14 +485,10 @@ public class TeacherSearchResult extends AppCompatActivity {
                 startActivity(teacherSearchResultIndividual);
             }
         });
-
-        Log.i("data",""+attendancarray[0][0]+"__"+attendancarray[1][0]);
-
     }
 
     public void download(View view){
         SaveFile saveFile= new SaveFile();
-
 
         String[] sql={
 
@@ -557,7 +497,6 @@ public class TeacherSearchResult extends AppCompatActivity {
         try {
             if(saveFile.execute(sql).get()){
                 {
-                    Log.i("updated:mmmmm","doneee");
 
                 }
             }

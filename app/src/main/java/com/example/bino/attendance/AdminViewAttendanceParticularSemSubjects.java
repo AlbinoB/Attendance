@@ -22,6 +22,7 @@ public class AdminViewAttendanceParticularSemSubjects extends AppCompatActivity 
                     {"3001", "Advance Java"}
             };
     ListView listView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +31,6 @@ public class AdminViewAttendanceParticularSemSubjects extends AppCompatActivity 
         CustomAdapter customAdapter=new CustomAdapter();
         listView.setAdapter(customAdapter);
     }
-
 
     public class CustomAdapter extends BaseAdapter {
 
@@ -58,7 +58,6 @@ public class AdminViewAttendanceParticularSemSubjects extends AppCompatActivity 
             sName.setText(studentsarr[i][1]);
 
             return  view;
-
         }
     }
 }

@@ -48,7 +48,6 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
     static String[][] studentsarr ;
     ConnectToDB connectToDB;
     Handler handler=new Handler();
-
     EditText startDate;
     EditText endDate;
     DatePickerDialog datePickerDialogStartDate,datePickerDialogEndDate;
@@ -66,7 +65,6 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
     }
 
     public void applyFilter(View view){
-
 
         semStartDate=startDate.getText().toString();
         semEndDate=endDate.getText().toString();
@@ -88,10 +86,8 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
 
         listView=(ListView)findViewById(R.id.listView);
 
-
         startDate=(EditText)findViewById(R.id.StartDate);
         endDate=(EditText)findViewById(R.id.EndDate);
-        //startDate.setText(getDateTime());
         startDate.setInputType(InputType.TYPE_NULL);//disable softkey board
         endDate.setInputType(InputType.TYPE_NULL);
 
@@ -100,7 +96,6 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
             public void onClick(View view) {
                 String tempdate=getDateTime();
                 String[] dataarr=tempdate.split("/");
-                Log.i("date",getDateTime());
                 int day=Integer.parseInt(dataarr[2]);
                 int month=Integer.parseInt(dataarr[1])-1;
                 int year=Integer.parseInt(dataarr[0]);
@@ -121,7 +116,6 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
             public void onClick(View view) {
                 String tempdate=getDateTime();
                 String[] dataarr=tempdate.split("/");
-                Log.i("date",getDateTime());
                 int day=Integer.parseInt(dataarr[2]);
                 int month=Integer.parseInt(dataarr[1])-1;
                 int year=Integer.parseInt(dataarr[0]);
@@ -139,7 +133,6 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
 
         previousIntent=getIntent();
 
-
         TextView studentName,studentRollNo,semName,currentYear,courseName,subjectName;
         studentName=(TextView)findViewById(R.id.studentName);
         studentRollNo=(TextView)findViewById(R.id.studentRollNo);
@@ -147,6 +140,7 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
         currentYear=(TextView)findViewById(R.id.semYear);
         courseName=(TextView)findViewById(R.id.courseName);
         subjectName=(TextView)findViewById(R.id.subjectName);
+
         previousIntent=getIntent();
 
         currentyear =((String)sharedPreferences.getString("currentYearNo","no date"));
@@ -157,7 +151,6 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
         passScode=previousIntent.getStringExtra("passScode");
         passSname=previousIntent.getStringExtra("passSname");
 
-
         studentName.setText(studentNameText);
         studentRollNo.setText(studentRollnoText);
         semName.setText(currentsem);
@@ -165,27 +158,18 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
         courseName.setText(currentcourse);
         subjectName.setText(passSname);
 
-
-
         connectToDB=new ConnectToDB();//obj of async class
 
         String[] sql={
-
         };
-
         try {
             if(connectToDB.execute(sql).get()){
                 {
-                    Log.i("updated:mmmmm","doneee");
-
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
     }
 
     public class CustomAdapter extends BaseAdapter {
@@ -207,6 +191,7 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
+
             view = getLayoutInflater().inflate(R.layout.customlayoutadminstudentviewindividualattendance, null);
             final TextView dateTextView=(TextView)view.findViewById(R.id.dateTextView);
             final TextView timeTextView=(TextView)view.findViewById(R.id.timeTextView);
@@ -214,23 +199,29 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
             final Button editAttendanceButton=(Button)view.findViewById(R.id.editAttendance1);
             editAttendanceButton.setTag(""+i);
             editAttendanceButton.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View view1) {
+
                     presentabsent.setEnabled(true);
+
                     if(presentabsent.isEnabled()){
                         editAttendanceButton.setBackground(null);
                         editAttendanceButton.setBackgroundColor(Color.GREEN);
                         editAttendanceButton.setText("Save");
+
                         if(!presentabsent.getTag().toString().equals(""+presentabsent.isChecked())){
                             presentabsent.setTag(""+presentabsent.isChecked());
                             presentabsent.setChecked(presentabsent.isChecked());
                             int attendanceToBeChangedAtindex=Integer.parseInt(editAttendanceButton.getTag().toString());
+
                             if(presentabsent.isChecked()){
                                 studentsarr[attendanceToBeChangedAtindex][1]="P";
                             }
                             else{
                                 studentsarr[attendanceToBeChangedAtindex][1]="A";
                             }
+
                             Toast.makeText(AdminStudentViewIndividualAttendance.this, "Saved to database", Toast.LENGTH_SHORT).show();
                             presentabsent.setEnabled(false);
                             editAttendanceButton.setBackgroundColor(Color.rgb(105,105,105));
@@ -238,13 +229,7 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
                             editAttendanceButton.setText("");
                             connectToDB.updateAttendance(dateTextView.getText().toString(),timeTextView.getText().toString(),studentsarr[attendanceToBeChangedAtindex][1]);
                         }
-
-
-
                     }
-
-
-
                 }
             });
 
@@ -275,7 +260,6 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(String... sqlarr) {
 
-
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
@@ -285,11 +269,8 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
                 connection = DriverManager.getConnection(url);
                 stmt = connection.createStatement();
 
-
                 getStartAndEndDate();
                 getNumberOfdays();
-
-
 
                 return true;
             } catch (Exception e) {
@@ -321,7 +302,6 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
                     Looper.prepare();
                     sql="select fksubjectId,count(*) as totalLectures from Attendance where takenDate between '"+semStartDate+"' and '"+semEndDate+"' and fkstudentErpNo=(select studentErpNo from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"')) and fksubjectId=(select subjectId from Subject where subjectId='"+passScode+"') group by fksubjectId";
 
-                    Log.i("sqldays",sql);
                     try {
                         rs = stmt.executeQuery(sql);
                         if (rs.next()) {
@@ -338,10 +318,8 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
                                             listView=(ListView)findViewById(R.id.listView);
                                             CustomAdapter customAdapter=new CustomAdapter();
                                             listView.setAdapter(customAdapter);
-
                                 }
                             });
-                            Log.i("nothing", "nothing.....");
                         }
 
                     } catch (Exception e) {
@@ -354,12 +332,7 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
 
         public void getDatesPresentAbsent(){
 
-
-            //sql="select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenDateFormatted from Attendance where takenDate between '"+semStartDate+"' and '"+semEndDate+"' and fkstudentErpNo=(select studentErpNo from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"'))  and fksubjectId=(select subjectId from Subject where subjectId="+passScode+" and fksemIdSubject=(select fksemIdStudent from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"')))" ;
             sql="select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenDateFormatted  from Attendance where fksubjectId="+passScode+" and fkstudentErpNo=(select studentErpNo from Student where studentErpNo=(select studentErpNo from Student where studentName='"+studentNameText+"')) and takenDate between '"+semStartDate+"' and '"+semEndDate+"'";
-
-            Log.i("sqldatas",sql);
-
 
             try {
                 rs = stmt.executeQuery(sql);
@@ -368,8 +341,6 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
                     studentsarr[i][0]=rs.getDate("takenDate")+"";
                     studentsarr[i][1]=rs.getString("presentabsent");
                     studentsarr[i][2]=rs.getString("takenDateFormatted");
-
-
                     i++;
                 }
                 handler.post(new Runnable() {
@@ -383,7 +354,6 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
 
 
             } catch (Exception e) {
-                Log.i("nothing", "nothing");
                 e.printStackTrace();
             }
         }

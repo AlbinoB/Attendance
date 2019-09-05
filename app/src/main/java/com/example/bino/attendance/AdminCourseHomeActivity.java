@@ -48,8 +48,6 @@ public class AdminCourseHomeActivity extends AppCompatActivity {
                 url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
                 connection = DriverManager.getConnection(url);
                 stmt = connection.createStatement();
-
-
                 getandsetcourse();
                 getYear();
                 setYears();
@@ -60,9 +58,6 @@ public class AdminCourseHomeActivity extends AppCompatActivity {
 
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                        Log.i("course name", "" + admincourseSpiner.getSelectedItem());
-                        Log.i("clicked", "on item selected");
-                        // setYears();
                         Thread thread = new Thread(new Runnable() {
 
                             @Override
@@ -72,31 +67,23 @@ public class AdminCourseHomeActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         setYears();
-                                        Log.i("set year", "on item selected");
+
                                     }
                                 });
                             }
                         });
 
                         thread.start();
-                        // setYears();
                     }
-
                     @Override
                     public void onNothingSelected(AdapterView<?> adapterView) {
                     }
                 });
 
-
-
-
                 adminyearSpiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-
-                        Log.i("year no", "" + adminyearSpiner.getSelectedItem());
-                        //  getSemesters();
                         Thread thread = new Thread(new Runnable() {
 
                             @Override
@@ -112,19 +99,11 @@ public class AdminCourseHomeActivity extends AppCompatActivity {
                         });
 
                         thread.start();
-                        // setYears();
                     }
-
                     @Override
                     public void onNothingSelected(AdapterView<?> adapterView) {
                     }
                 });
-
-
-
-
-
-
 
                 return true;
             } catch (Exception e) {
@@ -167,7 +146,6 @@ public class AdminCourseHomeActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             try {
-                Log.i("Years:","year called");
                 int i = 1;
                 noOfYears = 0;
 
@@ -176,12 +154,10 @@ public class AdminCourseHomeActivity extends AppCompatActivity {
                     noOfYears = (rs.getInt("noOfYears"));
 
                 }
-                Log.i("noOfYears:",noOfYears+"");
                 adminyearNo=new String[noOfYears+1];
                 adminyearNo[0]="Select Year";
                 rs = stmt.executeQuery("select courseYears from CourseYears where fkcourseIdCourseYears=(select courseId from Course where courseName='"+admincourseSpiner.getSelectedItem()+"')");
                 while (rs.next()) {
-                    Log.i("courseYears:",rs.getString("courseYears"));
                     adminyearNo[i++] = rs.getString("courseYears");
 
                 }
@@ -212,18 +188,15 @@ public class AdminCourseHomeActivity extends AppCompatActivity {
             try {
                 int i = 1;
                 noOfSemesters = 0;
-
                 rs = stmt.executeQuery("select Count(*) as noOfSemesters from Semester where semYear='"+adminyearSpiner.getSelectedItem()+"'");
                 if (rs.next()) {
                     noOfSemesters = (rs.getInt("noOfSemesters"));
 
                 }
-                Log.i("noOfsemester:",noOfSemesters+"");
                 adminsemesterNo=new String[noOfSemesters+1];
                 adminsemesterNo[0]="Select Semester";
                 rs = stmt.executeQuery("select semName from Semester where semYear='"+adminyearSpiner.getSelectedItem()+"'");
                 while (rs.next()) {
-                    Log.i("semName:",rs.getString("semName"));
                     adminsemesterNo[i++] = rs.getString("semName");
                 }
             }
@@ -238,10 +211,12 @@ public class AdminCourseHomeActivity extends AppCompatActivity {
             adminsemesterSpiner.setAdapter(semesterAdapter);
         }//setSemester
 
-
     }//AsyncTask
 
-
+            public void AddNewCourse(View view){
+                Intent adminCourseViewEditAddCourseDetails = new Intent(getApplicationContext(), AdminCourseViewEditAddCourseDetails.class);
+                startActivity(adminCourseViewEditAddCourseDetails);
+            }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -254,10 +229,6 @@ public class AdminCourseHomeActivity extends AppCompatActivity {
 
         sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
 
-
-
-
-
         AdminCourseHomeActivity.ConnectToDB connectToDB=new ConnectToDB();//obj of async class
 
         String[] sql={
@@ -267,22 +238,18 @@ public class AdminCourseHomeActivity extends AppCompatActivity {
         try {
             if(connectToDB.execute(sql).get()){
                 {
-                    Log.i("updated:mmmmm","doneee");
-
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-
-
-
-
     }
 
     public void sumbitButtonClicked(View view){
-
+        sharedPreferences.edit().putString("adminCourseName",admincourseSpiner.getSelectedItem().toString()).apply();
+        sharedPreferences.edit().putString("adminYearNo",adminyearSpiner.getSelectedItem().toString()).apply();
+        sharedPreferences.edit().putString("adminSemNo",adminsemesterSpiner.getSelectedItem().toString()).apply();
         Intent adminCourseShowAllSubjectActivity = new Intent(getApplicationContext(), AdminCourseShowAllSubjectActivity.class);
         startActivity(adminCourseShowAllSubjectActivity);
     }

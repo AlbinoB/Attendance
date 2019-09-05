@@ -22,17 +22,12 @@ import java.util.ArrayList;
 
 public class EditAttendanceActivity extends AppCompatActivity {
 
-    TableLayout markedAttendanceTable;
     Button save,cancel;
-    ArrayList<String> students;
     ListView listView;
-    static int j=0;
-    static  int updateAttendanceIndex;
     SharedPreferences sharedPreferences;
     TextView textViewPresent,textViewAbsent;
     String[][] studentNameRollno;
     CustomAdapter customAdapter;
-    View viewnew;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,22 +35,17 @@ public class EditAttendanceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_attendance);
 
         sharedPreferences = this.getApplicationContext().getSharedPreferences("om.example.bino.attendance", MODE_PRIVATE);
+
         String stringFullArray = (String) sharedPreferences.getString("stringFullArray", "no value");
-        Log.i("nextfullarr", stringFullArray);
         int noOfStudent = sharedPreferences.getInt("noOfStudent", 0);
         studentNameRollno=new String[noOfStudent][9];
-
         studentNameRollno = to2dim(stringFullArray, ";", ",");
 
-
-            //markedAttendanceTable=(TableLayout)findViewById(R.id.markedAttendanceTableLayout);
             listView = (ListView) findViewById(R.id.displaystudents);
             save = (Button) findViewById(R.id.saveButtonEditAttendance);
             cancel = (Button) findViewById(R.id.cancelButtonEditAttendance);
             customAdapter = new CustomAdapter();
             listView.setAdapter(customAdapter);
-
-
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -63,15 +53,6 @@ public class EditAttendanceActivity extends AppCompatActivity {
                     updateAttendance(i);
                 }
             });
-
-
-
-
-
-
-
-
-
     }
 
     public void updateAttendance(int updateAttendanceIndex){
@@ -83,15 +64,12 @@ public class EditAttendanceActivity extends AppCompatActivity {
             studentNameRollno[updateAttendanceIndex][6]="P";
             textViewPresent.setText("P");
             textViewAbsent.setText("");
-            Log.i("aftertextViewPresent:",studentNameRollno[updateAttendanceIndex][6]);
         }
         else
         {
-            Log.i("beforetextViewPresent:",studentNameRollno[updateAttendanceIndex][6]);
             studentNameRollno[updateAttendanceIndex][6]="A";
             textViewPresent.setText("");
             textViewAbsent.setText("A");
-            Log.i("aftertextViewPresent:",studentNameRollno[updateAttendanceIndex][6]);
         }
 
         listView.setAdapter(customAdapter);
@@ -139,24 +117,18 @@ public class EditAttendanceActivity extends AppCompatActivity {
              textViewPresent=(TextView)view.findViewById(R.id.present);
              textViewAbsent=(TextView)view.findViewById(R.id.absent);
 
-
             textViewRoll.setText(studentNameRollno[i][8]);
             textViewName.setText(studentNameRollno[i][7]);
-
 
             if (studentNameRollno[i][6].equals("P")) {
                 textViewPresent.setText(studentNameRollno[i][6]);
                 textViewPresent.setTextColor(Color.GREEN);
                 textViewAbsent.setText("");
-
             } else {
                 textViewPresent.setText("");
                 textViewAbsent.setTextColor(Color.RED);
                 textViewAbsent.setText(studentNameRollno[i][6]);
-
             }
-
-
 
             return view;
         }
@@ -180,17 +152,10 @@ public class EditAttendanceActivity extends AppCompatActivity {
                         Toast.makeText(EditAttendanceActivity.this, "Saved", Toast.LENGTH_SHORT).show();
                         Intent showTakenAttendanceActivity = new Intent(getApplicationContext(), ShowTakenAttendanceActivity.class);
                         String stringFullArrayUpdated="";
+
                         for (int f = 0; f < studentNameRollno.length; f++) {
-
-
-                            Log.i("details", " " + studentNameRollno[f][0] + " " + studentNameRollno[f][1] + " " + studentNameRollno[f][2] + " " + studentNameRollno[f][3] + " " + studentNameRollno[f][4] + " " + studentNameRollno[f][5] + " " + studentNameRollno[f][6] + " " + studentNameRollno[f][7] + " " + studentNameRollno[f][8]);
                             stringFullArrayUpdated=stringFullArrayUpdated+studentNameRollno[f][0] + "," + studentNameRollno[f][1] + "," + studentNameRollno[f][2] + "," + studentNameRollno[f][3] + "," + studentNameRollno[f][4] + "," + studentNameRollno[f][5] + "," + studentNameRollno[f][6] + "," + studentNameRollno[f][7] + "," + studentNameRollno[f][8]+";";
-
-
                         }
-                        Log.i("fullarrbbbb",stringFullArrayUpdated);
-
-
 
                         sharedPreferences.edit().putString("stringFullArray",stringFullArrayUpdated).apply();
                         finish();//kill current activity
@@ -207,7 +172,6 @@ public class EditAttendanceActivity extends AppCompatActivity {
                     }
                 })
                 .show();{
-
         }
     }
 

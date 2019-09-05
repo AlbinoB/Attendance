@@ -55,7 +55,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/editAttendance"
+            android:id="@+id/editAttendance1"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_alignParentBottom="true"

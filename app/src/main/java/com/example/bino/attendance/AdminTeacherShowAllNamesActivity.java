@@ -186,7 +186,7 @@ public class AdminTeacherShowAllNamesActivity extends AppCompatActivity {
 
                 }
             });
-            Button button =(Button)view.findViewById(R.id.editAttendance);
+            Button button =(Button)view.findViewById(R.id.editAttendance1);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

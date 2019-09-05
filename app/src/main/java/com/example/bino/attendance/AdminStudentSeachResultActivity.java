@@ -89,7 +89,7 @@ public class AdminStudentSeachResultActivity extends AppCompatActivity {
             TextView textViewSrollno = (TextView) view.findViewById(R.id.rollno);
             TextView textViewSname = (TextView) view.findViewById(R.id.name);
             TextView textViewSpercentage= (TextView) view.findViewById(R.id.percentage);
-            Button admineditstudent = (Button) view.findViewById(R.id.editAttendance);
+            Button admineditstudent = (Button) view.findViewById(R.id.editAttendance1);
 
             textViewSsrno.setText(studentsarr[i][0]);
             textViewSrollno.setText(studentsarr[i][1]);

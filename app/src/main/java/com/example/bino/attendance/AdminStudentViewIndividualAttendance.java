@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
@@ -61,9 +60,9 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
     }
 
     public void SaveDetailsofStudent(View view){
-        Intent adminstudenviewallattendance = new Intent(getApplicationContext(), AdminStudentViewAllAttendance.class);
+        Intent adminStudentSeachResultActivity = new Intent(getApplicationContext(), AdminStudentSeachResultActivity.class);
         finish();
-        startActivity(adminstudenviewallattendance);
+        startActivity(adminStudentSeachResultActivity);
     }
 
     public void applyFilter(View view){
@@ -212,7 +211,7 @@ public class AdminStudentViewIndividualAttendance extends AppCompatActivity {
             final TextView dateTextView=(TextView)view.findViewById(R.id.dateTextView);
             final TextView timeTextView=(TextView)view.findViewById(R.id.timeTextView);
             final CheckBox presentabsent=(CheckBox)view.findViewById(R.id.presentabsentcheckBox);
-            final Button editAttendanceButton=(Button)view.findViewById(R.id.editAttendance);
+            final Button editAttendanceButton=(Button)view.findViewById(R.id.editAttendance1);
             editAttendanceButton.setTag(""+i);
             editAttendanceButton.setOnClickListener(new View.OnClickListener() {
                 @Override

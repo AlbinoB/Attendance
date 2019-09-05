@@ -222,12 +222,6 @@ public class AdminStudentViewAllAttendance extends AppCompatActivity {
                         indexOfstudentarr++;
 
                     }
-
-
-
-
-
-
                 }
 
 

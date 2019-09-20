@@ -63,6 +63,7 @@ public class TeacherSearchResult extends AppCompatActivity {
     TextView subjectname ;
     TextView coursename ;
     TextView yearno ;
+    TextView currentDatetextView;
     CustomAdapter customAdapter;
     int totalstudent=0;
 
@@ -107,7 +108,7 @@ public class TeacherSearchResult extends AppCompatActivity {
 
     public void getandsetcurrentdetails(){
 
-       currentteacherid =((Integer)sharedPreferences.getInt("currentUserId",0));
+        currentteacherid =((Integer)sharedPreferences.getInt("currentUserId",0));
         currentstartdate =((String)sharedPreferences.getString("currentstartdate","no date"));
         currentenddate =((String)sharedPreferences.getString("currentenddate","no date"));
         currentsubject =((String)sharedPreferences.getString("currentsubjectname","no date"));
@@ -125,12 +126,21 @@ public class TeacherSearchResult extends AppCompatActivity {
             e.printStackTrace();
         }
 
-      teachername.setText(currentteacher);
+        teachername.setText(currentteacher);
         subjectname.setText(currentsubject);
         yearno.setText(currentyear);
         coursename.setText(currentcourse);
+        String currentDate=getDateTime();
+        currentDatetextView.setText(currentDate);
 
     }
+
+        private String getDateTime() {
+
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = new Date();
+            return dateFormat.format(date);
+        }
 
        public void  getandsetrollnonamepercent(){
                     try{
@@ -451,7 +461,7 @@ public class TeacherSearchResult extends AppCompatActivity {
         setContentView(R.layout.activity_teacher_search_result);
 
         sharedPreferences=this.getApplicationContext().getSharedPreferences("om.example.bino.attendance",MODE_PRIVATE);
-
+        currentDatetextView=(TextView)findViewById(R.id.currentDatetextView) ;
         teachername =(TextView) findViewById(R.id.textView2);
         subjectname =(TextView) findViewById(R.id.textView3);
         coursename =(TextView) findViewById(R.id.textView5);
@@ -525,6 +535,12 @@ public class TeacherSearchResult extends AppCompatActivity {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
+            Thread displayThread=new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                }
+            });
             view = getLayoutInflater().inflate(R.layout.customlayoutteachersearchdisplay, null);
             TextView textViewSrno = (TextView) view.findViewById(R.id.srno);
             TextView textViewRollno = (TextView) view.findViewById(R.id.rollno);

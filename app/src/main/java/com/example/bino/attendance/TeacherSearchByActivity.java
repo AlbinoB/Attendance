@@ -399,6 +399,7 @@ public class TeacherSearchByActivity extends AppCompatActivity {
                                 endDate.setText((year+"/"+(month+1)+"/"+day));
                             }
                         },year,month,day);
+                datePickerDialogEndDate.getDatePicker().setMaxDate(System.currentTimeMillis());
                 datePickerDialogEndDate.show();
             }
         });

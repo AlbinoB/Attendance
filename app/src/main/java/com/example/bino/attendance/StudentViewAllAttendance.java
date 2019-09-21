@@ -291,12 +291,6 @@ public class StudentViewAllAttendance extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
-    }
-
 
     public class CustomAdapter extends BaseAdapter {
 

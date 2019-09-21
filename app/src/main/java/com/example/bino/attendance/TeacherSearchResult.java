@@ -166,6 +166,14 @@ public class TeacherSearchResult extends AppCompatActivity {
                                 rs = stmt.executeQuery("select count(*) as totallecture from Attendance where takenDate between '"+currentstartdate+"' and '"+currentenddate+"' and fksubjectId=(select subjectId from Subject where subjectName='"+currentsubject+"') and fkstudentErpNo=(select studentErpNo from Student where studentRollNo='"+16+"')");
                                 if(rs.next()){
                                     totallecture =(Integer)rs.getInt("totallecture");
+                                    if(totallecture==0){
+                                        handler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                download.setEnabled(false);
+                                            }
+                                        });
+                                    }
                                 }
 
                                 attendancarray=new String[totalstudent+2][totallecture+1];//+2 for taken date and taken time ,+1 for perc

@@ -5,7 +5,5 @@
     <item android:title="Take Attendance" android:id="@+id/teacherTakeAttendance" ></item>
     <item android:title="View Attendance" android:id="@+id/teacherViewAttendance" ></item>
     <item android:title="Edit Profile" android:id="@+id/teacherEditProfile" ></item>
-    <item
-        android:id="@+id/teacherLogout"
-        android:title="Logut" />
+    <item android:id="@+id/teacherLogout" android:title="Logout" />
 </menu>

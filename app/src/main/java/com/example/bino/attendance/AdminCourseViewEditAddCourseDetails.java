@@ -6,6 +6,9 @@ import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -93,4 +96,29 @@ public class AdminCourseViewEditAddCourseDetails extends AppCompatActivity {
              AdminCourseViewEditAddCourseDetails.this.finish();
              startActivity(adminCourseHomeActivity);
             }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater=getMenuInflater();
+        menuInflater.inflate(R.menu.logout,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.logout:{
+                Intent homeActivity=new Intent();
+                homeActivity=new Intent(getApplicationContext(),LoginActivity.class);
+                finish();
+                startActivity(homeActivity);
+                return true;
+            }
+
+            default:{
+                return false;
+            }
+        }
+    }
     }

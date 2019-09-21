@@ -216,42 +216,7 @@ public class AdminStudentSearchBy extends AppCompatActivity {
 
     }//AsyncTask
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater=getMenuInflater();
-        menuInflater.inflate(R.menu.teacher_menu,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()){
-            case R.id.teacherHome:{
-                teacherNextActivity=new Intent(getApplicationContext(),TeacherHomeActivity.class);
-                startActivity(teacherNextActivity);
-                return true;
-            }
-            case R.id.teacherTakeAttendance:{
-                teacherNextActivity=new Intent(getApplicationContext(), TakeAttendanceActivity.class);
-                startActivity(teacherNextActivity);
-                return true;
-            }
-            case R.id.teacherViewAttendance:{
-                teacherNextActivity=new Intent(getApplicationContext(), TeacherSearchByActivity.class);
-                startActivity(teacherNextActivity);
-                return true;
-            }
-            case R.id.teacherEditProfile:{
-                teacherNextActivity=new Intent(getApplicationContext(), TeacherHomeActivity.class);
-                startActivity(teacherNextActivity);
-                return true;
-            }
-            default:{
-                return false;
-            }
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -312,6 +277,31 @@ public class AdminStudentSearchBy extends AppCompatActivity {
             return true;
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater=getMenuInflater();
+        menuInflater.inflate(R.menu.logout,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.logout:{
+                Intent homeActivity=new Intent();
+                homeActivity=new Intent(getApplicationContext(),LoginActivity.class);
+                finish();
+                startActivity(homeActivity);
+                return true;
+            }
+
+            default:{
+                return false;
+            }
+        }
     }
 
 }

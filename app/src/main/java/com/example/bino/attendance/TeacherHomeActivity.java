@@ -333,31 +333,31 @@ public class TeacherHomeActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.teacherHome:{
                 teacherNextActivity=new Intent(getApplicationContext(),TeacherHomeActivity.class);
-                finish();
+                
                 startActivity(teacherNextActivity);
                 return true;
             }
             case R.id.teacherTakeAttendance:{
                 teacherNextActivity=new Intent(getApplicationContext(), TakeAttendanceActivity.class);
-                finish();
+
                 startActivity(teacherNextActivity);
                 return true;
             }
             case R.id.teacherViewAttendance:{
                 teacherNextActivity=new Intent(getApplicationContext(), TeacherSearchByActivity.class);
-                finish();
+
                 startActivity(teacherNextActivity);
                 return true;
             }
             case R.id.teacherEditProfile:{
                 teacherNextActivity=new Intent(getApplicationContext(), TeacherHomeActivity.class);
-                finish();
+
                 startActivity(teacherNextActivity);
                 return true;
             }
             case R.id.teacherLogout:{
                 teacherNextActivity=new Intent(getApplicationContext(), LoginActivity.class);
-                finish();
+
                 startActivity(teacherNextActivity);
                 return true;
             }

@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/textView11"
             android:layout_alignBottom="@+id/textView11"
-            android:layout_alignStart="@+id/displayStudents"
+            android:layout_alignStart="@+id/adminStudentSearchResultSearchbar"
             android:text="Srno" />
 
         <TextView

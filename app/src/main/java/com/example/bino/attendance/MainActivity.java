@@ -16,7 +16,7 @@ import android.view.Menu;
 public class MainActivity extends AppCompatActivity {
 
     /** Duration of wait **/
-    private final int SPLASH_DISPLAY_LENGTH = 3000;
+    //private final int SPLASH_DISPLAY_LENGTH = 10;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,18 +26,18 @@ public class MainActivity extends AppCompatActivity {
          * and close this Splash-Screen after some seconds.*/
         new Handler().postDelayed(new Runnable(){
             @Override
-            public void run() {
+           public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
-                Intent mainIntent = new Intent(MainActivity.this,LoginActivity.class);
-                MainActivity.this.startActivity(mainIntent);
-                MainActivity.this.finish();
-            }
-        }, SPLASH_DISPLAY_LENGTH);
+              Intent mainIntent = new Intent(MainActivity.this,LoginActivity.class);
+              MainActivity.this.startActivity(mainIntent);
+               MainActivity.this.finish();
+           }
+        }, 3000);
 
-       // Intent loginActivity = new Intent(getApplicationContext(), LoginActivity.class);
-       // finish();
-      //  startActivity(loginActivity);
-        //connectionClass();
+       //Intent loginActivity = new Intent(getApplicationContext(), LoginActivity.class);
+       //finish();
+       //startActivity(loginActivity);
+       //connectionClass();
     }
 /*
     public  Connection connectionClass(){

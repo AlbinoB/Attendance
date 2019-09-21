@@ -18,11 +18,7 @@ public class AdminHomeActivity extends AppCompatActivity {
 
             }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
-    }
+
 
 
     public void goToNextActivity(View view){

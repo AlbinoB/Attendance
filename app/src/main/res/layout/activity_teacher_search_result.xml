@@ -91,7 +91,7 @@
 
     <ListView
         android:id="@+id/listView"
-        android:layout_width="384dp"
+        android:layout_width="374dp"
         android:layout_height="316dp"
         app:layout_constraintBottom_toTopOf="@+id/download"
         app:layout_constraintEnd_toEndOf="parent"

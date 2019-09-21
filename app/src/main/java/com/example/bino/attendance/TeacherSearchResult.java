@@ -65,6 +65,7 @@ public class TeacherSearchResult extends AppCompatActivity {
     TextView yearno ;
     TextView currentDatetextView;
     CustomAdapter customAdapter;
+    ProgressDialog progressdialog;
     int totalstudent=0;
 
     static String[][] studentsarr ;
@@ -85,23 +86,10 @@ public class TeacherSearchResult extends AppCompatActivity {
         protected Boolean doInBackground(String... sqlarr) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
-            try {
-                Class.forName("net.sourceforge.jtds.jdbc.Driver");
-                url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
-                connection = DriverManager.getConnection(url);
-                stmt = connection.createStatement();
-                stmt2 = connection.createStatement();
-                stmt3 = connection.createStatement();
+            getandsetcurrentdetails();
+            getandsetrollnonamepercent();
 
-                getandsetcurrentdetails();
-                getandsetrollnonamepercent();
-
-                return true;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            }
-
+            return true;
 
         }//doInBackground;
 
@@ -116,17 +104,9 @@ public class TeacherSearchResult extends AppCompatActivity {
         currentsem =((String)sharedPreferences.getString("currentsem","no date"));
         currentcourse =((String)sharedPreferences.getString("currentcoursename","no date"));
 
-        try{
-            rs = stmt.executeQuery("select teacherName from Teacher where teacherId='"+currentteacherid+"'");
-            if(rs.next()){
-                currentteacher =rs.getString("teacherName") ;
 
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
 
-        teachername.setText(currentteacher);
+
         subjectname.setText(currentsubject);
         yearno.setText(currentyear);
         coursename.setText(currentcourse);
@@ -143,69 +123,111 @@ public class TeacherSearchResult extends AppCompatActivity {
         }
 
        public void  getandsetrollnonamepercent(){
-                    try{
-                        int i=0;
 
-                        rs = stmt.executeQuery("select count(*) as totlastudent from Student where fksemIdStudent=(select semId from Semester where semName='"+currentsem+"')");
-                        if(rs.next()){
-                         totalstudent =rs.getInt("totlastudent");
-                        }
+                    Thread getDetail=new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Class.forName("net.sourceforge.jtds.jdbc.Driver");
+                                url = "jdbc:jtds:sqlserver://androidattendancedbserver.database.windows.net:1433;DatabaseName=AndroidAttendanceDB;user=AlbinoAmit@androidattendancedbserver;password=AAnoit$321;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+                                connection = DriverManager.getConnection(url);
+                                stmt = connection.createStatement();
+                                stmt2 = connection.createStatement();
+                                stmt3 = connection.createStatement();
 
-                        studentsarr = new String[totalstudent][4];//index:value->00:srno,01:rollno,02:name,03:perc
 
-                        rs = stmt.executeQuery("select count(*) as totallecture from Attendance where takenDate between '"+currentstartdate+"' and '"+currentenddate+"' and fksubjectId=(select subjectId from Subject where subjectName='"+currentsubject+"') and fkstudentErpNo=(select studentErpNo from Student where studentRollNo='"+16+"')");
-                        if(rs.next()){
-                            totallecture =(Integer)rs.getInt("totallecture");
-                        }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
 
-                        attendancarray=new String[totalstudent+2][totallecture+1];//+2 for taken date and taken time ,+1 for perc
 
-                        rs = stmt.executeQuery("select studentRollNo,studentName from Student where fksemIdStudent=(select semId from Semester where semName='"+currentsem+"') order by studentRollNo");
-                        while(rs.next()){
-                            String studentRollNo =rs.getString("studentRollNo");
+                            //get teacher name
+                            try{
+                                rs = stmt.executeQuery("select teacherName from Teacher where teacherId='"+currentteacherid+"'");
+                                if(rs.next()){
+                                    currentteacher =rs.getString("teacherName") ;
+
+                                }
+                            }catch(Exception e){
+                                e.printStackTrace();
+                            }
+
+
+                            try{
+                                int i=0;
+
+                                rs = stmt.executeQuery("select count(*) as totlastudent from Student where fksemIdStudent=(select semId from Semester where semName='"+currentsem+"')");
+                                if(rs.next()){
+                                    totalstudent =rs.getInt("totlastudent");
+                                }
+
+                                studentsarr = new String[totalstudent][4];//index:value->00:srno,01:rollno,02:name,03:perc
+
+                                rs = stmt.executeQuery("select count(*) as totallecture from Attendance where takenDate between '"+currentstartdate+"' and '"+currentenddate+"' and fksubjectId=(select subjectId from Subject where subjectName='"+currentsubject+"') and fkstudentErpNo=(select studentErpNo from Student where studentRollNo='"+16+"')");
+                                if(rs.next()){
+                                    totallecture =(Integer)rs.getInt("totallecture");
+                                }
+
+                                attendancarray=new String[totalstudent+2][totallecture+1];//+2 for taken date and taken time ,+1 for perc
+
+                                rs = stmt.executeQuery("select studentRollNo,studentName from Student where fksemIdStudent=(select semId from Semester where semName='"+currentsem+"') order by studentRollNo");
+                                while(rs.next()){
+                                    String studentRollNo =rs.getString("studentRollNo");
                                     studentsarr[i][0]=Integer.toString(i+1);
                                     studentsarr[i][1]=rs.getString("studentRollNo");
                                     studentsarr[i][2]=rs.getString("studentName");
 
-                          int totalpresent=0;
+                                    int totalpresent=0;
 
-                         resultSet = stmt2.executeQuery("select count(*) as totalpresent from Attendance where( (takenDate between '"+currentstartdate+"' and '"+currentenddate+"') and( fkstudentErpNo=(select studentErpNo from Student where studentRollNo='"+studentRollNo+"'))and( presentabsent='P') and (fksubjectId=(select subjectId from Subject where subjectName='"+currentsubject+"')))");
-                            if(resultSet.next()){
-                                totalpresent =(Integer)resultSet.getInt("totalpresent");
-                            }
+                                    resultSet = stmt2.executeQuery("select count(*) as totalpresent from Attendance where( (takenDate between '"+currentstartdate+"' and '"+currentenddate+"') and( fkstudentErpNo=(select studentErpNo from Student where studentRollNo='"+studentRollNo+"'))and( presentabsent='P') and (fksubjectId=(select subjectId from Subject where subjectName='"+currentsubject+"')))");
+                                    if(resultSet.next()){
+                                        totalpresent =(Integer)resultSet.getInt("totalpresent");
+                                    }
 
-                            float percent=0;
+                                    float percent=0;
 
-                            if(totallecture!=0){
-                                percent =(100*totalpresent)/totallecture;
-                                studentsarr[i][3]=Float.toString(percent);
-                                attendancarray[i+2][totallecture]=Float.toString(percent);
-                            }else
-                            {
-                                studentsarr[i][3]="No Lectures";
-                            }
+                                    if(totallecture!=0){
+                                        percent =(100*totalpresent)/totallecture;
+                                        studentsarr[i][3]=Float.toString(percent);
+                                        attendancarray[i+2][totallecture]=Float.toString(percent);
+                                    }else
+                                    {
+                                        studentsarr[i][3]="No Lectures";
+                                    }
 
-                            //get attendance of all lectures of particular student
-                            int days=0;
+                                    //get attendance of all lectures of particular student
+                                    int days=0;
 
-                            ResultSet resultSetForAttendance=stmt3.executeQuery("select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenTime from Attendance where takenDate between '"+currentstartdate+"' and '"+currentenddate+"' and fkstudentErpNo=(select studentErpNo from Student where studentRollNo="+studentsarr[i][1]+") and fksubjectId=(select subjectId from Subject where subjectName='"+currentsubject+"' and fksemIdSubject=(select fksemIdStudent from Student where studentErpNo=(select studentErpNo from Student where studentRollNo="+studentsarr[i][1]+"))) order by takenDate asc");
-                            while(resultSetForAttendance.next()){
-                                if(i==0)
-                                {
-                                    attendancarray[0][days]=resultSetForAttendance.getString("takenTime");
-                                    attendancarray[1][days]=resultSetForAttendance.getDate("takenDate")+"";
+                                    ResultSet resultSetForAttendance=stmt3.executeQuery("select takenDate,presentabsent,convert(varchar, takenTime, 8) as takenTime from Attendance where takenDate between '"+currentstartdate+"' and '"+currentenddate+"' and fkstudentErpNo=(select studentErpNo from Student where studentRollNo="+studentsarr[i][1]+") and fksubjectId=(select subjectId from Subject where subjectName='"+currentsubject+"' and fksemIdSubject=(select fksemIdStudent from Student where studentErpNo=(select studentErpNo from Student where studentRollNo="+studentsarr[i][1]+"))) order by takenDate asc");
+                                    while(resultSetForAttendance.next()){
+                                        if(i==0)
+                                        {
+                                            attendancarray[0][days]=resultSetForAttendance.getString("takenTime");
+                                            attendancarray[1][days]=resultSetForAttendance.getDate("takenDate")+"";
+                                        }
+
+                                        attendancarray[i+2][days]=resultSetForAttendance.getString("presentabsent");//i+2=>index 0 and 1 stores the date and time of the lecture
+                                        days++;
+                                    }
+                                    i++;
                                 }
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        teachername.setText(currentteacher);
+                                        listView.setAdapter(customAdapter);
+                                        progressdialog.dismiss();
+                                    }
+                                });
 
-                                attendancarray[i+2][days]=resultSetForAttendance.getString("presentabsent");//i+2=>index 0 and 1 stores the date and time of the lecture
-                                days++;
+                            }catch (Exception e){
+                                e.printStackTrace();
                             }
-                            i++;
-                        }
 
-                            listView.setAdapter(customAdapter);
-                    }catch (Exception e){
-                           e.printStackTrace();
-                    }
+                        }
+                    });
+           getDetail.start();
+
        }
     }//AsyncTask
 
@@ -468,6 +490,10 @@ public class TeacherSearchResult extends AppCompatActivity {
         yearno =(TextView) findViewById(R.id.textView6);
         listView=(ListView)findViewById(R.id.listView);
         download=(Button)findViewById(R.id.download);
+        progressdialog = new ProgressDialog(TeacherSearchResult.this);
+        progressdialog.setMessage("Fetching Data....");
+        progressdialog.setCancelable(false);
+        progressdialog.show();
         customAdapter = new CustomAdapter();
 
         ConnectToDB connectToDB = new ConnectToDB();

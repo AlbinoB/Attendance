@@ -154,7 +154,9 @@ public class AdminStudentViewAllAttendance extends AppCompatActivity {
                     rs2 = stmt2.executeQuery(sqltemp);
                     if(rs2.next()){
                         totallecture =(Integer)rs2.getInt("totallecture");
+
                     }
+
 
                     int totalpresent=0;
                     sql="select count(*) as totalpresent from Attendance where( (takenDate between '"+semStartDate+"' and '"+semEndDate+"') and( fkstudentErpNo=(select studentErpNo from Student where studentRollNo='"+studentRollnoText+"'))and( presentabsent='P') and (fksubjectId=(select subjectId from Subject where subjectName='"+rs.getString("subjectName")+"')))";

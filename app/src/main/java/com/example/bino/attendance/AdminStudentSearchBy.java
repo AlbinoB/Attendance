@@ -298,7 +298,7 @@ public class AdminStudentSearchBy extends AppCompatActivity {
             error="Please Select Course!!!";
         }else if( particularyear.equals("Select Year")){
             error="Please Select Year!!!";
-        }else if( particularyear.equals("Select Semester")){
+        }else if( particularsemester.equals("Select Semester")){
             error="Please Select Semester!!!";
         }
 

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,6 +27,7 @@ public class AdminCourseHomeActivity extends AppCompatActivity {
      String[] adminyearNo;
      String[] adminsemesterNo ;
      int noOfYears,noOfSemesters;
+     String particularcoursename,particularyear,particularsemester;
     Handler handler =new Handler();
 
     public class ConnectToDB extends AsyncTask<String,Void,Boolean> {
@@ -247,10 +249,36 @@ public class AdminCourseHomeActivity extends AppCompatActivity {
     }
 
     public void sumbitButtonClicked(View view){
-        sharedPreferences.edit().putString("adminCourseName",admincourseSpiner.getSelectedItem().toString()).apply();
-        sharedPreferences.edit().putString("adminYearNo",adminyearSpiner.getSelectedItem().toString()).apply();
-        sharedPreferences.edit().putString("adminSemNo",adminsemesterSpiner.getSelectedItem().toString()).apply();
-        Intent adminCourseShowAllSubjectActivity = new Intent(getApplicationContext(), AdminCourseShowAllSubjectActivity.class);
-        startActivity(adminCourseShowAllSubjectActivity);
+        if(checkEmptyFields()) {
+            sharedPreferences.edit().putString("adminCourseName", admincourseSpiner.getSelectedItem().toString()).apply();
+            sharedPreferences.edit().putString("adminYearNo", adminyearSpiner.getSelectedItem().toString()).apply();
+            sharedPreferences.edit().putString("adminSemNo", adminsemesterSpiner.getSelectedItem().toString()).apply();
+            Intent adminCourseShowAllSubjectActivity = new Intent(getApplicationContext(), AdminCourseShowAllSubjectActivity.class);
+            startActivity(adminCourseShowAllSubjectActivity);
+        }
+    }
+    public boolean checkEmptyFields(){
+        String error="";
+        particularcoursename =admincourseSpiner.getSelectedItem().toString();
+        particularyear = adminyearSpiner.getSelectedItem().toString();
+        particularsemester = adminsemesterSpiner.getSelectedItem().toString();
+        if( particularcoursename.equals("Select Course")){
+            error="Please Select Course!!!";
+        }else if( particularyear.equals("Select Year")){
+            error="Please Select Year!!!";
+        }else if( particularsemester.equals("Select Semester")){
+            error="Please Select Semester!!!";
+        }
+
+        if(error!="")
+        {
+            Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+
     }
 }

@@ -20,6 +20,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -39,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         private static final String[] users ={"Select User","Teacher","Student","Admin"};
         Spinner typeOfUser;
         EditText usernametext,passwordtext;
-
+        CheckBox rememberMe;
         String userName="",password="",user="";
 
         SharedPreferences sharedPreferences;
@@ -128,12 +129,44 @@ public class LoginActivity extends AppCompatActivity {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//full screen login activity
             setContentView(R.layout.activity_login);
 
-             typeOfUser=(Spinner)findViewById(R.id.typeOfUser);
+            typeOfUser=(Spinner)findViewById(R.id.typeOfUser);
             usernametext=(EditText) findViewById(R.id.userNameEditText);
             passwordtext=(EditText) findViewById(R.id.passwordEditText);
+            rememberMe=(CheckBox)findViewById(R.id.rememberMeCheckBox);
             progressdialog = new ProgressDialog(LoginActivity.this);
 
-            ArrayAdapter<String> userAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,users);
+            if(sharedPreferences.getString("checkBox","not set").equals("not set")){
+                sharedPreferences.edit().putString("checkBox", "false").apply();
+                sharedPreferences.edit().putString("User", "").apply();
+            }
+            else {
+
+                if (sharedPreferences.getString("checkBox", "").equals("true")) {
+                    usernametext.setText(sharedPreferences.getString("User", ""));
+                    rememberMe.setChecked(true);
+                } else {
+                    rememberMe.setChecked(false);
+                }
+            }
+             rememberMe.setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View view) {
+                     if(rememberMe.isChecked()){
+                         sharedPreferences.edit().putString("checkBox", "true").apply();
+                         sharedPreferences.edit().putString("User", usernametext.getText().toString()).apply();
+                     }
+                     else
+                     {
+                         sharedPreferences.edit().putString("checkBox", "false").apply();
+
+                     }
+                 }
+             });
+
+
+
+
+             ArrayAdapter<String> userAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,users);
 
             typeOfUser.setAdapter(userAdapter);
 

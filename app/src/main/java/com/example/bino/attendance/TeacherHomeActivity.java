@@ -333,7 +333,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.teacherHome:{
                 teacherNextActivity=new Intent(getApplicationContext(),TeacherHomeActivity.class);
-                
+
                 startActivity(teacherNextActivity);
                 return true;
             }

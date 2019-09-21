@@ -73,5 +73,14 @@
             android:onClick="Login"
             android:text="Login" />
 
+        <CheckBox
+            android:id="@+id/rememberMeCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/DescTextView"
+            android:layout_below="@+id/passwordEditText"
+            android:tag="new user"
+            android:text="Remember me" />
+
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

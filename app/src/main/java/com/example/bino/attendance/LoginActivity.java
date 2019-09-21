@@ -186,7 +186,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                     sharedPreferences.edit().putInt("currentUserId", Integer.parseInt(userName)).apply();
                                     Intent teacherHomeActivity = new Intent(getApplicationContext(), TeacherHomeActivity.class);
-
+                                    finish();
                                     startActivity(teacherHomeActivity);
                                 } else {
                                     handler.post(new Runnable() {
@@ -213,6 +213,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Intent studentViewAllAttendance = new Intent(getApplicationContext(), StudentViewAllAttendance.class);
 
                                     sharedPreferences.edit().putInt("currentUserErpNo",Integer.parseInt(userName)).apply();
+                                    finish();
                                     startActivity(studentViewAllAttendance);
                                 }else
                                 {
@@ -238,7 +239,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                     Intent adminhomeactivity = new Intent(getApplicationContext(), AdminHomeActivity.class);
                                     sharedPreferences.edit().putString("currentUserName",userName).apply();
-
+                                    finish();
                                     startActivity(adminhomeactivity);
                                 }else
                                 {

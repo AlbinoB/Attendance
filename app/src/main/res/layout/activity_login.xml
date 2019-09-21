@@ -49,8 +49,7 @@
             android:backgroundTint="@android:color/holo_blue_dark"
             android:ems="10"
             android:hint="User Name"
-            android:inputType="textPersonName"
-            android:text="1001" />
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/passwordEditText"
@@ -62,8 +61,7 @@
             android:backgroundTint="@android:color/holo_blue_dark"
             android:ems="10"
             android:hint="Password"
-            android:inputType="textPassword"
-            android:text="sp@123" />
+            android:inputType="textPassword" />
 
         <Button
             android:id="@+id/loginButton"

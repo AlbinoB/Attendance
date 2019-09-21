@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -289,6 +290,13 @@ public class StudentViewAllAttendance extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
+    }
+
 
     public class CustomAdapter extends BaseAdapter {
 

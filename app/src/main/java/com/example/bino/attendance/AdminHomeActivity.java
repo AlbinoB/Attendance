@@ -17,6 +17,14 @@ public class AdminHomeActivity extends AppCompatActivity {
                 setContentView(R.layout.activity_admin_home);
 
             }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
+    }
+
+
     public void goToNextActivity(View view){
 
         String nextActivity=view.getTag().toString();

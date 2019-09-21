@@ -77,8 +77,9 @@
             android:id="@+id/rememberMeCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/typeOfUser"
             android:layout_alignEnd="@+id/DescTextView"
-            android:layout_below="@+id/passwordEditText"
+            android:layout_marginEnd="11dp"
             android:tag="new user"
             android:text="Remember me" />
 

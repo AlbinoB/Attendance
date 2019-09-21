@@ -292,16 +292,6 @@
             android:layout_marginTop="16dp"
             app:srcCompat="@drawable/ic_launcher_background" />
 
-        <Button
-            android:id="@+id/editDetailsButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignBottom="@+id/TeacherEditImageView"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="12dp"
-            android:background="@drawable/editicon"
-            android:onClick="editTeacherDetails" />
-
 
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

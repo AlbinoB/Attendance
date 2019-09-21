@@ -91,7 +91,8 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
                    }
 
                     Intent adminTeacherShowAllNamesActivity = new Intent(getApplicationContext(), AdminTeacherShowAllNamesActivity.class);
-                    startActivity(adminTeacherShowAllNamesActivity);
+                   startActivity(adminTeacherShowAllNamesActivity);
+
                 }
 
             });
@@ -205,9 +206,11 @@ public class AdminTeacherViewEditAddDetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(savebutton.getTag().toString().equals("update")){
                     connectToDB.updateteacherdetails();
+
                 }
                 if(savebutton.getTag().toString().equals("addnew")){
                     connectToDB.insertnewteacherdetails();
+
                 }
             }
         });

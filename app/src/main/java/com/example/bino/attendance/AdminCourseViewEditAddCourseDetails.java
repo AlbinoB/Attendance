@@ -90,6 +90,7 @@ public class AdminCourseViewEditAddCourseDetails extends AppCompatActivity {
                  }
             public void saveCourseDetails(View view){
               Intent adminCourseHomeActivity = new Intent(getApplicationContext(), AdminCourseHomeActivity.class);
-              startActivity(adminCourseHomeActivity);
+             AdminCourseViewEditAddCourseDetails.this.finish();
+             startActivity(adminCourseHomeActivity);
             }
     }

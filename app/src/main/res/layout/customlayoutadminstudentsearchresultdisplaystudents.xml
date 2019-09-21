@@ -27,10 +27,10 @@
 
         <TextView
             android:id="@+id/rollno"
-            android:layout_width="50dp"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/editAttendance1"
-            android:layout_alignBottom="@+id/editAttendance1"
+            android:layout_alignBaseline="@+id/srno"
+            android:layout_alignBottom="@+id/srno"
             android:layout_toEndOf="@+id/srno"
             android:text="09"
             android:textAlignment="center"
@@ -39,11 +39,11 @@
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="wrap_content"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/srno"
-            android:layout_alignBottom="@+id/srno"
-            android:layout_centerHorizontal="true"
+            android:layout_alignBaseline="@+id/rollno"
+            android:layout_alignBottom="@+id/rollno"
+            android:layout_toEndOf="@+id/rollno"
             android:text="Albino Braganza"
             android:textAlignment="center"
             android:textSize="18sp"
@@ -51,19 +51,18 @@
 
         <Button
             android:id="@+id/editAttendance1"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/srno"
             android:layout_marginEnd="11dp"
-            android:background="@drawable/editicon" />
+            android:text="Edit" />
 
         <TextView
             android:id="@+id/percentage"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/name"
-            android:layout_marginEnd="12dp"
+            android:layout_alignTop="@+id/editAttendance1"
             android:layout_toStartOf="@+id/editAttendance1"
             android:text="99.2"
             android:textAlignment="center"

@@ -1,5 +1,6 @@
 package com.example.bino.attendance;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
@@ -21,6 +22,7 @@ public class AdminStudentEditAddDetails extends AppCompatActivity {
     Intent intent;
     EditText serpNo,srollno,sname,spassword,sDOB,semail,sgender,scontactno,scoursename,ssemestername;
     Button saveDetail,editButton;
+    ProgressDialog progressdialog;
     Connection connection = null;
     String url = null;
     Statement stmt;
@@ -142,6 +144,7 @@ public class AdminStudentEditAddDetails extends AppCompatActivity {
                                         scontactno.setText(rs.getString("studentrContactNo"));
                                         scoursename.setText("MCA");
                                         ssemestername.setText("SEM 4");
+                                        progressdialog.dismiss();
                                     }
                                     catch (SQLException e) {
                                         e.printStackTrace();
@@ -164,17 +167,23 @@ public class AdminStudentEditAddDetails extends AppCompatActivity {
         Thread viewModeThread =new Thread(new Runnable() {
             @Override
             public void run() {
-                saveDetail.setVisibility(View.INVISIBLE);
-                serpNo.setEnabled(false);
-                srollno.setEnabled(false);
-                sname.setEnabled(false);
-                spassword.setEnabled(false);
-                sDOB.setEnabled(false);
-                semail.setEnabled(false);
-                sgender.setEnabled(false);
-                scontactno.setEnabled(false);
-                scoursename.setEnabled(false);
-                ssemestername.setEnabled(false);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        saveDetail.setVisibility(View.INVISIBLE);
+                        serpNo.setEnabled(false);
+                        srollno.setEnabled(false);
+                        sname.setEnabled(false);
+                        spassword.setEnabled(false);
+                        sDOB.setEnabled(false);
+                        semail.setEnabled(false);
+                        sgender.setEnabled(false);
+                        scontactno.setEnabled(false);
+                        scoursename.setEnabled(false);
+                        ssemestername.setEnabled(false);
+                    }
+                });
+
             }
         });
         viewModeThread.start();
@@ -238,6 +247,7 @@ public class AdminStudentEditAddDetails extends AppCompatActivity {
                         scontactno.setText("");
                         scoursename.setText(intent.getStringExtra("currentCourse"));
                         ssemestername.setText(intent.getStringExtra("currentSem"));
+                        progressdialog.dismiss();
 
                     }
                 });
@@ -251,6 +261,11 @@ public class AdminStudentEditAddDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_student_edit_add_details);
+
+        progressdialog = new ProgressDialog(AdminStudentEditAddDetails.this);
+        progressdialog.setMessage("Just a moment....");
+        progressdialog.setCancelable(false);
+        progressdialog.show();
         Thread firstThreadToInitialize=new Thread(new Runnable() {
             @Override
             public void run() {

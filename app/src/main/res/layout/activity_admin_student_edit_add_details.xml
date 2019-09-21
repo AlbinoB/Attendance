@@ -59,7 +59,6 @@
                         android:id="@+id/StudentErpNoShowAddEditText"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:text="1042180041"
                         android:textSize="20sp" />
 
 
@@ -78,7 +77,6 @@
                         android:id="@+id/StudentRollNoShowAddEditText"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:text="08"
                         android:textSize="20sp" />
 
 
@@ -99,7 +97,6 @@
                         android:id="@+id/StudentNameShowAddEditText"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:text="Amit gour"
                         android:textSize="20sp" />
 
 
@@ -118,7 +115,6 @@
                         android:id="@+id/StudentPasswordShowAddEditText"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:text="xyzabc"
                         android:textSize="20sp" />
 
 
@@ -137,7 +133,6 @@
                         android:id="@+id/StudentDOBShowAddEditText"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:text="21/02/1997"
                         android:textSize="20sp" />
 
 
@@ -157,7 +152,6 @@
                         android:id="@+id/StudentEmailShowAddEditText"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:text="albinobraganza21@gmail.com"
                         android:textSize="20sp" />
 
 
@@ -177,7 +171,6 @@
                         android:id="@+id/StudentGenderShowAddEditText"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:text="Male"
                         android:textSize="20sp" />
 
 
@@ -196,7 +189,6 @@
                         android:id="@+id/StudentContactShowAddEditText"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:text="98998989898"
                         android:textSize="20sp" />
 
 
@@ -216,7 +208,6 @@
                         android:id="@+id/StudentCourseNameShowAddEditText"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:text="MCA"
                         android:textSize="20sp" />
 
 
@@ -235,7 +226,6 @@
                         android:id="@+id/StudentSemesterNameShowAddEditText"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:text="SEM 4"
                         android:textSize="20sp" />
 
 

@@ -357,7 +357,7 @@ public class TeacherHomeActivity extends AppCompatActivity {
             }
             case R.id.teacherLogout:{
                 teacherNextActivity=new Intent(getApplicationContext(), LoginActivity.class);
-
+                finishAffinity();
                 startActivity(teacherNextActivity);
                 return true;
             }

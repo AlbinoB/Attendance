@@ -293,7 +293,7 @@ public class AdminStudentSearchBy extends AppCompatActivity {
             case R.id.logout:{
                 Intent homeActivity=new Intent();
                 homeActivity=new Intent(getApplicationContext(),LoginActivity.class);
-                finish();
+                finishAffinity();
                 startActivity(homeActivity);
                 return true;
             }

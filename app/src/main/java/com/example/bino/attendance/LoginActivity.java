@@ -226,6 +226,7 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void run() {
                                             progressdialog.dismiss();
+                                            passwordtext.setText("");
                                             Toast.makeText(LoginActivity.this, "Wrong Credentials!!!", Toast.LENGTH_LONG).show();
                                         }
                                     });
@@ -254,6 +255,7 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void run() {
                                             progressdialog.dismiss();
+                                            passwordtext.setText("");
                                             Toast.makeText(LoginActivity.this, "Wrong Credentials!!!", Toast.LENGTH_LONG).show();
                                         }
                                     });
@@ -280,6 +282,7 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void run() {
                                             progressdialog.dismiss();
+                                            passwordtext.setText("");
                                             Toast.makeText(LoginActivity.this, "Wrong Credentials!!! ", Toast.LENGTH_LONG).show();
                                         }
                                     });

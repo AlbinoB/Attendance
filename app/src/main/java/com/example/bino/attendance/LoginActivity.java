@@ -219,6 +219,9 @@ public class LoginActivity extends AppCompatActivity {
 
                                     sharedPreferences.edit().putInt("currentUserId", Integer.parseInt(userName)).apply();
                                     Intent teacherHomeActivity = new Intent(getApplicationContext(), TeacherHomeActivity.class);
+                                    if(rememberMe.isChecked()){
+                                        sharedPreferences.edit().putString("User", usernametext.getText().toString()).apply();
+                                    }
                                     finish();
                                     startActivity(teacherHomeActivity);
                                 } else {
@@ -247,6 +250,9 @@ public class LoginActivity extends AppCompatActivity {
                                     Intent studentViewAllAttendance = new Intent(getApplicationContext(), StudentViewAllAttendance.class);
 
                                     sharedPreferences.edit().putInt("currentUserErpNo",Integer.parseInt(userName)).apply();
+                                    if(rememberMe.isChecked()){
+                                        sharedPreferences.edit().putString("User", usernametext.getText().toString()).apply();
+                                    }
                                     finish();
                                     startActivity(studentViewAllAttendance);
                                 }else
@@ -274,6 +280,9 @@ public class LoginActivity extends AppCompatActivity {
 
                                     Intent adminhomeactivity = new Intent(getApplicationContext(), AdminHomeActivity.class);
                                     sharedPreferences.edit().putString("currentUserName",userName).apply();
+                                    if(rememberMe.isChecked()){
+                                        sharedPreferences.edit().putString("User", usernametext.getText().toString()).apply();
+                                    }
                                     finish();
                                     startActivity(adminhomeactivity);
                                 }else

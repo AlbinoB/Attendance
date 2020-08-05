@@ -14,6 +14,7 @@ Attendance App for Entire Dept of College or School
 # Download Attendance for the month
 ![Attendance](https://github.com/AlbinoB/Attendance/blob/master/App%20Screenshots/download%20attendance.png)
 
+<br/>
 
 <br/>This is an Android app built in JAVA using Azure Database.
 

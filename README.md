@@ -17,5 +17,5 @@ Attendance App for Entire Dept of College or School
 
 <br/>Copy the design scripts and paste them on https://dbdiagram.io/home/ to get an over view of how the tables are related to each other.
 
-<br/>Using the design scripts on https://dbdiagram.io/home/ you can convert get the auto generated scripts to get the Database set up on any SQL provider.
+<br/>Using the design scripts on https://dbdiagram.io/home/ you can convert and get the auto generated scripts to get the Database set up on any SQL provider.
 

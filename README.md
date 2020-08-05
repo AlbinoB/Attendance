@@ -1,8 +1,7 @@
 # Attendance
 Attendance App for Entire Dept of College or School
-
 <br/>
-# Login
+# Login Screen
 ![Attendance](https://github.com/AlbinoB/Attendance/blob/master/App%20Screenshots/Login.png)
 <br/>
 # Admin Edit Access 

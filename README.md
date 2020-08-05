@@ -3,16 +3,7 @@ Attendance App for Entire Dept of College or School
 
 <br/>
 # Login
-![Attendance](https://github.com/AlbinoB/Attendance/blob/master/App%20Screenshots/Login.png)
-<br/>
-# Admin Edit Access 
-![Attendance](https://github.com/AlbinoB/Attendance/blob/master/App%20Screenshots/admin%20edit.png)
-<br/>
-# Confirmation before saving
-![Attendance](https://github.com/AlbinoB/Attendance/blob/master/App%20Screenshots/Save%20or%20edit.png)
-<br/>
-# Download Attendance for the month
-![Attendance](https://github.com/AlbinoB/Attendance/blob/master/App%20Screenshots/download%20attendance.png)
+![RestaurantApp](https://github.com/AlbinoB/RestaurantApp/blob/master/Screenshots/6-All%20Restaurants%20Screenshot.png)
 
 <br/>
 

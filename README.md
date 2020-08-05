@@ -9,8 +9,8 @@ Attendance App for Entire Dept of College or School
 <br/> 2->Teacher
 <br/> 3->Student
 
-<br/>a. The Admin acces provides granuity CRUD operations on the whole app.
-<br/>b. Teacher access provides features like marking attendence, viewing attendace, generating excel sheet for the month, geneating defaulters excel sheet.
+<br/>a. The Admin acces provides granularity CRUD operations on the whole app.
+<br/>b. Teacher access provides features like marking attendence, viewing attendace, generating excel sheet for the month of each class they teach, geneating defaulters excel sheet,generate sheet for selected dates.
 <br/>c. Students only get view access of their current semester subjects and how they are performing for the current semester.
 
 <br/>One can find all the scripts to recreate the whole app and get in running.
